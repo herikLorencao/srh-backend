@@ -2,13 +2,10 @@ package com.srh.api.model;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Entity
-public class Rating {
-    private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private Integer id;
+public class Rating extends DefaultEntity {
     private Double score;
     private LocalDateTime date;
     @ManyToOne
@@ -25,14 +22,6 @@ public class Rating {
         this.date = date;
         this.user = user;
         this.item = item;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public Double getScore() {
@@ -65,5 +54,22 @@ public class Rating {
 
     public void setItem(Item item) {
         this.item = item;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        Rating rating = (Rating) o;
+        return Objects.equals(score, rating.score) &&
+                Objects.equals(date, rating.date) &&
+                Objects.equals(user, rating.user) &&
+                Objects.equals(item, rating.item);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), score, date, user, item);
     }
 }

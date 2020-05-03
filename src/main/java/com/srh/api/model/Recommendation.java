@@ -2,13 +2,10 @@ package com.srh.api.model;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Entity
-public class Recommendation {
-    private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private Integer id;
+public class Recommendation extends DefaultEntity {
     private Double weight;
     private Double score;
     private LocalDateTime date;
@@ -30,14 +27,6 @@ public class Recommendation {
         this.user = user;
         this.item = item;
         this.typeRecommendation = typeRecommendation;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public Double getWeight() {
@@ -86,5 +75,24 @@ public class Recommendation {
 
     public void setTypeRecommendation(TypeRecommendation typeRecommendation) {
         this.typeRecommendation = typeRecommendation;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        Recommendation that = (Recommendation) o;
+        return Objects.equals(weight, that.weight) &&
+                Objects.equals(score, that.score) &&
+                Objects.equals(date, that.date) &&
+                Objects.equals(user, that.user) &&
+                Objects.equals(item, that.item) &&
+                Objects.equals(typeRecommendation, that.typeRecommendation);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), weight, score, date, user, item, typeRecommendation);
     }
 }

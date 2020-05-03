@@ -2,13 +2,10 @@ package com.srh.api.model;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
-public class Item {
-    private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private Integer id;
+public class Item extends DefaultEntity {
     private String name;
     private String description;
     @OneToMany(mappedBy = "item")
@@ -31,14 +28,6 @@ public class Item {
         this.project = project;
         this.itensTag = itensTag;
         this.recommendations = recommendations;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public String getName() {
@@ -87,5 +76,24 @@ public class Item {
 
     public void setRecommendations(List<Recommendation> recommendations) {
         this.recommendations = recommendations;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        Item item = (Item) o;
+        return Objects.equals(name, item.name) &&
+                Objects.equals(description, item.description) &&
+                Objects.equals(ratings, item.ratings) &&
+                Objects.equals(project, item.project) &&
+                Objects.equals(itensTag, item.itensTag) &&
+                Objects.equals(recommendations, item.recommendations);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), name, description, ratings, project, itensTag, recommendations);
     }
 }

@@ -4,10 +4,10 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 public class UserRecommendation extends User {
-    private static final long serialVersionUID = 1L;
     @ManyToMany
     private List<Project> projects;
     @OneToMany(mappedBy = "user")
@@ -48,5 +48,21 @@ public class UserRecommendation extends User {
 
     public void setRecommendations(List<Recommendation> recommendations) {
         this.recommendations = recommendations;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        UserRecommendation that = (UserRecommendation) o;
+        return Objects.equals(projects, that.projects) &&
+                Objects.equals(ratings, that.ratings) &&
+                Objects.equals(recommendations, that.recommendations);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), projects, ratings, recommendations);
     }
 }

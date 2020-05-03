@@ -2,13 +2,10 @@ package com.srh.api.model;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
-public class Tag {
-    private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private Integer id;
+public class Tag extends DefaultEntity {
     private String name;
     @OneToMany(mappedBy = "id.tag")
     private List<ItemTag> itensTag;
@@ -20,14 +17,6 @@ public class Tag {
         this.id = id;
         this.name = tag;
         this.itensTag = itensTag;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public String getName() {
@@ -44,5 +33,20 @@ public class Tag {
 
     public void setItensTag(List<ItemTag> itensTag) {
         this.itensTag = itensTag;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        Tag tag = (Tag) o;
+        return Objects.equals(name, tag.name) &&
+                Objects.equals(itensTag, tag.itensTag);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), name, itensTag);
     }
 }

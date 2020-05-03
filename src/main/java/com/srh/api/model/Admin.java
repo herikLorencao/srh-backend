@@ -6,7 +6,6 @@ import java.util.List;
 
 @Entity
 public class Admin extends User {
-    private static final long serialVersionUID = 1L;
     @OneToMany(mappedBy = "admin")
     private List<Project> projects;
 

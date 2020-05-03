@@ -3,13 +3,10 @@ package com.srh.api.model;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
-public class Project {
-    private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private Integer id;
+public class Project extends DefaultEntity {
     private String description;
     private LocalDate date;
     @Enumerated(EnumType.STRING)
@@ -32,14 +29,6 @@ public class Project {
         this.admin = admin;
         this.users = users;
         this.itens = itens;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public String getDescription() {
@@ -88,5 +77,24 @@ public class Project {
 
     public void setItens(List<Item> itens) {
         this.itens = itens;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        Project project = (Project) o;
+        return Objects.equals(description, project.description) &&
+                Objects.equals(date, project.date) &&
+                situation == project.situation &&
+                Objects.equals(admin, project.admin) &&
+                Objects.equals(users, project.users) &&
+                Objects.equals(itens, project.itens);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), description, date, situation, admin, users, itens);
     }
 }

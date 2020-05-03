@@ -4,10 +4,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import java.util.Objects;
 
 @Entity
 public class ItemTag {
-    private static final long serialVersionUID = 1L;
     @JsonIgnore
     @EmbeddedId
     private ItemTagPK id = new ItemTagPK();
@@ -43,5 +43,18 @@ public class ItemTag {
 
     public void setId(ItemTagPK id) {
         this.id = id;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ItemTag itemTag = (ItemTag) o;
+        return Objects.equals(id, itemTag.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }
