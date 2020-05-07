@@ -17,7 +17,7 @@ import java.util.List;
 @RestControllerAdvice
 public class FormHandler {
     @Autowired
-    MessageSource messageSource;
+    private MessageSource messageSource;
 
     @ResponseStatus(code = HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)

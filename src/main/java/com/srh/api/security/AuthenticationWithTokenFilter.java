@@ -62,7 +62,6 @@ public class AuthenticationWithTokenFilter extends OncePerRequestFilter {
                     user.getPassword(), user.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(authenticationToken);
         } else {
-            System.out.println("usuário in'válido");
             throw new InvalidTokenException("Invalid user with jwt payload");
         }
     }

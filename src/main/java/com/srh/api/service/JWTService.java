@@ -13,10 +13,10 @@ import java.util.Date;
 @Service
 public class JWTService {
     @Value("${srh.jwt.expiration}")
-    String tokenExpirationTime;
+    private String tokenExpirationTime;
 
     @Value("${srh.jwt.secret}")
-    String secret;
+    private String secret;
 
     public String buildToken(Authentication authentication) {
         UserApi userLogged = (UserApi) authentication.getPrincipal();

@@ -21,13 +21,13 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
     @Autowired
-    AuthService authService;
+    private AuthService authService;
 
     @Autowired
-    JWTService jwtService;
+    private JWTService jwtService;
 
     @Autowired
-    UserApiRepository userAPIRepository;
+    private UserApiRepository userAPIRepository;
 
     @Override
     @Bean
