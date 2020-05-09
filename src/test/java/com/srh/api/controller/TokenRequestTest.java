@@ -16,10 +16,11 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import static com.srh.api.utils.TestConstants.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.http.HttpMethod.GET;
+import static org.springframework.http.HttpStatus.*;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class TestControllerTest {
+public class TokenRequestTest {
     @Autowired
     private TestRestTemplate restTemplate;
 
@@ -43,15 +44,15 @@ public class TestControllerTest {
 
     @Test
     public void getWithValidTokenThenSuccess() {
-        String url = UrlUtils.generateBasicUrl("/test", port);
+        String url = UrlUtils.generateBasicUrl("/tags", port);
         ResponseEntity<String> response = restTemplate.exchange(url, GET, validHeader, String.class);
-        assertThat(response.getBody()).isEqualTo("Hello World");
+        assertThat(response.getStatusCode()).isEqualTo(OK);
     }
 
     @Test
     public void getWithInvalidTokenThenForbidden() {
         String url = UrlUtils.generateBasicUrl("/test", port);
         ResponseEntity<String> response = restTemplate.exchange(url, GET, invalidHeader, String.class);
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.FORBIDDEN);
+        assertThat(response.getStatusCode()).isEqualTo(FORBIDDEN);
     }
 }
