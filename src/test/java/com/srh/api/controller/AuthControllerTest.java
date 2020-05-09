@@ -27,7 +27,6 @@ public class AuthControllerTest {
 
     private MockRequestBuilder requestBuilder;
 
-    @Autowired
     public AuthControllerTest() {
         this.requestBuilder = new MockRequestBuilder(mockMvc);
     }
