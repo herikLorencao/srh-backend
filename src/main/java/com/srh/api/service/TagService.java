@@ -13,7 +13,7 @@ import java.util.Optional;
 @Service
 public class TagService {
     @Autowired
-    TagRepository tagRepository;
+    private TagRepository tagRepository;
 
     public Tag find(Integer id) {
         Optional<Tag> tag = tagRepository.findById(id);
