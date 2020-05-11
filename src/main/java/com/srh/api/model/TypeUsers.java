@@ -1,5 +1,5 @@
 package com.srh.api.model;
 
-public enum Profiles {
+public enum TypeUsers {
     ADMIN, RECOMMENDATION, API
 }

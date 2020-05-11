@@ -16,11 +16,11 @@ public class UserRecommendation extends User {
     private List<Recommendation> recommendations;
 
     public UserRecommendation() {
-        this.setProfile(Profiles.RECOMMENDATION);
+        this.setProfile(TypeUsers.RECOMMENDATION);
     }
 
     public UserRecommendation(Integer id, String name, String login, String password, List<Project> projects, List<Rating> ratings, List<Recommendation> recommendations) {
-        super(id, name, login, password, Profiles.RECOMMENDATION);
+        super(id, name, login, password, TypeUsers.RECOMMENDATION);
         this.projects = projects;
         this.ratings = ratings;
         this.recommendations = recommendations;

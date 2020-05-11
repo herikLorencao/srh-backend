@@ -16,11 +16,11 @@ public class UserApi extends User implements UserDetails {
     private List<Profile> profiles;
 
     public UserApi() {
-        this.setProfile(Profiles.API);
+        this.setProfile(TypeUsers.API);
     }
 
     public UserApi(Integer id, String name, String login, String password, List<Profile> profiles) {
-        super(id, name, login, password, Profiles.API);
+        super(id, name, login, password, TypeUsers.API);
         this.profiles = profiles;
     }
 

@@ -14,12 +14,12 @@ public abstract class User {
     private String login;
     protected String password;
     @Enumerated(EnumType.STRING)
-    private Profiles profile;
+    private TypeUsers profile;
 
     public User() {
     }
 
-    public User(Integer id, String name, String login, String password, Profiles profile) {
+    public User(Integer id, String name, String login, String password, TypeUsers profile) {
         this.id = id;
         this.name = name;
         this.login = login;
@@ -59,11 +59,11 @@ public abstract class User {
         this.password = password;
     }
 
-    public Profiles getProfile() {
+    public TypeUsers getProfile() {
         return profile;
     }
 
-    public void setProfile(Profiles profile) {
+    public void setProfile(TypeUsers profile) {
         this.profile = profile;
     }
 

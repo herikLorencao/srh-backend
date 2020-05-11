@@ -10,11 +10,11 @@ public class Admin extends User {
     private List<Project> projects;
 
     public Admin() {
-        this.setProfile(Profiles.ADMIN);
+        this.setProfile(TypeUsers.ADMIN);
     }
 
     public Admin(Integer id, String name, String login, String password, List<Project> projects) {
-        super(id, name, login, password, Profiles.ADMIN);
+        super(id, name, login, password, TypeUsers.ADMIN);
         this.projects = projects;
     }
 
