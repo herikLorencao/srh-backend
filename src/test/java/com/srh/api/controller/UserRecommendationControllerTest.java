@@ -51,7 +51,6 @@ public class UserRecommendationControllerTest {
     @MockBean
     private UserRecommendationRepository userRecommendationRepository;
 
-    private MockRestServiceServer mockServer;
     private HttpEntity<Void> validHeader;
     private HttpEntity<Void> invalidHeader;
 
@@ -129,7 +128,7 @@ public class UserRecommendationControllerTest {
 
     @Test
     public void WhenGetUserWithInvalidTokenThenStatusCodeForbidden() {
-        String url = UrlUtils.generateBasicUrl("/users/recommendation", port);
+        String url = UrlUtils.generateBasicUrl("/users/recommendation/1", port);
         ResponseEntity<String> response = restTemplate.exchange(url, GET, invalidHeader, String.class);
         assertThat(response.getStatusCode()).isEqualTo(FORBIDDEN);
     }

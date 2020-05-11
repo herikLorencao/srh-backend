@@ -51,7 +51,6 @@ public class AdminControllerTest {
     @MockBean
     private AdminRepository adminRepository;
 
-    private MockRestServiceServer mockServer;
     private HttpEntity<Void> validHeader;
     private HttpEntity<Void> invalidHeader;
 

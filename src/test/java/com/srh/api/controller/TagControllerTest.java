@@ -49,7 +49,6 @@ public class TagControllerTest {
     @MockBean
     private TagRepository tagRepository;
 
-    private MockRestServiceServer mockServer;
     private HttpEntity<Void> validHeader;
     private HttpEntity<Void> invalidHeader;
 
