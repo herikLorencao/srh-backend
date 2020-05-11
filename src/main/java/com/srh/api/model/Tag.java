@@ -5,7 +5,10 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
-public class Tag extends DefaultEntity {
+public class Tag {
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private Integer id;
     private String name;
     @OneToMany(mappedBy = "id.tag")
     private List<ItemTag> itensTag;
@@ -17,6 +20,14 @@ public class Tag extends DefaultEntity {
         this.id = id;
         this.name = tag;
         this.itensTag = itensTag;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getName() {

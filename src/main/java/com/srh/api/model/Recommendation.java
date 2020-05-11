@@ -5,7 +5,10 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
-public class Recommendation extends DefaultEntity {
+public class Recommendation {
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private Integer id;
     private Double weight;
     private Double score;
     private LocalDateTime date;
@@ -27,6 +30,14 @@ public class Recommendation extends DefaultEntity {
         this.user = user;
         this.item = item;
         this.typeRecommendation = typeRecommendation;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public Double getWeight() {

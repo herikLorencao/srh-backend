@@ -5,7 +5,10 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
-public class Rating extends DefaultEntity {
+public class Rating {
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private Integer id;
     private Double score;
     private LocalDateTime date;
     @ManyToOne
@@ -22,6 +25,14 @@ public class Rating extends DefaultEntity {
         this.date = date;
         this.user = user;
         this.item = item;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public Double getScore() {

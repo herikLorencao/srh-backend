@@ -5,7 +5,10 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
-public class TypeRecommendation extends DefaultEntity {
+public class TypeRecommendation {
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private Integer id;
     private String name;
     private String description;
     private Boolean active;
@@ -20,6 +23,14 @@ public class TypeRecommendation extends DefaultEntity {
         this.name = name;
         this.description = description;
         this.recommendations = recommendations;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getName() {

@@ -5,7 +5,10 @@ import java.util.Objects;
 
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public abstract class User extends DefaultEntity {
+public abstract class User {
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private Integer id;
     private String name;
     @Column(unique = true)
     private String login;
@@ -24,12 +27,20 @@ public abstract class User extends DefaultEntity {
         this.profile = profile;
     }
 
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
     public String getName() {
         return name;
     }
 
-    public void setName(String nome) {
-        this.name = nome;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getLogin() {
@@ -44,8 +55,8 @@ public abstract class User extends DefaultEntity {
         return password;
     }
 
-    public void setPassword(String senha) {
-        this.password = senha;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public Profiles getProfile() {

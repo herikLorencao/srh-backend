@@ -6,7 +6,10 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
-public class Project extends DefaultEntity {
+public class Project {
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private Integer id;
     private String description;
     private LocalDate date;
     @Enumerated(EnumType.STRING)
@@ -29,6 +32,14 @@ public class Project extends DefaultEntity {
         this.admin = admin;
         this.users = users;
         this.itens = itens;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getDescription() {
