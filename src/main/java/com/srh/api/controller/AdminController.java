@@ -52,7 +52,7 @@ public class AdminController {
                                                         UriComponentsBuilder uriBuilder) {
         Admin admin = (Admin) userForm.build(TypeUsers.ADMIN);
         adminService.save(admin);
-        URI uri = uriBuilder.path("/tags/{id}").buildAndExpand(admin.getId()).toUri();
+        URI uri = uriBuilder.path("/users/admin/{id}").buildAndExpand(admin.getId()).toUri();
         return ResponseEntity.created(uri)
                 .body(adminModelAssembler.toModel(new AdminDto(admin)));
     }

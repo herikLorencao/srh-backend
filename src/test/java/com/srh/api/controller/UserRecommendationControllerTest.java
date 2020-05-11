@@ -1,9 +1,9 @@
 package com.srh.api.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.srh.api.dto.resource.TagForm;
-import com.srh.api.model.Tag;
-import com.srh.api.repository.TagRepository;
+import com.srh.api.dto.resource.UserForm;
+import com.srh.api.model.UserRecommendation;
+import com.srh.api.repository.UserRecommendationRepository;
 import com.srh.api.utils.RequestTokenUtil;
 import com.srh.api.utils.UrlUtils;
 import org.junit.jupiter.api.BeforeEach;
@@ -27,16 +27,18 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.Arrays;
 import java.util.List;
 
-import static com.srh.api.utils.JsonUtil.*;
+import static com.srh.api.utils.JsonUtil.toJson;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.*;
+import static org.mockito.ArgumentMatchers.isA;
+import static org.mockito.Mockito.when;
 import static org.springframework.http.HttpMethod.*;
 import static org.springframework.http.HttpStatus.*;
+import static org.springframework.http.HttpStatus.FORBIDDEN;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
-public class TagControllerTest {
+public class UserRecommendationControllerTest {
     @Autowired
     private TestRestTemplate restTemplate;
 
@@ -47,7 +49,7 @@ public class TagControllerTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private TagRepository tagRepository;
+    private UserRecommendationRepository userRecommendationRepository;
 
     private MockRestServiceServer mockServer;
     private HttpEntity<Void> validHeader;
@@ -62,101 +64,101 @@ public class TagControllerTest {
 
     @BeforeEach
     public void setup() {
-        List<Tag> tags = Arrays.asList(
-                new Tag(1, "Test 1", null),
-                new Tag(2, "Test 2", null),
-                new Tag(3, "Test 3", null)
+        List<UserRecommendation> users = Arrays.asList(
+                new UserRecommendation(1, "user 1", "user 1", "123", null, null, null),
+                new UserRecommendation(2, "user 2", "user 2", "456", null, null, null),
+                new UserRecommendation(3, "user 3", "user 3", "789", null, null, null)
         );
 
-        Page<Tag> pageTags = new PageImpl<>(tags);
+        Page<UserRecommendation> pageUsers = new PageImpl<>(users);
 
-        when(tagRepository.findAll(isA(Pageable.class))).thenReturn(pageTags);
-        when(tagRepository.findById(1)).thenReturn(java.util.Optional.ofNullable(tags.get(0)));
-        when(tagRepository.save(isA(Tag.class))).thenReturn(tags.get(0));
+        when(userRecommendationRepository.findAll(isA(Pageable.class))).thenReturn(pageUsers);
+        when(userRecommendationRepository.findById(1)).thenReturn(java.util.Optional.ofNullable(users.get(0)));
+        when(userRecommendationRepository.save(isA(UserRecommendation.class))).thenReturn(users.get(0));
     }
 
     @Test
-    public void WhenGetAllTagsThenStatusCodeOk() {
-        String url = UrlUtils.generateBasicUrl("/tags", port);
+    public void WhenGetAllUsersThenStatusCodeOk() {
+        String url = UrlUtils.generateBasicUrl("/users/recommendation", port);
         ResponseEntity<String> response = restTemplate.exchange(url, GET, validHeader, String.class);
         assertThat(response.getStatusCode()).isEqualTo(OK);
     }
 
     @Test
-    public void WhenGetTagThenStatusCodeOk() {
-        String url = UrlUtils.generateBasicUrl("/tags/1", port);
+    public void WhenGetUserThenStatusCodeOk() {
+        String url = UrlUtils.generateBasicUrl("/users/recommendation/1", port);
         ResponseEntity<String> response = restTemplate.exchange(url, GET, validHeader, String.class);
         assertThat(response.getStatusCode()).isEqualTo(OK);
     }
 
     @Test
-    public void WhenInsertTagThenStatusCodeCreated() throws JsonProcessingException {
-        String url = UrlUtils.generateBasicUrl("/tags", port);
-        TagForm tagForm = new TagForm("Test");
+    public void WhenInsertUserThenStatusCodeCreated() throws JsonProcessingException {
+        String url = UrlUtils.generateBasicUrl("/users/recommendation", port);
+        UserForm userForm = new UserForm("user recommendation", "user recommendation", "user test");
 
-        HttpEntity<String> request = new HttpEntity<>(toJson(tagForm), validHeader.getHeaders());
+        HttpEntity<String> request = new HttpEntity<>(toJson(userForm), validHeader.getHeaders());
 
         ResponseEntity<String> response = restTemplate.exchange(url, POST, request, String.class);
         assertThat(response.getStatusCode()).isEqualTo(CREATED);
     }
 
     @Test
-    public void WhenUpdateTagThenStatusCodeOk() throws JsonProcessingException {
-        String url = UrlUtils.generateBasicUrl("/tags/1", port);
-        TagForm tagForm = new TagForm("Test Update");
+    public void WhenUpdateUserThenStatusCodeOk() throws JsonProcessingException {
+        String url = UrlUtils.generateBasicUrl("/users/recommendation/1", port);
+        UserForm userForm = new UserForm("user recommendation", "user recommendation", "user test");
 
-        HttpEntity<String> request = new HttpEntity<>(toJson(tagForm), validHeader.getHeaders());
+        HttpEntity<String> request = new HttpEntity<>(toJson(userForm), validHeader.getHeaders());
 
         ResponseEntity<String> response = restTemplate.exchange(url, PUT, request, String.class);
         assertThat(response.getStatusCode()).isEqualTo(OK);
     }
 
     @Test
-    public void WhenDeleteTagThenStatusCodeNoContent() {
-        String url = UrlUtils.generateBasicUrl("/tags/1", port);
+    public void WhenDeleteUserThenStatusCodeNoContent() {
+        String url = UrlUtils.generateBasicUrl("/users/recommendation/1", port);
         ResponseEntity<String> response = restTemplate.exchange(url, DELETE, validHeader, String.class);
         assertThat(response.getStatusCode()).isEqualTo(NO_CONTENT);
     }
 
     @Test
-    public void WhenGetAllTagsWithInvalidTokenThenStatusCodeForbidden() {
-        String url = UrlUtils.generateBasicUrl("/tags", port);
+    public void WhenGetAllUsersWithInvalidTokenThenStatusCodeForbidden() {
+        String url = UrlUtils.generateBasicUrl("/users/recommendation", port);
         ResponseEntity<String> response = restTemplate.exchange(url, GET, invalidHeader, String.class);
         assertThat(response.getStatusCode()).isEqualTo(FORBIDDEN);
     }
 
     @Test
-    public void WhenGetTagWithInvalidTokenThenStatusCodeForbidden() {
-        String url = UrlUtils.generateBasicUrl("/tags/1", port);
+    public void WhenGetUserWithInvalidTokenThenStatusCodeForbidden() {
+        String url = UrlUtils.generateBasicUrl("/users/recommendation", port);
         ResponseEntity<String> response = restTemplate.exchange(url, GET, invalidHeader, String.class);
         assertThat(response.getStatusCode()).isEqualTo(FORBIDDEN);
     }
 
     @Test
-    public void WhenInsertTagWithInvalidTokenThenStatusCodeForbidden() throws JsonProcessingException {
-        String url = UrlUtils.generateBasicUrl("/tags", port);
-        TagForm tagForm = new TagForm("Test");
+    public void WhenInsertUserWithInvalidTokenThenStatusCodeForbidden() throws JsonProcessingException {
+        String url = UrlUtils.generateBasicUrl("/users/recommendation", port);
+        UserForm userForm = new UserForm("user recommendation", "user recommendation", "user test");
 
-        HttpEntity<String> request = new HttpEntity<>(toJson(tagForm), invalidHeader.getHeaders());
+        HttpEntity<String> request = new HttpEntity<>(toJson(userForm), invalidHeader.getHeaders());
 
         ResponseEntity<String> response = restTemplate.exchange(url, POST, request, String.class);
         assertThat(response.getStatusCode()).isEqualTo(FORBIDDEN);
     }
 
     @Test
-    public void WhenUpdateTagWithInvalidTokenThenStatusCodeForbidden() throws JsonProcessingException {
-        String url = UrlUtils.generateBasicUrl("/tags/1", port);
-        TagForm tagForm = new TagForm("Test Update");
+    public void WhenUpdateUserWithInvalidTokenThenStatusCodeForbidden() throws JsonProcessingException {
+        String url = UrlUtils.generateBasicUrl("/users/recommendation/1", port);
+        UserForm userForm = new UserForm("user recommendation", "user recommendation", "user test");
 
-        HttpEntity<String> request = new HttpEntity<>(toJson(tagForm), invalidHeader.getHeaders());
+        HttpEntity<String> request = new HttpEntity<>(toJson(userForm), invalidHeader.getHeaders());
 
         ResponseEntity<String> response = restTemplate.exchange(url, PUT, request, String.class);
         assertThat(response.getStatusCode()).isEqualTo(FORBIDDEN);
     }
 
     @Test
-    public void WhenDeleteTagWithInvalidTokenThenStatusCodeForbidden() {
-        String url = UrlUtils.generateBasicUrl("/tags/1", port);
+    public void WhenDeleteUserWithInvalidTokenThenStatusCodeForbidden() {
+        String url = UrlUtils.generateBasicUrl("/users/recommendation/1", port);
         ResponseEntity<String> response = restTemplate.exchange(url, DELETE, invalidHeader, String.class);
         assertThat(response.getStatusCode()).isEqualTo(FORBIDDEN);
     }
