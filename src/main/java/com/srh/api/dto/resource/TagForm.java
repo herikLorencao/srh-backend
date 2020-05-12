@@ -14,7 +14,7 @@ public class TagForm {
     public TagForm() {
     }
 
-    public TagForm(String name) {
+    public TagForm(@NotEmpty @NotNull String name) {
         this.name = name;
     }
 
