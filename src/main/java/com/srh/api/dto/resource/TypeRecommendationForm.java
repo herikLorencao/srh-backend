@@ -1,27 +1,28 @@
 package com.srh.api.dto.resource;
 
-import com.srh.api.builder.ProjectBuilder;
-import com.srh.api.model.Project;
+import com.srh.api.builder.TypeRecommendationBuilder;
+import com.srh.api.model.TypeRecommendation;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDate;
 
-public class ProjectForm {
-
-    @NotEmpty
+public class TypeRecommendationForm {
     @NotNull
+    @NotEmpty
     @Length(min = 3)
     private String name;
-    @NotEmpty
     @NotNull
+    @NotEmpty
     @Length(min = 3)
     private String description;
+    @NotNull
+    private boolean active;
 
-    public ProjectForm(@NotEmpty @NotNull @Length(min = 3) String name, @NotEmpty @NotNull @Length(min = 3) String description) {
+    public TypeRecommendationForm(@NotNull @NotEmpty @Length(min = 3) String name, @NotNull @NotEmpty @Length(min = 3) String description, @NotNull boolean active) {
         this.name = name;
         this.description = description;
+        this.active = active;
     }
 
     public String getName() {
@@ -32,11 +33,15 @@ public class ProjectForm {
         return description;
     }
 
-    public Project build() {
-        return ProjectBuilder.aProject()
+    public boolean isActive() {
+        return active;
+    }
+
+    public TypeRecommendation build() {
+        return TypeRecommendationBuilder.aTypeRecommendation()
                 .withName(name)
                 .withDescription(description)
-                .withDate(LocalDate.now())
+                .withActive(active)
                 .build();
     }
 }

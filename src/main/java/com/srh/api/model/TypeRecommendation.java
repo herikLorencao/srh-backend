@@ -18,10 +18,11 @@ public class TypeRecommendation {
     public TypeRecommendation() {
     }
 
-    public TypeRecommendation(Integer id, String name, String description, List<Recommendation> recommendations) {
+    public TypeRecommendation(Integer id, String name, String description, Boolean active, List<Recommendation> recommendations) {
         this.id = id;
         this.name = name;
         this.description = description;
+        this.active = active;
         this.recommendations = recommendations;
     }
 
