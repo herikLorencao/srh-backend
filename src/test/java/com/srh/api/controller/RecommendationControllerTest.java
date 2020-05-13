@@ -1,9 +1,9 @@
 package com.srh.api.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.srh.api.dto.resource.RatingForm;
-import com.srh.api.model.Rating;
-import com.srh.api.repository.RatingRepository;
+import com.srh.api.dto.resource.RecommendationForm;
+import com.srh.api.model.Recommendation;
+import com.srh.api.repository.RecommendationRepository;
 import com.srh.api.utils.RequestTokenUtil;
 import com.srh.api.utils.UrlUtils;
 import org.junit.jupiter.api.BeforeEach;
@@ -38,7 +38,7 @@ import static org.springframework.http.HttpStatus.FORBIDDEN;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
-public class RatingControllerTest {
+public class RecommendationControllerTest {
     @Autowired
     private TestRestTemplate restTemplate;
 
@@ -49,7 +49,7 @@ public class RatingControllerTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private RatingRepository ratingRepository;
+    private RecommendationRepository recommendationRepository;
 
     private HttpEntity<Void> validHeader;
     private HttpEntity<Void> invalidHeader;
@@ -63,101 +63,101 @@ public class RatingControllerTest {
 
     @BeforeEach
     public void setup() {
-        List<Rating> ratings = Arrays.asList(
-                new Rating(1, 0.5, LocalDateTime.now(), null, null),
-                new Rating(2, 0.6, LocalDateTime.now(), null, null),
-                new Rating(3, 0.7, LocalDateTime.now(), null, null)
+        List<Recommendation> recommendations = Arrays.asList(
+                new Recommendation(1, 0.5, 0.1, LocalDateTime.now(), null, null, null),
+                new Recommendation(2, 0.6, 0.2, LocalDateTime.now(), null, null, null),
+                new Recommendation(3, 0.7, 0.3, LocalDateTime.now(), null, null, null)
         );
 
-        Page<Rating> pageRatings = new PageImpl<>(ratings);
+        Page<Recommendation> pageRecommendations = new PageImpl<>(recommendations);
 
-        when(ratingRepository.findAll(isA(Pageable.class))).thenReturn(pageRatings);
-        when(ratingRepository.findById(1)).thenReturn(java.util.Optional.ofNullable(ratings.get(0)));
-        when(ratingRepository.save(isA(Rating.class))).thenReturn(ratings.get(0));
+        when(recommendationRepository.findAll(isA(Pageable.class))).thenReturn(pageRecommendations);
+        when(recommendationRepository.findById(1)).thenReturn(java.util.Optional.ofNullable(recommendations.get(0)));
+        when(recommendationRepository.save(isA(Recommendation.class))).thenReturn(recommendations.get(0));
     }
 
     @Test
-    public void WhenGetAllRatingsThenStatusCodeOk() {
-        String url = UrlUtils.generateBasicUrl("/ratings", port);
+    public void WhenGetAllRecommendationsThenStatusCodeOk() {
+        String url = UrlUtils.generateBasicUrl("/recommendations", port);
         ResponseEntity<String> response = restTemplate.exchange(url, GET, validHeader, String.class);
         assertThat(response.getStatusCode()).isEqualTo(OK);
     }
 
     @Test
-    public void WhenGetRatingThenStatusCodeOk() {
-        String url = UrlUtils.generateBasicUrl("/ratings/1", port);
+    public void WhenGetRecommendationThenStatusCodeOk() {
+        String url = UrlUtils.generateBasicUrl("/recommendations/1", port);
         ResponseEntity<String> response = restTemplate.exchange(url, GET, validHeader, String.class);
         assertThat(response.getStatusCode()).isEqualTo(OK);
     }
 
     @Test
-    public void WhenInsertRatingThenStatusCodeCreated() throws JsonProcessingException {
-        String url = UrlUtils.generateBasicUrl("/ratings", port);
-        RatingForm ratingForm = new RatingForm(0.5);
+    public void WhenInsertRecommendationThenStatusCodeCreated() throws JsonProcessingException {
+        String url = UrlUtils.generateBasicUrl("/recommendations", port);
+        RecommendationForm recommendationForm = new RecommendationForm(0.5, 0.5);
 
-        HttpEntity<String> request = new HttpEntity<>(toJson(ratingForm), validHeader.getHeaders());
+        HttpEntity<String> request = new HttpEntity<>(toJson(recommendationForm), validHeader.getHeaders());
 
         ResponseEntity<String> response = restTemplate.exchange(url, POST, request, String.class);
         assertThat(response.getStatusCode()).isEqualTo(CREATED);
     }
 
     @Test
-    public void WhenUpdateRatingThenStatusCodeOk() throws JsonProcessingException {
-        String url = UrlUtils.generateBasicUrl("/ratings/1", port);
-        RatingForm ratingForm = new RatingForm(0.5);
+    public void WhenUpdateRecommendationThenStatusCodeOk() throws JsonProcessingException {
+        String url = UrlUtils.generateBasicUrl("/recommendations/1", port);
+        RecommendationForm recommendationForm = new RecommendationForm(0.5, 0.5);
 
-        HttpEntity<String> request = new HttpEntity<>(toJson(ratingForm), validHeader.getHeaders());
+        HttpEntity<String> request = new HttpEntity<>(toJson(recommendationForm), validHeader.getHeaders());
 
         ResponseEntity<String> response = restTemplate.exchange(url, PUT, request, String.class);
         assertThat(response.getStatusCode()).isEqualTo(OK);
     }
 
     @Test
-    public void WhenDeleteRatingThenStatusCodeNoContent() {
-        String url = UrlUtils.generateBasicUrl("/ratings/1", port);
+    public void WhenDeleteRecommendationThenStatusCodeNoContent() {
+        String url = UrlUtils.generateBasicUrl("/recommendations/1", port);
         ResponseEntity<String> response = restTemplate.exchange(url, DELETE, validHeader, String.class);
         assertThat(response.getStatusCode()).isEqualTo(NO_CONTENT);
     }
 
     @Test
-    public void WhenGetAllRatingsWithInvalidTokenThenStatusCodeForbidden() {
-        String url = UrlUtils.generateBasicUrl("/ratings", port);
+    public void WhenGetAllRecommendationsWithInvalidTokenThenStatusCodeForbidden() {
+        String url = UrlUtils.generateBasicUrl("/recommendations", port);
         ResponseEntity<String> response = restTemplate.exchange(url, GET, invalidHeader, String.class);
         assertThat(response.getStatusCode()).isEqualTo(FORBIDDEN);
     }
 
     @Test
     public void WhenGetRatingWithInvalidTokenThenStatusCodeForbidden() {
-        String url = UrlUtils.generateBasicUrl("/ratings/1", port);
+        String url = UrlUtils.generateBasicUrl("/recommendations/1", port);
         ResponseEntity<String> response = restTemplate.exchange(url, GET, invalidHeader, String.class);
         assertThat(response.getStatusCode()).isEqualTo(FORBIDDEN);
     }
 
     @Test
     public void WhenInsertRatingWithInvalidTokenThenStatusCodeForbidden() throws JsonProcessingException {
-        String url = UrlUtils.generateBasicUrl("/ratings", port);
-        RatingForm ratingForm = new RatingForm(0.5);
+        String url = UrlUtils.generateBasicUrl("/recommendations", port);
+        RecommendationForm recommendationForm = new RecommendationForm(0.5, 0.5);
 
-        HttpEntity<String> request = new HttpEntity<>(toJson(ratingForm), invalidHeader.getHeaders());
+        HttpEntity<String> request = new HttpEntity<>(toJson(recommendationForm), invalidHeader.getHeaders());
 
         ResponseEntity<String> response = restTemplate.exchange(url, POST, request, String.class);
         assertThat(response.getStatusCode()).isEqualTo(FORBIDDEN);
     }
 
     @Test
-    public void WhenUpdateRatingWithInvalidTokenThenStatusCodeForbidden() throws JsonProcessingException {
-        String url = UrlUtils.generateBasicUrl("/ratings/1", port);
-        RatingForm ratingForm = new RatingForm(0.5);
+    public void WhenUpdateRecommendationWithInvalidTokenThenStatusCodeForbidden() throws JsonProcessingException {
+        String url = UrlUtils.generateBasicUrl("/recommendations/1", port);
+        RecommendationForm recommendationForm = new RecommendationForm(0.5, 0.5);
 
-        HttpEntity<String> request = new HttpEntity<>(toJson(ratingForm), invalidHeader.getHeaders());
+        HttpEntity<String> request = new HttpEntity<>(toJson(recommendationForm), invalidHeader.getHeaders());
 
         ResponseEntity<String> response = restTemplate.exchange(url, PUT, request, String.class);
         assertThat(response.getStatusCode()).isEqualTo(FORBIDDEN);
     }
 
     @Test
-    public void WhenDeleteRatingWithInvalidTokenThenStatusCodeForbidden() {
-        String url = UrlUtils.generateBasicUrl("/ratings/1", port);
+    public void WhenDeleteRecommendationWithInvalidTokenThenStatusCodeForbidden() {
+        String url = UrlUtils.generateBasicUrl("/recommendations/1", port);
         ResponseEntity<String> response = restTemplate.exchange(url, DELETE, invalidHeader, String.class);
         assertThat(response.getStatusCode()).isEqualTo(FORBIDDEN);
     }
