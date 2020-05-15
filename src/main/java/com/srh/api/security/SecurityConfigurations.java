@@ -1,6 +1,6 @@
 package com.srh.api.security;
 
-import com.srh.api.repository.UserApiRepository;
+import com.srh.api.repository.ApiUserRepository;
 import com.srh.api.service.AuthService;
 import com.srh.api.service.JWTService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +27,7 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
     private JWTService jwtService;
 
     @Autowired
-    private UserApiRepository userAPIRepository;
+    private ApiUserRepository APIUserRepository;
 
     @Override
     @Bean
@@ -47,7 +47,7 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated()
                 .and().csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and().addFilterBefore(new AuthenticationWithTokenFilter(jwtService, userAPIRepository),
+                .and().addFilterBefore(new AuthenticationWithTokenFilter(jwtService, APIUserRepository),
                 UsernamePasswordAuthenticationFilter.class);
     }
 

@@ -1,6 +1,6 @@
 package com.srh.api.service;
 
-import com.srh.api.model.UserApi;
+import com.srh.api.model.ApiUser;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -19,7 +19,7 @@ public class JWTService {
     private String secret;
 
     public String buildToken(Authentication authentication) {
-        UserApi userLogged = (UserApi) authentication.getPrincipal();
+        ApiUser userLogged = (ApiUser) authentication.getPrincipal();
         Date today = new Date();
         Date expirationDate = new Date(today.getTime() + Long.parseLong(tokenExpirationTime));
         return buildJWT(userLogged, today, expirationDate);
@@ -39,7 +39,7 @@ public class JWTService {
         return Integer.parseInt(claims.getSubject());
     }
 
-    private String buildJWT(UserApi user, Date today, Date expirationDate) {
+    private String buildJWT(ApiUser user, Date today, Date expirationDate) {
         return Jwts.builder()
                 .setIssuer("Hybrid Recommendation System - SRH")
                 .setSubject(user.getId().toString())

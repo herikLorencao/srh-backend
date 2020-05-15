@@ -10,18 +10,22 @@ import java.util.Collection;
 import java.util.List;
 
 @Entity
-public class UserApi extends User implements UserDetails {
+public class ApiUser extends User implements UserDetails {
     private static final long serialVersionUID = 1L;
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Profile> profiles;
 
-    public UserApi() {
+    public ApiUser() {
         this.setProfile(TypeUsers.API);
     }
 
-    public UserApi(Integer id, String name, String login, String password, List<Profile> profiles) {
+    public ApiUser(Integer id, String name, String login, String password, List<Profile> profiles) {
         super(id, name, login, password, TypeUsers.API);
         this.profiles = profiles;
+    }
+
+    public List<Profile> getProfiles() {
+        return profiles;
     }
 
     @Override
