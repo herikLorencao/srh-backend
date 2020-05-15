@@ -35,10 +35,12 @@ public class ApiUsersDto {
 
     public List<ProfileDto> getAuthorities() {
         List<ProfileDto> dtoList = new ArrayList<>();
-        profiles.forEach(profile -> {
-            ProfileDto profileDto = new ProfileDto(profile);
-            dtoList.add(profileDto);
-        });
+        if (profiles != null) {
+            profiles.forEach(profile -> {
+                ProfileDto profileDto = new ProfileDto(profile);
+                dtoList.add(profileDto);
+            });
+        }
         return dtoList;
     }
 

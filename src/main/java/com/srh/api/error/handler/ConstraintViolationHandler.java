@@ -1,20 +1,20 @@
 package com.srh.api.error.handler;
 
 import com.srh.api.dto.error.DefaultErrorDto;
-import org.hibernate.ObjectNotFoundException;
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
-public class ObjectNotFoundExceptionHandler {
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    @ExceptionHandler(ObjectNotFoundException.class)
+public class ConstraintViolationHandler {
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ExceptionHandler(ConstraintViolationException.class)
     public DefaultErrorDto handle() {
         return new DefaultErrorDto(
-                "The resource is not found",
-                "The resource not exist in system"
+                "Some database constraint has been breached",
+                "Try changing the value of fields like login or id"
         );
     }
 }
