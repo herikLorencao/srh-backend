@@ -22,7 +22,7 @@ import javax.validation.Valid;
 import java.net.URI;
 
 @RestController
-@RequestMapping("/users/apis")
+@RequestMapping("/users/api")
 public class ApiUsersController {
     @Autowired
     private ApiUserService apiUserService;

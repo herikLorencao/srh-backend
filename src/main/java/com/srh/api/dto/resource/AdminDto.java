@@ -2,9 +2,11 @@ package com.srh.api.dto.resource;
 
 import com.srh.api.model.Admin;
 import org.springframework.data.domain.Page;
+import org.springframework.hateoas.server.core.Relation;
 
 import java.util.Objects;
 
+@Relation(collectionRelation = "admins")
 public class AdminDto {
     private final Integer id;
     private final String name;
