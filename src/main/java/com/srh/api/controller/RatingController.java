@@ -35,7 +35,8 @@ public class RatingController {
     private PagedResourcesAssembler<RatingDto> pagedResourcesAssembler;
 
     @GetMapping
-    public PagedModel<EntityModel<RatingDto>> listAll(@PageableDefault(page = 0, size = 5) Pageable pageInfo) {
+    public PagedModel<EntityModel<RatingDto>> listAll(@PageableDefault(page = 0, size = 5)
+                                                              Pageable pageInfo) {
         Page<Rating> ratings = ratingService.findAll(pageInfo);
         return pagedResourcesAssembler.toModel(convert(ratings));
     }
@@ -58,7 +59,8 @@ public class RatingController {
 
     @PutMapping("/{id}")
     @Transactional
-    public EntityModel<RatingDto> update(@RequestBody @Valid RatingForm ratingForm, @PathVariable Integer id) {
+    public EntityModel<RatingDto> update(@RequestBody @Valid RatingForm ratingForm,
+                                         @PathVariable Integer id) {
         Rating rating = ratingForm.build();
         rating.setId(id);
         rating = ratingService.update(rating);

@@ -2,9 +2,9 @@ package com.srh.api.dto.resource;
 
 import com.srh.api.model.UserRecommendation;
 import org.springframework.data.domain.Page;
+import org.springframework.hateoas.server.core.Relation;
 
-import java.util.Objects;
-
+@Relation(collectionRelation = "recommenders")
 public class UserRecommendationDto {
     private final Integer id;
     private final String name;
@@ -30,20 +30,5 @@ public class UserRecommendationDto {
 
     public String getLogin() {
         return login;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        UserRecommendationDto that = (UserRecommendationDto) o;
-        return Objects.equals(id, that.id) &&
-                Objects.equals(name, that.name) &&
-                Objects.equals(login, that.login);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name, login);
     }
 }

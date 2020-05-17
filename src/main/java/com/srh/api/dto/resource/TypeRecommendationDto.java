@@ -4,8 +4,6 @@ import com.srh.api.model.TypeRecommendation;
 import org.springframework.data.domain.Page;
 import org.springframework.hateoas.server.core.Relation;
 
-import java.util.Objects;
-
 @Relation(collectionRelation = "typeRecommendations")
 public class TypeRecommendationDto {
     private final Integer id;
@@ -38,21 +36,5 @@ public class TypeRecommendationDto {
 
     public boolean isActive() {
         return active;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        TypeRecommendationDto that = (TypeRecommendationDto) o;
-        return active == that.active &&
-                Objects.equals(id, that.id) &&
-                Objects.equals(name, that.name) &&
-                Objects.equals(description, that.description);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name, description, active);
     }
 }

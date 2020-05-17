@@ -24,7 +24,7 @@ import java.net.URI;
 import static com.srh.api.dto.resource.UserRecommendationDto.convert;
 
 @RestController
-@RequestMapping("/users/recommendation")
+@RequestMapping("/users/recommenders")
 public class UserRecommendationController {
     @Autowired
     private UserRecommendationService userRecommendationService;
@@ -36,7 +36,8 @@ public class UserRecommendationController {
     private PagedResourcesAssembler<UserRecommendationDto> pagedResourcesAssembler;
 
     @GetMapping
-    public PagedModel<EntityModel<UserRecommendationDto>> listAll(@PageableDefault(page = 0, size = 5) Pageable pageInfo) {
+    public PagedModel<EntityModel<UserRecommendationDto>> listAll(@PageableDefault(page = 0, size = 5)
+                                                                          Pageable pageInfo) {
         Page<UserRecommendation> users = userRecommendationService.findAll(pageInfo);
         return pagedResourcesAssembler.toModel(convert(users));
     }
@@ -52,14 +53,15 @@ public class UserRecommendationController {
                                                                      UriComponentsBuilder uriBuilder) {
         UserRecommendation user = (UserRecommendation) userForm.build(TypeUsers.RECOMMENDATION);
         userRecommendationService.save(user);
-        URI uri = uriBuilder.path("/users/recommendation/{id}").buildAndExpand(user.getId()).toUri();
+        URI uri = uriBuilder.path("/users/recommenders/{id}").buildAndExpand(user.getId()).toUri();
         return ResponseEntity.created(uri)
                 .body(userRecommendationModelAssembler.toModel(new UserRecommendationDto(user)));
     }
 
     @PutMapping("/{id}")
     @Transactional
-    public EntityModel<UserRecommendationDto> update(@RequestBody @Valid UserForm userForm, @PathVariable Integer id) {
+    public EntityModel<UserRecommendationDto> update(@RequestBody @Valid UserForm userForm,
+                                                     @PathVariable Integer id) {
         UserRecommendation user = (UserRecommendation) userForm.build(TypeUsers.RECOMMENDATION);
         user.setId(id);
         user = userRecommendationService.update(user);

@@ -19,17 +19,12 @@ public class ProjectForm {
     @Length(min = 3)
     private String description;
 
+    public ProjectForm() {
+    }
+
     public ProjectForm(@NotEmpty @NotNull @Length(min = 3) String name, @NotEmpty @NotNull @Length(min = 3) String description) {
         this.name = name;
         this.description = description;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getDescription() {
-        return description;
     }
 
     public Project build() {
@@ -38,5 +33,13 @@ public class ProjectForm {
                 .withDescription(description)
                 .withDate(LocalDate.now())
                 .build();
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getDescription() {
+        return description;
     }
 }

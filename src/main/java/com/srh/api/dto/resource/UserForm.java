@@ -31,6 +31,14 @@ public class UserForm {
         this.password = password;
     }
 
+    public User build(TypeUsers typeUser) {
+        return UserBuilder.anUser()
+                .withName(name)
+                .withLogin(login)
+                .withPassword(password)
+                .build(typeUser);
+    }
+
     public String getName() {
         return name;
     }
@@ -43,11 +51,4 @@ public class UserForm {
         return password;
     }
 
-    public User build(TypeUsers typeUser) {
-        return UserBuilder.anUser()
-                .withName(name)
-                .withLogin(login)
-                .withPassword(password)
-                .build(typeUser);
-    }
 }

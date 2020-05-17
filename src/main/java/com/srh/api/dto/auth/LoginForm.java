@@ -15,6 +15,11 @@ public class LoginForm {
     @Length(min = 6)
     private String password;
 
+    public LoginForm(@NotNull @NotEmpty String login, @NotNull @NotEmpty @Length(min = 6) String password) {
+        this.login = login;
+        this.password = password;
+    }
+
     public String getLogin() {
         return login;
     }

@@ -7,8 +7,9 @@ import java.util.Objects;
 @Entity
 public class Tag {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    @Column(unique = true)
     private String name;
     @OneToMany(mappedBy = "id.tag")
     private List<ItemTag> itensTag;

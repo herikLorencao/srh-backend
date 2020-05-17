@@ -78,21 +78,21 @@ public class AdminControllerTest {
 
     @Test
     public void WhenGetAllAdminsThenStatusCodeOk() {
-        String url = UrlUtils.generateBasicUrl("/users/admin", port);
+        String url = UrlUtils.generateBasicUrl("/users/admins", port);
         ResponseEntity<String> response = restTemplate.exchange(url, GET, validHeader, String.class);
         assertThat(response.getStatusCode()).isEqualTo(OK);
     }
 
     @Test
     public void WhenGetAdminThenStatusCodeOk() {
-        String url = UrlUtils.generateBasicUrl("/users/admin/1", port);
+        String url = UrlUtils.generateBasicUrl("/users/admins/1", port);
         ResponseEntity<String> response = restTemplate.exchange(url, GET, validHeader, String.class);
         assertThat(response.getStatusCode()).isEqualTo(OK);
     }
 
     @Test
     public void WhenInsertAdminThenStatusCodeCreated() throws JsonProcessingException {
-        String url = UrlUtils.generateBasicUrl("/users/admin", port);
+        String url = UrlUtils.generateBasicUrl("/users/admins", port);
         UserForm userForm = new UserForm("admin test", "admin test", "admin test");
 
         HttpEntity<String> request = new HttpEntity<>(toJson(userForm), validHeader.getHeaders());
@@ -103,7 +103,7 @@ public class AdminControllerTest {
 
     @Test
     public void WhenUpdateAdminThenStatusCodeOk() throws JsonProcessingException {
-        String url = UrlUtils.generateBasicUrl("/users/admin/1", port);
+        String url = UrlUtils.generateBasicUrl("/users/admins/1", port);
         UserForm userForm = new UserForm("admin test", "admin test", "admin test");
 
         HttpEntity<String> request = new HttpEntity<>(toJson(userForm), validHeader.getHeaders());
@@ -114,28 +114,28 @@ public class AdminControllerTest {
 
     @Test
     public void WhenDeleteAdminThenStatusCodeNoContent() {
-        String url = UrlUtils.generateBasicUrl("/users/admin/1", port);
+        String url = UrlUtils.generateBasicUrl("/users/admins/1", port);
         ResponseEntity<String> response = restTemplate.exchange(url, DELETE, validHeader, String.class);
         assertThat(response.getStatusCode()).isEqualTo(NO_CONTENT);
     }
 
     @Test
     public void WhenGetAllAdminsWithInvalidTokenThenStatusCodeForbidden() {
-        String url = UrlUtils.generateBasicUrl("/users/admin", port);
+        String url = UrlUtils.generateBasicUrl("/users/admins", port);
         ResponseEntity<String> response = restTemplate.exchange(url, GET, invalidHeader, String.class);
         assertThat(response.getStatusCode()).isEqualTo(FORBIDDEN);
     }
 
     @Test
     public void WhenGetAdminWithInvalidTokenThenStatusCodeForbidden() {
-        String url = UrlUtils.generateBasicUrl("/users/admin", port);
+        String url = UrlUtils.generateBasicUrl("/users/admins", port);
         ResponseEntity<String> response = restTemplate.exchange(url, GET, invalidHeader, String.class);
         assertThat(response.getStatusCode()).isEqualTo(FORBIDDEN);
     }
 
     @Test
     public void WhenInsertAdminWithInvalidTokenThenStatusCodeForbidden() throws JsonProcessingException {
-        String url = UrlUtils.generateBasicUrl("/users/admin", port);
+        String url = UrlUtils.generateBasicUrl("/users/admins", port);
         UserForm userForm = new UserForm("admin test", "admin test", "admin test");
 
         HttpEntity<String> request = new HttpEntity<>(toJson(userForm), invalidHeader.getHeaders());
@@ -146,7 +146,7 @@ public class AdminControllerTest {
 
     @Test
     public void WhenUpdateAdminWithInvalidTokenThenStatusCodeForbidden() throws JsonProcessingException {
-        String url = UrlUtils.generateBasicUrl("/users/admin/1", port);
+        String url = UrlUtils.generateBasicUrl("/users/admins/1", port);
         UserForm userForm = new UserForm("admin test", "admin test", "admin test");
 
         HttpEntity<String> request = new HttpEntity<>(toJson(userForm), invalidHeader.getHeaders());
@@ -157,7 +157,7 @@ public class AdminControllerTest {
 
     @Test
     public void WhenDeleteAdminWithInvalidTokenThenStatusCodeForbidden() {
-        String url = UrlUtils.generateBasicUrl("/users/admin/1", port);
+        String url = UrlUtils.generateBasicUrl("/users/admins/1", port);
         ResponseEntity<String> response = restTemplate.exchange(url, DELETE, invalidHeader, String.class);
         assertThat(response.getStatusCode()).isEqualTo(FORBIDDEN);
     }

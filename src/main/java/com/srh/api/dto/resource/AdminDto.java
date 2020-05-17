@@ -4,8 +4,6 @@ import com.srh.api.model.Admin;
 import org.springframework.data.domain.Page;
 import org.springframework.hateoas.server.core.Relation;
 
-import java.util.Objects;
-
 @Relation(collectionRelation = "admins")
 public class AdminDto {
     private final Integer id;
@@ -32,20 +30,5 @@ public class AdminDto {
 
     public String getLogin() {
         return login;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        AdminDto adminDto = (AdminDto) o;
-        return Objects.equals(id, adminDto.id) &&
-                Objects.equals(name, adminDto.name) &&
-                Objects.equals(login, adminDto.login);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name, login);
     }
 }

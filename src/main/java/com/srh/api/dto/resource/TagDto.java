@@ -2,9 +2,10 @@ package com.srh.api.dto.resource;
 
 import com.srh.api.model.Tag;
 import org.springframework.data.domain.Page;
-import org.springframework.hateoas.RepresentationModel;
+import org.springframework.hateoas.server.core.Relation;
 
-public class TagDto extends RepresentationModel<TagDto> {
+@Relation(collectionRelation = "tags")
+public class TagDto {
     private final Integer id;
     private final String name;
 
@@ -23,15 +24,5 @@ public class TagDto extends RepresentationModel<TagDto> {
 
     public String getName() {
         return name;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        return super.equals(obj);
-    }
-
-    @Override
-    public int hashCode() {
-        return super.hashCode();
     }
 }

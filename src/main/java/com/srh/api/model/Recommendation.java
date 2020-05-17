@@ -7,7 +7,7 @@ import java.util.Objects;
 @Entity
 public class Recommendation {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private Double weight;
     private Double score;

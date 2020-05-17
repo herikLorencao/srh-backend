@@ -4,7 +4,6 @@ import com.srh.api.model.Rating;
 import org.springframework.data.domain.Page;
 
 import java.time.LocalDateTime;
-import java.util.Objects;
 
 public class RatingDto {
     private final Integer id;
@@ -31,20 +30,5 @@ public class RatingDto {
 
     public LocalDateTime getDate() {
         return date;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        RatingDto ratingDto = (RatingDto) o;
-        return Objects.equals(id, ratingDto.id) &&
-                Objects.equals(score, ratingDto.score) &&
-                Objects.equals(date, ratingDto.date);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, score, date);
     }
 }

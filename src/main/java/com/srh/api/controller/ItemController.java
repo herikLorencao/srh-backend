@@ -35,7 +35,8 @@ public class ItemController {
     private PagedResourcesAssembler<ItemDto> pagedResourcesAssembler;
 
     @GetMapping
-    public PagedModel<EntityModel<ItemDto>> listAll(@PageableDefault(page = 0, size = 5) Pageable pageInfo) {
+    public PagedModel<EntityModel<ItemDto>> listAll(@PageableDefault(page = 0, size = 5)
+                                                            Pageable pageInfo) {
         Page<Item> itens = itemService.findAll(pageInfo);
         return pagedResourcesAssembler.toModel(convert(itens));
     }

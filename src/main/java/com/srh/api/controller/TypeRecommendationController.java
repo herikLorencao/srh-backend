@@ -35,7 +35,8 @@ public class TypeRecommendationController {
     private PagedResourcesAssembler<TypeRecommendationDto> pagedResourcesAssembler;
 
     @GetMapping
-    public PagedModel<EntityModel<TypeRecommendationDto>> listAll(@PageableDefault(page = 0, size = 5) Pageable pageInfo) {
+    public PagedModel<EntityModel<TypeRecommendationDto>> listAll(@PageableDefault(page = 0, size = 5)
+                                                                          Pageable pageInfo) {
         Page<TypeRecommendation> typeRecommendations = typeRecommendationService.findAll(pageInfo);
         return pagedResourcesAssembler.toModel(convert(typeRecommendations));
     }
@@ -47,8 +48,9 @@ public class TypeRecommendationController {
     }
 
     @PostMapping
-    public ResponseEntity<EntityModel<TypeRecommendationDto>> create(@RequestBody @Valid TypeRecommendationForm typeRecommendationForm,
-                                                                     UriComponentsBuilder uriBuilder) {
+    public ResponseEntity<EntityModel<TypeRecommendationDto>> create(
+            @RequestBody @Valid TypeRecommendationForm typeRecommendationForm,
+            UriComponentsBuilder uriBuilder) {
         TypeRecommendation typeRecommendation = typeRecommendationForm.build();
         typeRecommendationService.save(typeRecommendation);
         URI uri = uriBuilder.path("/recommendations/types/{id}").buildAndExpand(typeRecommendation.getId()).toUri();
@@ -58,7 +60,8 @@ public class TypeRecommendationController {
 
     @PutMapping("/{id}")
     @Transactional
-    public EntityModel<TypeRecommendationDto> update(@RequestBody @Valid TypeRecommendationForm typeRecommendationForm, @PathVariable Integer id) {
+    public EntityModel<TypeRecommendationDto> update(
+            @RequestBody @Valid TypeRecommendationForm typeRecommendationForm, @PathVariable Integer id) {
         TypeRecommendation typeRecommendation = typeRecommendationForm.build();
         typeRecommendation.setId(id);
         typeRecommendation = typeRecommendationService.update(typeRecommendation);

@@ -18,13 +18,14 @@ public class TagForm {
         this.name = name;
     }
 
-    public String getName() {
-        return name;
-    }
-
     public Tag build() {
         return TagBuilder.aTag()
                 .withName(name)
                 .build();
     }
+
+    public String getName() {
+        return name;
+    }
+
 }

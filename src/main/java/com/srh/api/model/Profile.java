@@ -2,25 +2,25 @@ package com.srh.api.model;
 
 import org.springframework.security.core.GrantedAuthority;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class Profile implements GrantedAuthority {
-    private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
+    @ManyToMany
+    private List<ApiUser> apiUsers;
 
     public Profile() {
     }
 
-    public Profile(Integer id, String name) {
+    public Profile(Integer id, String name, List<ApiUser> apiUsers) {
         this.id = id;
         this.name = name;
+        this.apiUsers = apiUsers;
     }
 
     public Integer getId() {
@@ -37,6 +37,14 @@ public class Profile implements GrantedAuthority {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public List<ApiUser> getApiUsers() {
+        return apiUsers;
+    }
+
+    public void setApiUsers(List<ApiUser> apiUsers) {
+        this.apiUsers = apiUsers;
     }
 
     @Override

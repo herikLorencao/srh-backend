@@ -2,6 +2,7 @@ package com.srh.api.service;
 
 import com.srh.api.model.ApiUser;
 import com.srh.api.repository.ApiUserRepository;
+import com.srh.api.repository.ProfileRepository;
 import org.hibernate.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

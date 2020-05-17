@@ -12,9 +12,20 @@ public class RecommendationForm {
     @NotNull
     private Double score;
 
+    public RecommendationForm() {
+    }
+
     public RecommendationForm(@NotNull Double weight, @NotNull Double score) {
         this.weight = weight;
         this.score = score;
+    }
+
+    public Recommendation build() {
+        return RecommendationBuilder.aRecommendation()
+                .withWeight(weight)
+                .withScore(score)
+                .withDate(LocalDateTime.now())
+                .build();
     }
 
     public Double getWeight() {
@@ -25,11 +36,4 @@ public class RecommendationForm {
         return score;
     }
 
-    public Recommendation build() {
-        return RecommendationBuilder.aRecommendation()
-                .withWeight(weight)
-                .withScore(score)
-                .withDate(LocalDateTime.now())
-                .build();
-    }
 }

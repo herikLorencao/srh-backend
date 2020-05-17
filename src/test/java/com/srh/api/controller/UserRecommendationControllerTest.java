@@ -78,21 +78,21 @@ public class UserRecommendationControllerTest {
 
     @Test
     public void WhenGetAllUsersThenStatusCodeOk() {
-        String url = UrlUtils.generateBasicUrl("/users/recommendation", port);
+        String url = UrlUtils.generateBasicUrl("/users/recommenders", port);
         ResponseEntity<String> response = restTemplate.exchange(url, GET, validHeader, String.class);
         assertThat(response.getStatusCode()).isEqualTo(OK);
     }
 
     @Test
     public void WhenGetUserThenStatusCodeOk() {
-        String url = UrlUtils.generateBasicUrl("/users/recommendation/1", port);
+        String url = UrlUtils.generateBasicUrl("/users/recommenders/1", port);
         ResponseEntity<String> response = restTemplate.exchange(url, GET, validHeader, String.class);
         assertThat(response.getStatusCode()).isEqualTo(OK);
     }
 
     @Test
     public void WhenInsertUserThenStatusCodeCreated() throws JsonProcessingException {
-        String url = UrlUtils.generateBasicUrl("/users/recommendation", port);
+        String url = UrlUtils.generateBasicUrl("/users/recommenders", port);
         UserForm userForm = new UserForm("user recommendation", "user recommendation", "user test");
 
         HttpEntity<String> request = new HttpEntity<>(toJson(userForm), validHeader.getHeaders());
@@ -103,7 +103,7 @@ public class UserRecommendationControllerTest {
 
     @Test
     public void WhenUpdateUserThenStatusCodeOk() throws JsonProcessingException {
-        String url = UrlUtils.generateBasicUrl("/users/recommendation/1", port);
+        String url = UrlUtils.generateBasicUrl("/users/recommenders/1", port);
         UserForm userForm = new UserForm("user recommendation", "user recommendation", "user test");
 
         HttpEntity<String> request = new HttpEntity<>(toJson(userForm), validHeader.getHeaders());
@@ -114,28 +114,28 @@ public class UserRecommendationControllerTest {
 
     @Test
     public void WhenDeleteUserThenStatusCodeNoContent() {
-        String url = UrlUtils.generateBasicUrl("/users/recommendation/1", port);
+        String url = UrlUtils.generateBasicUrl("/users/recommenders/1", port);
         ResponseEntity<String> response = restTemplate.exchange(url, DELETE, validHeader, String.class);
         assertThat(response.getStatusCode()).isEqualTo(NO_CONTENT);
     }
 
     @Test
     public void WhenGetAllUsersWithInvalidTokenThenStatusCodeForbidden() {
-        String url = UrlUtils.generateBasicUrl("/users/recommendation", port);
+        String url = UrlUtils.generateBasicUrl("/users/recommenders", port);
         ResponseEntity<String> response = restTemplate.exchange(url, GET, invalidHeader, String.class);
         assertThat(response.getStatusCode()).isEqualTo(FORBIDDEN);
     }
 
     @Test
     public void WhenGetUserWithInvalidTokenThenStatusCodeForbidden() {
-        String url = UrlUtils.generateBasicUrl("/users/recommendation/1", port);
+        String url = UrlUtils.generateBasicUrl("/users/recommenders/1", port);
         ResponseEntity<String> response = restTemplate.exchange(url, GET, invalidHeader, String.class);
         assertThat(response.getStatusCode()).isEqualTo(FORBIDDEN);
     }
 
     @Test
     public void WhenInsertUserWithInvalidTokenThenStatusCodeForbidden() throws JsonProcessingException {
-        String url = UrlUtils.generateBasicUrl("/users/recommendation", port);
+        String url = UrlUtils.generateBasicUrl("/users/recommenders", port);
         UserForm userForm = new UserForm("user recommendation", "user recommendation", "user test");
 
         HttpEntity<String> request = new HttpEntity<>(toJson(userForm), invalidHeader.getHeaders());
@@ -146,7 +146,7 @@ public class UserRecommendationControllerTest {
 
     @Test
     public void WhenUpdateUserWithInvalidTokenThenStatusCodeForbidden() throws JsonProcessingException {
-        String url = UrlUtils.generateBasicUrl("/users/recommendation/1", port);
+        String url = UrlUtils.generateBasicUrl("/users/recommenders/1", port);
         UserForm userForm = new UserForm("user recommendation", "user recommendation", "user test");
 
         HttpEntity<String> request = new HttpEntity<>(toJson(userForm), invalidHeader.getHeaders());
@@ -157,7 +157,7 @@ public class UserRecommendationControllerTest {
 
     @Test
     public void WhenDeleteUserWithInvalidTokenThenStatusCodeForbidden() {
-        String url = UrlUtils.generateBasicUrl("/users/recommendation/1", port);
+        String url = UrlUtils.generateBasicUrl("/users/recommenders/1", port);
         ResponseEntity<String> response = restTemplate.exchange(url, DELETE, invalidHeader, String.class);
         assertThat(response.getStatusCode()).isEqualTo(FORBIDDEN);
     }

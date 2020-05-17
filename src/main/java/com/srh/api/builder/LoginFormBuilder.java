@@ -24,7 +24,7 @@ public final class LoginFormBuilder {
     }
 
     public LoginForm build() {
-        LoginForm loginForm = new LoginForm();
+        LoginForm loginForm = new LoginForm(login, password);
         loginForm.setLogin(login);
         loginForm.setPassword(password);
         return loginForm;

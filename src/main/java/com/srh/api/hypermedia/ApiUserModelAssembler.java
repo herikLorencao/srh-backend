@@ -14,7 +14,7 @@ public class ApiUserModelAssembler implements RepresentationModelAssembler<ApiUs
     public EntityModel<ApiUsersDto> toModel(ApiUsersDto apiUsersDto) {
         return new EntityModel<>(apiUsersDto,
                 linkTo(methodOn(ApiUsersController.class).find(apiUsersDto.getId())).withSelfRel(),
-                linkTo(ApiUsersController.class).withRel("/users/api")
+                linkTo(ApiUsersController.class).withRel("/users/apis")
         );
     }
 }

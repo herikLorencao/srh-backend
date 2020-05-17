@@ -19,10 +19,21 @@ public class TypeRecommendationForm {
     @NotNull
     private boolean active;
 
+    public TypeRecommendationForm() {
+    }
+
     public TypeRecommendationForm(@NotNull @NotEmpty @Length(min = 3) String name, @NotNull @NotEmpty @Length(min = 3) String description, @NotNull boolean active) {
         this.name = name;
         this.description = description;
         this.active = active;
+    }
+
+    public TypeRecommendation build() {
+        return TypeRecommendationBuilder.aTypeRecommendation()
+                .withName(name)
+                .withDescription(description)
+                .withActive(active)
+                .build();
     }
 
     public String getName() {
@@ -37,11 +48,4 @@ public class TypeRecommendationForm {
         return active;
     }
 
-    public TypeRecommendation build() {
-        return TypeRecommendationBuilder.aTypeRecommendation()
-                .withName(name)
-                .withDescription(description)
-                .withActive(active)
-                .build();
-    }
 }

@@ -15,7 +15,7 @@ public class UserRecommendationModelAssembler implements RepresentationModelAsse
     public EntityModel<UserRecommendationDto> toModel(UserRecommendationDto userRecommendationDto) {
         return new EntityModel<>(userRecommendationDto,
                 linkTo(methodOn(UserRecommendationController.class).find(userRecommendationDto.getId())).withSelfRel(),
-                linkTo(UserRecommendationController.class).withRel("/users/recommendation")
+                linkTo(UserRecommendationController.class).withRel("/users/recommenders")
         );
     }
 }

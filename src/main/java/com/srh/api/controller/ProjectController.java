@@ -35,7 +35,8 @@ public class ProjectController {
     private PagedResourcesAssembler<ProjectDto> pagedResourcesAssembler;
 
     @GetMapping
-    public PagedModel<EntityModel<ProjectDto>> listAll(@PageableDefault(page = 0, size = 5) Pageable pageInfo) {
+    public PagedModel<EntityModel<ProjectDto>> listAll(@PageableDefault(page = 0, size = 5)
+                                                               Pageable pageInfo) {
         Page<Project> projects = projectService.findAll(pageInfo);
         return pagedResourcesAssembler.toModel(convert(projects));
     }
@@ -58,7 +59,8 @@ public class ProjectController {
 
     @PutMapping("/{id}")
     @Transactional
-    public EntityModel<ProjectDto> update(@RequestBody @Valid ProjectForm projectForm, @PathVariable Integer id) {
+    public EntityModel<ProjectDto> update(@RequestBody @Valid ProjectForm projectForm,
+                                          @PathVariable Integer id) {
         Project project = projectForm.build();
         project.setId(id);
         project = projectService.update(project);

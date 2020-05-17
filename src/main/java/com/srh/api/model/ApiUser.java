@@ -3,29 +3,42 @@ package com.srh.api.model;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.ManyToMany;
+import javax.persistence.*;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 public class ApiUser extends User implements UserDetails {
-    private static final long serialVersionUID = 1L;
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Profile> profiles;
+    private boolean isAdmin;
 
     public ApiUser() {
         this.setProfile(TypeUsers.API);
     }
 
-    public ApiUser(Integer id, String name, String login, String password, List<Profile> profiles) {
-        super(id, name, login, password, TypeUsers.API);
+    public ApiUser(Integer id, String name, String login, String password, TypeUsers profile, List<Profile> profiles, boolean isAdmin) {
+        super(id, name, login, password, profile);
+        this.setProfile(TypeUsers.API);
         this.profiles = profiles;
+        this.isAdmin = isAdmin;
     }
 
     public List<Profile> getProfiles() {
         return profiles;
+    }
+
+    public void setProfiles(List<Profile> profiles) {
+        this.profiles = profiles;
+    }
+
+    public boolean isAdmin() {
+        return isAdmin;
+    }
+
+    public void setAdmin(boolean admin) {
+        isAdmin = admin;
     }
 
     @Override
@@ -61,5 +74,20 @@ public class ApiUser extends User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        ApiUser apiUser = (ApiUser) o;
+        return isAdmin == apiUser.isAdmin &&
+                Objects.equals(profiles, apiUser.profiles);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), profiles, isAdmin);
     }
 }

@@ -24,7 +24,7 @@ import java.net.URI;
 import static com.srh.api.dto.resource.AdminDto.convert;
 
 @RestController
-@RequestMapping("/users/admin")
+@RequestMapping("/users/admins")
 public class AdminController {
     @Autowired
     private AdminService adminService;
@@ -52,7 +52,7 @@ public class AdminController {
                                                         UriComponentsBuilder uriBuilder) {
         Admin admin = (Admin) userForm.build(TypeUsers.ADMIN);
         adminService.save(admin);
-        URI uri = uriBuilder.path("/users/admin/{id}").buildAndExpand(admin.getId()).toUri();
+        URI uri = uriBuilder.path("/users/admins/{id}").buildAndExpand(admin.getId()).toUri();
         return ResponseEntity.created(uri)
                 .body(adminModelAssembler.toModel(new AdminDto(admin)));
     }

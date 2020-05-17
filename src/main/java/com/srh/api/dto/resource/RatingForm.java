@@ -18,14 +18,15 @@ public class RatingForm {
         this.score = score;
     }
 
-    public Double getScore() {
-        return score;
-    }
-
     public Rating build() {
         return RatingBuilder.aRating()
                 .withScore(score)
                 .withDate(LocalDateTime.now())
                 .build();
     }
+
+    public Double getScore() {
+        return score;
+    }
+
 }

@@ -35,7 +35,8 @@ public class RecommendationController {
     private PagedResourcesAssembler<RecommendationDto> pagedResourcesAssembler;
 
     @GetMapping
-    public PagedModel<EntityModel<RecommendationDto>> listAll(@PageableDefault(page = 0, size = 5) Pageable pageInfo) {
+    public PagedModel<EntityModel<RecommendationDto>> listAll(@PageableDefault(page = 0, size = 5)
+                                                                      Pageable pageInfo) {
         Page<Recommendation> recommendations = recommendationService.findAll(pageInfo);
         return pagedResourcesAssembler.toModel(convert(recommendations));
     }
@@ -47,8 +48,8 @@ public class RecommendationController {
     }
 
     @PostMapping
-    public ResponseEntity<EntityModel<RecommendationDto>> create(@RequestBody @Valid RecommendationForm recommendationForm,
-                                                                 UriComponentsBuilder uriBuilder) {
+    public ResponseEntity<EntityModel<RecommendationDto>> create(
+            @RequestBody @Valid RecommendationForm recommendationForm, UriComponentsBuilder uriBuilder) {
         Recommendation recommendation = recommendationForm.build();
         recommendationService.save(recommendation);
         URI uri = uriBuilder.path("/recommendations/{id}").buildAndExpand(recommendation.getId()).toUri();
@@ -58,7 +59,8 @@ public class RecommendationController {
 
     @PutMapping("/{id}")
     @Transactional
-    public EntityModel<RecommendationDto> update(@RequestBody @Valid RecommendationForm recommendationForm, @PathVariable Integer id) {
+    public EntityModel<RecommendationDto> update(
+            @RequestBody @Valid RecommendationForm recommendationForm, @PathVariable Integer id) {
         Recommendation recommendation = recommendationForm.build();
         recommendation.setId(id);
         recommendation = recommendationService.update(recommendation);

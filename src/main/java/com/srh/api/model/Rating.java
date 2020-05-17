@@ -7,7 +7,7 @@ import java.util.Objects;
 @Entity
 public class Rating {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private Double score;
     private LocalDateTime date;
