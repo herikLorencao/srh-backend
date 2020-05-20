@@ -2,9 +2,11 @@ package com.srh.api.dto.resource;
 
 import com.srh.api.model.Project;
 import org.springframework.data.domain.Page;
+import org.springframework.hateoas.server.core.Relation;
 
 import java.time.LocalDate;
 
+@Relation(collectionRelation = "projects")
 public class ProjectDto {
     private final Integer id;
     private final String name;

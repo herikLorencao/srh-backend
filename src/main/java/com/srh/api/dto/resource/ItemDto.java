@@ -2,7 +2,9 @@ package com.srh.api.dto.resource;
 
 import com.srh.api.model.Item;
 import org.springframework.data.domain.Page;
+import org.springframework.hateoas.server.core.Relation;
 
+@Relation(collectionRelation = "itens")
 public class ItemDto {
     private final Integer id;
     private final String name;

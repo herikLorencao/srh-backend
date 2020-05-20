@@ -2,9 +2,11 @@ package com.srh.api.dto.resource;
 
 import com.srh.api.model.Rating;
 import org.springframework.data.domain.Page;
+import org.springframework.hateoas.server.core.Relation;
 
 import java.time.LocalDateTime;
 
+@Relation(collectionRelation = "ratings")
 public class RatingDto {
     private final Integer id;
     private final Double score;

@@ -6,7 +6,7 @@ import org.springframework.hateoas.server.core.Relation;
 
 import java.time.LocalDateTime;
 
-@Relation(collectionRelation = "recommendationUsers")
+@Relation(collectionRelation = "recommendations")
 public class RecommendationDto {
     private final Integer id;
     private final Double weight;
