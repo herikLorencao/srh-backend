@@ -3,7 +3,7 @@ package com.srh.api.builder;
 import com.srh.api.model.Item;
 import com.srh.api.model.Recommendation;
 import com.srh.api.model.TypeRecommendation;
-import com.srh.api.model.UserRecommendation;
+import com.srh.api.model.Recommender;
 
 import java.time.LocalDateTime;
 
@@ -12,7 +12,7 @@ public final class RecommendationBuilder {
     private Double weight;
     private Double score;
     private LocalDateTime date;
-    private UserRecommendation user;
+    private Recommender user;
     private Item item;
     private TypeRecommendation typeRecommendation;
 
@@ -43,7 +43,7 @@ public final class RecommendationBuilder {
         return this;
     }
 
-    public RecommendationBuilder withUser(UserRecommendation user) {
+    public RecommendationBuilder withUser(Recommender user) {
         this.user = user;
         return this;
     }

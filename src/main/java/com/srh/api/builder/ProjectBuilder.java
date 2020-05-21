@@ -12,7 +12,7 @@ public final class ProjectBuilder {
     private LocalDate date;
     private Situations situation;
     private Admin admin;
-    private List<UserRecommendation> users;
+    private List<Recommender> recommenders;
     private List<Item> itens;
 
     private ProjectBuilder() {
@@ -52,8 +52,8 @@ public final class ProjectBuilder {
         return this;
     }
 
-    public ProjectBuilder withUsers(List<UserRecommendation> users) {
-        this.users = users;
+    public ProjectBuilder withRecommenders(List<Recommender> recommenders) {
+        this.recommenders = recommenders;
         return this;
     }
 
@@ -70,7 +70,7 @@ public final class ProjectBuilder {
         project.setDate(date);
         project.setSituation(situation);
         project.setAdmin(admin);
-        project.setUsers(users);
+        project.setRecommenders(recommenders);
         project.setItens(itens);
         return project;
     }

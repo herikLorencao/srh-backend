@@ -18,21 +18,22 @@ public class Project {
     @ManyToOne
     private Admin admin;
     @ManyToMany(mappedBy = "projects")
-    private List<UserRecommendation> users;
+    private List<Recommender> recommenders;
     @OneToMany(mappedBy = "project")
     private List<Item> itens;
 
     public Project() {
     }
 
-    public Project(Integer id, String name, String description, LocalDate date, Situations situation, Admin admin, List<UserRecommendation> users, List<Item> itens) {
+    public Project(Integer id, String name, String description, LocalDate date, Situations situation,
+                   Admin admin, List<Recommender> recommenders, List<Item> itens) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.date = date;
         this.situation = situation;
         this.admin = admin;
-        this.users = users;
+        this.recommenders = recommenders;
         this.itens = itens;
     }
 
@@ -84,12 +85,12 @@ public class Project {
         this.admin = admin;
     }
 
-    public List<UserRecommendation> getUsers() {
-        return users;
+    public List<Recommender> getRecommenders() {
+        return recommenders;
     }
 
-    public void setUsers(List<UserRecommendation> users) {
-        this.users = users;
+    public void setRecommenders(List<Recommender> recommenders) {
+        this.recommenders = recommenders;
     }
 
     public List<Item> getItens() {
@@ -111,12 +112,12 @@ public class Project {
                 Objects.equals(date, project.date) &&
                 situation == project.situation &&
                 Objects.equals(admin, project.admin) &&
-                Objects.equals(users, project.users) &&
+                Objects.equals(recommenders, project.recommenders) &&
                 Objects.equals(itens, project.itens);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, description, date, situation, admin, users, itens);
+        return Objects.hash(id, name, description, date, situation, admin, recommenders, itens);
     }
 }

@@ -2,6 +2,7 @@ package com.srh.api.hypermedia;
 
 import com.srh.api.controller.ProjectController;
 import com.srh.api.dto.resource.ProjectDto;
+import com.srh.api.model.ProjectRecommender;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.RepresentationModelAssembler;
 import org.springframework.stereotype.Component;
@@ -14,7 +15,8 @@ public class ProjectModelAssembler implements RepresentationModelAssembler<Proje
     public EntityModel<ProjectDto> toModel(ProjectDto projectDto) {
         return new EntityModel<>(projectDto,
                 linkTo(methodOn(ProjectController.class).find(projectDto.getId())).withSelfRel(),
-                linkTo(ProjectController.class).withRel("projects")
+                linkTo(ProjectController.class).withRel("projects"),
+                linkTo(ProjectRecommender.class).withRel("recommenders")
         );
     }
 }

@@ -55,7 +55,7 @@ public final class UserBuilder {
         if (typeUser == TypeUsers.ADMIN) {
             return new Admin();
         } else if (typeUser == TypeUsers.RECOMMENDATION) {
-            return new UserRecommendation();
+            return new Recommender();
         } else {
             return new ApiUser();
         }

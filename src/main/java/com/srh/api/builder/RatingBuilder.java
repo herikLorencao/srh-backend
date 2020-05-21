@@ -2,7 +2,7 @@ package com.srh.api.builder;
 
 import com.srh.api.model.Item;
 import com.srh.api.model.Rating;
-import com.srh.api.model.UserRecommendation;
+import com.srh.api.model.Recommender;
 
 import java.time.LocalDateTime;
 
@@ -10,7 +10,7 @@ public final class RatingBuilder {
     private Integer id;
     private Double score;
     private LocalDateTime date;
-    private UserRecommendation user;
+    private Recommender user;
     private Item item;
 
     private RatingBuilder() {
@@ -35,7 +35,7 @@ public final class RatingBuilder {
         return this;
     }
 
-    public RatingBuilder withUser(UserRecommendation user) {
+    public RatingBuilder withUser(Recommender user) {
         this.user = user;
         return this;
     }

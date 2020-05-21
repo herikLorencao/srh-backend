@@ -1,23 +1,23 @@
 package com.srh.api.dto.resource;
 
-import com.srh.api.model.UserRecommendation;
+import com.srh.api.model.Recommender;
 import org.springframework.data.domain.Page;
 import org.springframework.hateoas.server.core.Relation;
 
 @Relation(collectionRelation = "recommenders")
-public class UserRecommendationDto {
+public class RecommenderDto {
     private final Integer id;
     private final String name;
     private final String login;
 
-    public UserRecommendationDto(UserRecommendation userRecommendation) {
-        this.id = userRecommendation.getId();
-        this.name = userRecommendation.getName();
-        this.login = userRecommendation.getLogin();
+    public RecommenderDto(Recommender recommender) {
+        this.id = recommender.getId();
+        this.name = recommender.getName();
+        this.login = recommender.getLogin();
     }
 
-    public static Page<UserRecommendationDto> convert(Page<UserRecommendation> users) {
-        return users.map(UserRecommendationDto::new);
+    public static Page<RecommenderDto> convert(Page<Recommender> users) {
+        return users.map(RecommenderDto::new);
     }
 
     public Integer getId() {

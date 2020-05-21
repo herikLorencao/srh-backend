@@ -1,10 +1,9 @@
 //package com.srh.api.controller;
 //
 //import com.fasterxml.jackson.core.JsonProcessingException;
-//import com.srh.api.dto.resource.ProjectForm;
-//import com.srh.api.model.Project;
-//import com.srh.api.model.Situations;
-//import com.srh.api.repository.ProjectRepository;
+//import com.srh.api.dto.resource.UserForm;
+//import com.srh.api.model.Recommender;
+//import com.srh.api.repository.RecommendersRepository;
 //import com.srh.api.utils.RequestTokenUtil;
 //import com.srh.api.utils.UrlUtils;
 //import org.junit.jupiter.api.BeforeEach;
@@ -24,7 +23,6 @@
 //import org.springframework.test.context.junit.jupiter.SpringExtension;
 //import org.springframework.test.web.servlet.MockMvc;
 //
-//import java.time.LocalDate;
 //import java.util.Arrays;
 //import java.util.List;
 //
@@ -39,7 +37,7 @@
 //@ExtendWith(SpringExtension.class)
 //@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 //@AutoConfigureMockMvc
-//public class ProjectControllerTest {
+//public class RecommendersControllerTest {
 //    @Autowired
 //    private TestRestTemplate restTemplate;
 //
@@ -50,7 +48,7 @@
 //    private MockMvc mockMvc;
 //
 //    @MockBean
-//    private ProjectRepository projectRepository;
+//    private RecommendersRepository recommendersRepository;
 //
 //    private HttpEntity<Void> validHeader;
 //    private HttpEntity<Void> invalidHeader;
@@ -64,101 +62,101 @@
 //
 //    @BeforeEach
 //    public void setup() {
-//        List<Project> projects = Arrays.asList(
-//                new Project(1, "project 1", "project 1", LocalDate.now(), Situations.OPEN, null, null, null),
-//                new Project(2, "project 2", "project 2", LocalDate.now(), Situations.OPEN, null, null, null),
-//                new Project(3, "project 3", "project 3", LocalDate.now(), Situations.OPEN, null, null, null)
+//        List<Recommender> users = Arrays.asList(
+//                new Recommender(1, "user 1", "user 1", "123", null, null, null),
+//                new Recommender(2, "user 2", "user 2", "456", null, null, null),
+//                new Recommender(3, "user 3", "user 3", "789", null, null, null)
 //        );
 //
-//        Page<Project> pageProjects = new PageImpl<>(projects);
+//        Page<Recommender> pageUsers = new PageImpl<>(users);
 //
-//        when(projectRepository.findAll(isA(Pageable.class))).thenReturn(pageProjects);
-//        when(projectRepository.findById(1)).thenReturn(java.util.Optional.ofNullable(projects.get(0)));
-//        when(projectRepository.save(isA(Project.class))).thenReturn(projects.get(0));
+//        when(recommendersRepository.findAll(isA(Pageable.class))).thenReturn(pageUsers);
+//        when(recommendersRepository.findById(1)).thenReturn(java.util.Optional.ofNullable(users.get(0)));
+//        when(recommendersRepository.save(isA(Recommender.class))).thenReturn(users.get(0));
 //    }
 //
 //    @Test
-//    public void WhenGetAllProjectsThenStatusCodeOk() {
-//        String url = UrlUtils.generateBasicUrl("/projects", port);
+//    public void WhenGetAllUsersThenStatusCodeOk() {
+//        String url = UrlUtils.generateBasicUrl("/users/recommenders", port);
 //        ResponseEntity<String> response = restTemplate.exchange(url, GET, validHeader, String.class);
 //        assertThat(response.getStatusCode()).isEqualTo(OK);
 //    }
 //
 //    @Test
-//    public void WhenGetProjectThenStatusCodeOk() {
-//        String url = UrlUtils.generateBasicUrl("/projects/1", port);
+//    public void WhenGetUserThenStatusCodeOk() {
+//        String url = UrlUtils.generateBasicUrl("/users/recommenders/1", port);
 //        ResponseEntity<String> response = restTemplate.exchange(url, GET, validHeader, String.class);
 //        assertThat(response.getStatusCode()).isEqualTo(OK);
 //    }
 //
 //    @Test
-//    public void WhenInsertProjectThenStatusCodeCreated() throws JsonProcessingException {
-//        String url = UrlUtils.generateBasicUrl("/projects", port);
-//        ProjectForm projectForm = new ProjectForm("project", "project");
+//    public void WhenInsertUserThenStatusCodeCreated() throws JsonProcessingException {
+//        String url = UrlUtils.generateBasicUrl("/users/recommenders", port);
+//        UserForm userForm = new UserForm("user recommendation", "user recommendation", "user test");
 //
-//        HttpEntity<String> request = new HttpEntity<>(toJson(projectForm), validHeader.getHeaders());
+//        HttpEntity<String> request = new HttpEntity<>(toJson(userForm), validHeader.getHeaders());
 //
 //        ResponseEntity<String> response = restTemplate.exchange(url, POST, request, String.class);
 //        assertThat(response.getStatusCode()).isEqualTo(CREATED);
 //    }
 //
 //    @Test
-//    public void WhenUpdateProjectThenStatusCodeOk() throws JsonProcessingException {
-//        String url = UrlUtils.generateBasicUrl("/projects/1", port);
-//        ProjectForm projectForm = new ProjectForm("project", "project");
+//    public void WhenUpdateUserThenStatusCodeOk() throws JsonProcessingException {
+//        String url = UrlUtils.generateBasicUrl("/users/recommenders/1", port);
+//        UserForm userForm = new UserForm("user recommendation", "user recommendation", "user test");
 //
-//        HttpEntity<String> request = new HttpEntity<>(toJson(projectForm), validHeader.getHeaders());
+//        HttpEntity<String> request = new HttpEntity<>(toJson(userForm), validHeader.getHeaders());
 //
 //        ResponseEntity<String> response = restTemplate.exchange(url, PUT, request, String.class);
 //        assertThat(response.getStatusCode()).isEqualTo(OK);
 //    }
 //
 //    @Test
-//    public void WhenDeleteProjectThenStatusCodeNoContent() {
-//        String url = UrlUtils.generateBasicUrl("/projects/1", port);
+//    public void WhenDeleteUserThenStatusCodeNoContent() {
+//        String url = UrlUtils.generateBasicUrl("/users/recommenders/1", port);
 //        ResponseEntity<String> response = restTemplate.exchange(url, DELETE, validHeader, String.class);
 //        assertThat(response.getStatusCode()).isEqualTo(NO_CONTENT);
 //    }
 //
 //    @Test
-//    public void WhenGetAllProjectsWithInvalidTokenThenStatusCodeForbidden() {
-//        String url = UrlUtils.generateBasicUrl("/projects", port);
+//    public void WhenGetAllUsersWithInvalidTokenThenStatusCodeForbidden() {
+//        String url = UrlUtils.generateBasicUrl("/users/recommenders", port);
 //        ResponseEntity<String> response = restTemplate.exchange(url, GET, invalidHeader, String.class);
 //        assertThat(response.getStatusCode()).isEqualTo(FORBIDDEN);
 //    }
 //
 //    @Test
-//    public void WhenGetProjectWithInvalidTokenThenStatusCodeForbidden() {
-//        String url = UrlUtils.generateBasicUrl("/projects/1", port);
+//    public void WhenGetUserWithInvalidTokenThenStatusCodeForbidden() {
+//        String url = UrlUtils.generateBasicUrl("/users/recommenders/1", port);
 //        ResponseEntity<String> response = restTemplate.exchange(url, GET, invalidHeader, String.class);
 //        assertThat(response.getStatusCode()).isEqualTo(FORBIDDEN);
 //    }
 //
 //    @Test
-//    public void WhenInsertProjectWithInvalidTokenThenStatusCodeForbidden() throws JsonProcessingException {
-//        String url = UrlUtils.generateBasicUrl("/projects", port);
-//        ProjectForm projectForm = new ProjectForm("project", "project");
+//    public void WhenInsertUserWithInvalidTokenThenStatusCodeForbidden() throws JsonProcessingException {
+//        String url = UrlUtils.generateBasicUrl("/users/recommenders", port);
+//        UserForm userForm = new UserForm("user recommendation", "user recommendation", "user test");
 //
-//        HttpEntity<String> request = new HttpEntity<>(toJson(projectForm), invalidHeader.getHeaders());
+//        HttpEntity<String> request = new HttpEntity<>(toJson(userForm), invalidHeader.getHeaders());
 //
 //        ResponseEntity<String> response = restTemplate.exchange(url, POST, request, String.class);
 //        assertThat(response.getStatusCode()).isEqualTo(FORBIDDEN);
 //    }
 //
 //    @Test
-//    public void WhenUpdateProjectWithInvalidTokenThenStatusCodeForbidden() throws JsonProcessingException {
-//        String url = UrlUtils.generateBasicUrl("/projects/1", port);
-//        ProjectForm projectForm = new ProjectForm("project", "project");
+//    public void WhenUpdateUserWithInvalidTokenThenStatusCodeForbidden() throws JsonProcessingException {
+//        String url = UrlUtils.generateBasicUrl("/users/recommenders/1", port);
+//        UserForm userForm = new UserForm("user recommendation", "user recommendation", "user test");
 //
-//        HttpEntity<String> request = new HttpEntity<>(toJson(projectForm), invalidHeader.getHeaders());
+//        HttpEntity<String> request = new HttpEntity<>(toJson(userForm), invalidHeader.getHeaders());
 //
 //        ResponseEntity<String> response = restTemplate.exchange(url, PUT, request, String.class);
 //        assertThat(response.getStatusCode()).isEqualTo(FORBIDDEN);
 //    }
 //
 //    @Test
-//    public void WhenDeleteProjectWithInvalidTokenThenStatusCodeForbidden() {
-//        String url = UrlUtils.generateBasicUrl("/projects/1", port);
+//    public void WhenDeleteUserWithInvalidTokenThenStatusCodeForbidden() {
+//        String url = UrlUtils.generateBasicUrl("/users/recommenders/1", port);
 //        ResponseEntity<String> response = restTemplate.exchange(url, DELETE, invalidHeader, String.class);
 //        assertThat(response.getStatusCode()).isEqualTo(FORBIDDEN);
 //    }

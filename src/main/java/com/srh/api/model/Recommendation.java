@@ -13,7 +13,7 @@ public class Recommendation {
     private Double score;
     private LocalDateTime date;
     @ManyToOne
-    private UserRecommendation user;
+    private Recommender user;
     @ManyToOne
     private Item item;
     @ManyToOne
@@ -22,7 +22,7 @@ public class Recommendation {
     public Recommendation() {
     }
 
-    public Recommendation(Integer id, Double weight, Double score, LocalDateTime date, UserRecommendation user, Item item, TypeRecommendation typeRecommendation) {
+    public Recommendation(Integer id, Double weight, Double score, LocalDateTime date, Recommender user, Item item, TypeRecommendation typeRecommendation) {
         this.id = id;
         this.weight = weight;
         this.score = score;
@@ -64,11 +64,11 @@ public class Recommendation {
         this.date = date;
     }
 
-    public UserRecommendation getUser() {
+    public Recommender getUser() {
         return user;
     }
 
-    public void setUser(UserRecommendation user) {
+    public void setUser(Recommender user) {
         this.user = user;
     }
 

@@ -1,5 +1,6 @@
 package com.srh.api.dto.resource;
 
+import com.srh.api.model.Admin;
 import com.srh.api.model.Project;
 import org.springframework.data.domain.Page;
 import org.springframework.hateoas.server.core.Relation;
@@ -12,12 +13,14 @@ public class ProjectDto {
     private final String name;
     private final String description;
     private final LocalDate date;
+    private final Admin admin;
 
     public ProjectDto(Project project) {
         this.id = project.getId();
         this.name = project.getName();
         this.description = project.getDescription();
         this.date = project.getDate();
+        this.admin = project.getAdmin();
     }
 
     public static Page<ProjectDto> convert(Page<Project> projects) {
@@ -38,5 +41,12 @@ public class ProjectDto {
 
     public LocalDate getDate() {
         return date;
+    }
+
+    public AdminDto getAdmin() {
+        if (admin != null) {
+            return new AdminDto(admin);
+        }
+        return null;
     }
 }

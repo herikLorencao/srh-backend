@@ -51,10 +51,10 @@ public class ProjectController {
     public ResponseEntity<EntityModel<ProjectDto>> create(@RequestBody @Valid ProjectForm projectForm,
                                                           UriComponentsBuilder uriBuilder) {
         Project project = projectForm.build();
-        projectService.save(project);
+        Project projectPersist = projectService.save(project);
         URI uri = uriBuilder.path("/projects/{id}").buildAndExpand(project.getId()).toUri();
         return ResponseEntity.created(uri)
-                .body(projectModelAssembler.toModel(new ProjectDto(project)));
+                .body(projectModelAssembler.toModel(new ProjectDto(projectPersist)));
     }
 
     @PutMapping("/{id}")

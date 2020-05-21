@@ -7,23 +7,21 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
-public class UserRecommendation extends User {
+public class Recommender extends User {
     @ManyToMany
     private List<Project> projects;
     @OneToMany(mappedBy = "user")
     private List<Rating> ratings;
-    @OneToMany(mappedBy = "user")
-    private List<Recommendation> recommendations;
 
-    public UserRecommendation() {
+    public Recommender() {
         this.setProfile(TypeUsers.RECOMMENDATION);
     }
 
-    public UserRecommendation(Integer id, String name, String login, String password, List<Project> projects, List<Rating> ratings, List<Recommendation> recommendations) {
+    public Recommender(Integer id, String name, String login, String password,
+                       List<Project> projects, List<Rating> ratings) {
         super(id, name, login, password, TypeUsers.RECOMMENDATION);
         this.projects = projects;
         this.ratings = ratings;
-        this.recommendations = recommendations;
     }
 
     public List<Project> getProjects() {
@@ -42,27 +40,18 @@ public class UserRecommendation extends User {
         this.ratings = ratings;
     }
 
-    public List<Recommendation> getRecommendations() {
-        return recommendations;
-    }
-
-    public void setRecommendations(List<Recommendation> recommendations) {
-        this.recommendations = recommendations;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
-        UserRecommendation that = (UserRecommendation) o;
+        Recommender that = (Recommender) o;
         return Objects.equals(projects, that.projects) &&
-                Objects.equals(ratings, that.ratings) &&
-                Objects.equals(recommendations, that.recommendations);
+                Objects.equals(ratings, that.ratings);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), projects, ratings, recommendations);
+        return Objects.hash(super.hashCode(), projects, ratings);
     }
 }

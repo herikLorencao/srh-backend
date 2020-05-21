@@ -1,5 +1,6 @@
 package com.srh.api.service;
 
+import com.srh.api.model.Admin;
 import com.srh.api.model.Project;
 import com.srh.api.repository.ProjectRepository;
 import org.hibernate.ObjectNotFoundException;
@@ -15,6 +16,9 @@ public class ProjectService {
     @Autowired
     private ProjectRepository projectRepository;
 
+    @Autowired
+    private AdminService adminService;
+
     public Project find(Integer id) {
         Optional<Project> project = projectRepository.findById(id);
 
@@ -29,6 +33,9 @@ public class ProjectService {
     }
 
     public Project save(Project project) {
+        Integer adminId = project.getAdmin().getId();
+        Admin admin = adminService.find(adminId);
+        project.setAdmin(admin);
         return projectRepository.save(project);
     }
 
