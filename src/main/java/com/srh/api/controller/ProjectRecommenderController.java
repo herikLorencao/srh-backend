@@ -4,6 +4,7 @@ import com.srh.api.dto.resource.ProjectRecommenderDto;
 import com.srh.api.dto.resource.ProjectRecommenderForm;
 import com.srh.api.dto.resource.RecommenderDto;
 import com.srh.api.error.exception.DuplicateValueException;
+import com.srh.api.error.exception.RelationshipNotFoundException;
 import com.srh.api.hypermedia.ProjectRecommenderModelAssembler;
 import com.srh.api.hypermedia.RecommenderModelAssembler;
 import com.srh.api.model.ProjectRecommender;
@@ -47,6 +48,14 @@ public class ProjectRecommenderController {
                 .convert(recommendersPage));
     }
 
+    @GetMapping("/{recommenderId}")
+    public EntityModel<RecommenderDto> findRecommenderInProject(@PathVariable Integer projectId,
+                                                                @PathVariable Integer recommenderId) {
+        Recommender recommender = projectRecommenderService.findRecommenderByProject(projectId,
+                recommenderId);
+        return recommenderModelAssembler.toModel(new RecommenderDto(recommender));
+    }
+
     @PostMapping
     public ResponseEntity<EntityModel<ProjectRecommenderDto>> linkRecommendersToProject(
             @PathVariable Integer projectId, @RequestBody @Valid ProjectRecommenderForm
@@ -64,5 +73,12 @@ public class ProjectRecommenderController {
                 .body(projectRecommenderModelAssembler.toModel(
                         new ProjectRecommenderDto(projectRecommender)
                 ));
+    }
+
+    @DeleteMapping("/{recommenderId}")
+    public ResponseEntity<Void> delete(@PathVariable Integer projectId,
+                                       @PathVariable Integer recommenderId) throws RelationshipNotFoundException {
+        projectRecommenderService.delete(projectId, recommenderId);
+        return ResponseEntity.noContent().build();
     }
 }

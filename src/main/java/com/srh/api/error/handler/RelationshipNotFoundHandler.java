@@ -1,20 +1,20 @@
 package com.srh.api.error.handler;
 
 import com.srh.api.dto.error.DefaultErrorDto;
-import com.srh.api.error.exception.DuplicateValueException;
+import com.srh.api.error.exception.RelationshipNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
-public class DuplicateValueHandler {
+public class RelationshipNotFoundHandler {
     @ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR)
-    @ExceptionHandler(DuplicateValueException.class)
+    @ExceptionHandler(RelationshipNotFoundException.class)
     public DefaultErrorDto handle() {
         return new DefaultErrorDto(
-                "The link between resources already exists",
-                "Duplicate values in resources"
+                "The relationship not exist",
+                "Inform a valid relationship"
         );
     }
 }

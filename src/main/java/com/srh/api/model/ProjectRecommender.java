@@ -1,7 +1,7 @@
 package com.srh.api.model;
 
 import com.srh.api.error.exception.DuplicateValueException;
-import org.hibernate.DuplicateMappingException;
+import com.srh.api.error.exception.RelationshipNotFoundException;
 
 import java.util.List;
 import java.util.Objects;
@@ -20,6 +20,11 @@ public class ProjectRecommender {
         addRecommenderInProject();
     }
 
+    public void removeEntities() throws RelationshipNotFoundException {
+        removeProjectInRecommender();
+        removeRecommenderInProject();
+    }
+
     private void addRecommenderInProject() throws DuplicateValueException {
         List<Recommender> recommendersInProject = getRecommenderListInProject();
 
@@ -36,6 +41,24 @@ public class ProjectRecommender {
             throw new DuplicateValueException("Project link already exists");
 
         projectsInRecommender.add(project);
+    }
+
+    private void removeRecommenderInProject() throws RelationshipNotFoundException {
+        List<Recommender> recommendersInProject = getRecommenderListInProject();
+
+        if (!recommendersInProject.contains(recommender))
+            throw new RelationshipNotFoundException("Project not exist in Recommender");
+
+        recommendersInProject.remove(recommender);
+    }
+
+    private void removeProjectInRecommender() throws RelationshipNotFoundException {
+        List<Project> projectsInRecommender = getProjectListInRecommender();
+
+        if (!projectsInRecommender.contains(project))
+            throw new RelationshipNotFoundException("Recommender not exist in Project");
+
+        projectsInRecommender.remove(project);
     }
 
     private List<Recommender> getRecommenderListInProject() {

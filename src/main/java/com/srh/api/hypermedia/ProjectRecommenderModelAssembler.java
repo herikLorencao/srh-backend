@@ -16,6 +16,9 @@ public class ProjectRecommenderModelAssembler implements RepresentationModelAsse
     public EntityModel<ProjectRecommenderDto> toModel(ProjectRecommenderDto projectRecommender) {
         return new EntityModel<>(projectRecommender,
                 linkTo(methodOn(ProjectRecommenderController.class).
+                        findRecommenderInProject(projectRecommender.getProjectId(),
+                                projectRecommender.getRecommenderId())).withSelfRel(),
+                linkTo(methodOn(ProjectRecommenderController.class).
                         listRecommendersByProject(projectRecommender.getProjectId(), Pageable.unpaged()))
                         .withRel("recommendersInProject")
         );

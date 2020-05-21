@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
 public class HttpRequestMethodNotSupportedHandler {
-    @ResponseStatus(code = HttpStatus.BAD_REQUEST)
+    @ResponseStatus(code = HttpStatus.NOT_FOUND)
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     public DefaultErrorDto handle() {
         return new DefaultErrorDto(
