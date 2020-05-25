@@ -2,6 +2,7 @@ package com.srh.api.controller;
 
 import com.srh.api.dto.resource.ProjectDto;
 import com.srh.api.dto.resource.ProjectForm;
+import com.srh.api.error.exception.InvalidSituationException;
 import com.srh.api.hypermedia.ProjectModelAssembler;
 import com.srh.api.model.Project;
 import com.srh.api.service.ProjectService;
@@ -49,7 +50,7 @@ public class ProjectController {
 
     @PostMapping
     public ResponseEntity<EntityModel<ProjectDto>> create(@RequestBody @Valid ProjectForm projectForm,
-                                                          UriComponentsBuilder uriBuilder) {
+                                                          UriComponentsBuilder uriBuilder) throws InvalidSituationException {
         Project project = projectForm.build();
         Project projectPersist = projectService.save(project);
         URI uri = uriBuilder.path("/projects/{id}").buildAndExpand(project.getId()).toUri();
@@ -60,7 +61,7 @@ public class ProjectController {
     @PutMapping("/{id}")
     @Transactional
     public EntityModel<ProjectDto> update(@RequestBody @Valid ProjectForm projectForm,
-                                          @PathVariable Integer id) {
+                                          @PathVariable Integer id) throws InvalidSituationException {
         Project project = projectForm.build();
         project.setId(id);
         project = projectService.update(project);

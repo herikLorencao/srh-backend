@@ -1,8 +1,9 @@
 package com.srh.api.hypermedia;
 
 import com.srh.api.controller.ProjectController;
+import com.srh.api.controller.ProjectRecommenderController;
 import com.srh.api.dto.resource.ProjectDto;
-import com.srh.api.model.ProjectRecommender;
+import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.RepresentationModelAssembler;
 import org.springframework.stereotype.Component;
@@ -16,7 +17,8 @@ public class ProjectModelAssembler implements RepresentationModelAssembler<Proje
         return new EntityModel<>(projectDto,
                 linkTo(methodOn(ProjectController.class).find(projectDto.getId())).withSelfRel(),
                 linkTo(ProjectController.class).withRel("projects"),
-                linkTo(ProjectRecommender.class).withRel("recommenders")
+                linkTo(methodOn(ProjectRecommenderController.class).listRecommendersByProject(
+                        projectDto.getId(), Pageable.unpaged())).withRel("recommenders")
         );
     }
 }

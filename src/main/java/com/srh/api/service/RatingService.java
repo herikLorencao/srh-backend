@@ -1,6 +1,8 @@
 package com.srh.api.service;
 
+import com.srh.api.model.Item;
 import com.srh.api.model.Rating;
+import com.srh.api.model.Recommender;
 import com.srh.api.repository.RatingRepository;
 import org.hibernate.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,12 @@ import java.util.Optional;
 public class RatingService {
     @Autowired
     private RatingRepository ratingRepository;
+
+    @Autowired
+    private RecommenderService recommenderService;
+
+    @Autowired
+    private ItemService itemService;
 
     public Rating find(Integer id) {
         Optional<Rating> rating = ratingRepository.findById(id);
@@ -29,6 +37,15 @@ public class RatingService {
     }
 
     public Rating save(Rating rating) {
+        Integer recommenderId = rating.getUser().getId();
+        Integer itemId = rating.getItem().getId();
+
+        Item item = itemService.find(itemId);
+        Recommender recommender = recommenderService.find(recommenderId);
+
+        rating.setItem(item);
+        rating.setUser(recommender);
+
         return ratingRepository.save(rating);
     }
 

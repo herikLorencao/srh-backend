@@ -1,6 +1,8 @@
 package com.srh.api.hypermedia;
 
+import com.srh.api.controller.ProjectController;
 import com.srh.api.controller.ProjectRecommenderController;
+import com.srh.api.controller.RecommenderController;
 import com.srh.api.dto.resource.ProjectRecommenderDto;
 import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.EntityModel;
@@ -20,7 +22,11 @@ public class ProjectRecommenderModelAssembler implements RepresentationModelAsse
                                 projectRecommender.getRecommenderId())).withSelfRel(),
                 linkTo(methodOn(ProjectRecommenderController.class).
                         listRecommendersByProject(projectRecommender.getProjectId(), Pageable.unpaged()))
-                        .withRel("recommendersInProject")
+                        .withRel("recommendersInProject"),
+                linkTo(methodOn(ProjectController.class).find(projectRecommender.getProjectId()))
+                        .withRel("project"),
+                linkTo(methodOn(RecommenderController.class).find(projectRecommender.getRecommenderId()))
+                        .withRel("recommender")
         );
     }
 }
