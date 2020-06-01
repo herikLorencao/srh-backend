@@ -3,11 +3,13 @@ package com.srh.api.dto.resource;
 import com.srh.api.model.Item;
 import com.srh.api.model.Rating;
 import com.srh.api.model.Recommender;
+import lombok.Getter;
 import org.springframework.data.domain.Page;
 import org.springframework.hateoas.server.core.Relation;
 
 import java.time.LocalDateTime;
 
+@Getter
 @Relation(collectionRelation = "ratings")
 public class RatingDto {
     private final Integer id;
@@ -26,25 +28,5 @@ public class RatingDto {
 
     public static Page<RatingDto> convert(Page<Rating> ratings) {
         return ratings.map(RatingDto::new);
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public Double getScore() {
-        return score;
-    }
-
-    public RecommenderDto getRecommender() {
-        return new RecommenderDto(recommender);
-    }
-
-    public ItemDto getItem() {
-        return new ItemDto(item);\
-    }
-
-    public LocalDateTime getDate() {
-        return date;
     }
 }

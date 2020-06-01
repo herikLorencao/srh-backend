@@ -1,10 +1,9 @@
 package com.srh.api.controller;
 
 import com.srh.api.dto.resource.AdminDto;
-import com.srh.api.dto.resource.UserForm;
+import com.srh.api.dto.resource.AdminForm;
 import com.srh.api.hypermedia.AdminModelAssembler;
 import com.srh.api.model.Admin;
-import com.srh.api.model.TypeUsers;
 import com.srh.api.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -48,9 +47,9 @@ public class AdminController {
     }
 
     @PostMapping
-    public ResponseEntity<EntityModel<AdminDto>> create(@RequestBody @Valid UserForm userForm,
+    public ResponseEntity<EntityModel<AdminDto>> create(@RequestBody @Valid AdminForm adminForm,
                                                         UriComponentsBuilder uriBuilder) {
-        Admin admin = (Admin) userForm.build(TypeUsers.ADMIN);
+        Admin admin = adminForm.build();
         adminService.save(admin);
         URI uri = uriBuilder.path("/users/admins/{id}").buildAndExpand(admin.getId()).toUri();
         return ResponseEntity.created(uri)
@@ -59,8 +58,8 @@ public class AdminController {
 
     @PutMapping("/{id}")
     @Transactional
-    public EntityModel<AdminDto> update(@RequestBody @Valid UserForm userForm, @PathVariable Integer id) {
-        Admin admin = (Admin) userForm.build(TypeUsers.ADMIN);
+    public EntityModel<AdminDto> update(@RequestBody @Valid AdminForm adminForm, @PathVariable Integer id) {
+        Admin admin = adminForm.build();
         admin.setId(id);
         admin = adminService.update(admin);
         return adminModelAssembler.toModel(new AdminDto(admin));

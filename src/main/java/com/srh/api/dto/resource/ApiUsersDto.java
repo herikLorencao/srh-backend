@@ -1,9 +1,12 @@
 package com.srh.api.dto.resource;
 
 import com.srh.api.model.ApiUser;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import org.springframework.data.domain.Page;
 import org.springframework.hateoas.server.core.Relation;
 
+@Getter
 @Relation(collectionRelation = "apiUsers")
 public class ApiUsersDto {
     private final Integer id;
@@ -20,21 +23,5 @@ public class ApiUsersDto {
 
     public static Page<ApiUsersDto> convert(Page<ApiUser> users) {
         return users.map(ApiUsersDto::new);
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getLogin() {
-        return login;
-    }
-
-    public boolean isAdmin() {
-        return isAdmin;
     }
 }

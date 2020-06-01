@@ -1,9 +1,11 @@
 package com.srh.api.dto.resource;
 
 import com.srh.api.model.Tag;
+import lombok.Getter;
 import org.springframework.data.domain.Page;
 import org.springframework.hateoas.server.core.Relation;
 
+@Getter
 @Relation(collectionRelation = "tags")
 public class TagDto {
     private final Integer id;
@@ -16,13 +18,5 @@ public class TagDto {
 
     public static Page<TagDto> convert(Page<Tag> tags) {
         return tags.map(TagDto::new);
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
     }
 }

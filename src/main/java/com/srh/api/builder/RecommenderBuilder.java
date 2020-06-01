@@ -3,7 +3,6 @@ package com.srh.api.builder;
 import com.srh.api.model.Project;
 import com.srh.api.model.Rating;
 import com.srh.api.model.Recommender;
-import com.srh.api.model.TypeUsers;
 
 import java.util.List;
 
@@ -12,9 +11,10 @@ public final class RecommenderBuilder {
     private List<Project> projects;
     private List<Rating> ratings;
     private Integer id;
-    private String name;
     private String login;
-    private TypeUsers profile;
+    private String oldPassword;
+    private String name;
+    private String email;
 
     private RecommenderBuilder() {
     }
@@ -38,13 +38,23 @@ public final class RecommenderBuilder {
         return this;
     }
 
+    public RecommenderBuilder withLogin(String login) {
+        this.login = login;
+        return this;
+    }
+
+    public RecommenderBuilder withOldPassword(String oldPassword) {
+        this.oldPassword = oldPassword;
+        return this;
+    }
+
     public RecommenderBuilder withName(String name) {
         this.name = name;
         return this;
     }
 
-    public RecommenderBuilder withLogin(String login) {
-        this.login = login;
+    public RecommenderBuilder withEmail(String email) {
+        this.email = email;
         return this;
     }
 
@@ -53,20 +63,16 @@ public final class RecommenderBuilder {
         return this;
     }
 
-    public RecommenderBuilder withProfile(TypeUsers profile) {
-        this.profile = profile;
-        return this;
-    }
-
     public Recommender build() {
         Recommender recommender = new Recommender();
         recommender.setProjects(projects);
         recommender.setRatings(ratings);
         recommender.setId(id);
-        recommender.setName(name);
         recommender.setLogin(login);
+        recommender.setOldPassword(oldPassword);
+        recommender.setName(name);
+        recommender.setEmail(email);
         recommender.setPassword(password);
-        recommender.setProfile(profile);
         return recommender;
     }
 }

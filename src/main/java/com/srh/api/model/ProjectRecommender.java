@@ -2,10 +2,11 @@ package com.srh.api.model;
 
 import com.srh.api.error.exception.DuplicateValueException;
 import com.srh.api.error.exception.RelationshipNotFoundException;
+import lombok.Data;
 
 import java.util.List;
-import java.util.Objects;
 
+@Data
 public class ProjectRecommender {
     private Project project;
     private Recommender recommender;
@@ -67,35 +68,5 @@ public class ProjectRecommender {
 
     private List<Project> getProjectListInRecommender() {
         return recommender.getProjects();
-    }
-
-    public Project getProject() {
-        return project;
-    }
-
-    public void setProject(Project project) {
-        this.project = project;
-    }
-
-    public Recommender getRecommender() {
-        return recommender;
-    }
-
-    public void setRecommender(Recommender recommender) {
-        this.recommender = recommender;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        ProjectRecommender that = (ProjectRecommender) o;
-        return Objects.equals(project, that.project) &&
-                Objects.equals(recommender, that.recommender);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(project, recommender);
     }
 }

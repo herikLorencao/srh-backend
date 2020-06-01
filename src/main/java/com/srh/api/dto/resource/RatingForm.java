@@ -6,10 +6,16 @@ import com.srh.api.builder.RecommenderBuilder;
 import com.srh.api.model.Item;
 import com.srh.api.model.Rating;
 import com.srh.api.model.Recommender;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
 public class RatingForm {
     @NotNull
     private Double score;
@@ -17,15 +23,6 @@ public class RatingForm {
     private Integer recommenderId;
     @NotNull
     private Integer itemId;
-
-    public RatingForm() {
-    }
-
-    public RatingForm(@NotNull Double score, @NotNull Integer recommenderId, @NotNull Integer itemId) {
-        this.score = score;
-        this.recommenderId = recommenderId;
-        this.itemId = itemId;
-    }
 
     public Rating build() {
         Recommender recommender = RecommenderBuilder.aRecommender()
@@ -42,17 +39,5 @@ public class RatingForm {
                 .withItem(item)
                 .withDate(LocalDateTime.now())
                 .build();
-    }
-
-    public Integer getItemId() {
-        return itemId;
-    }
-
-    public Double getScore() {
-        return score;
-    }
-
-    public Integer getRecommenderId() {
-        return recommenderId;
     }
 }

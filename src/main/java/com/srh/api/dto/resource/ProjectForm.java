@@ -6,43 +6,41 @@ import com.srh.api.error.exception.InvalidSituationException;
 import com.srh.api.model.Admin;
 import com.srh.api.model.Project;
 import com.srh.api.model.Situations;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
 public class ProjectForm {
 
     @NotEmpty
     @NotNull
     @Length(min = 3)
     private String name;
+
     @NotEmpty
     @NotNull
     @Length(min = 3)
     private String description;
+
     @NotNull
     private Integer adminId;
+
     @NotNull
     @NotEmpty
     private String situation;
 
-    public ProjectForm() {
-    }
+    @NotNull
+    private Boolean visible;
 
-    public ProjectForm(@NotEmpty @NotNull @Length(min = 3) String name, @NotEmpty @NotNull
-    @Length(min = 3) String description, @NotNull Integer adminId, @NotNull @NotEmpty
-                               String situation) {
-        this.name = name;
-        this.description = description;
-        this.adminId = adminId;
-        this.situation = situation;
-    }
-
-    public Project build() throws InvalidSituationException {
-        Situations situation = getSituation();
-
+    public Project build() {
         Admin admin = AdminBuilder.anAdmin()
                 .withId(adminId)
                 .build();
@@ -51,31 +49,9 @@ public class ProjectForm {
                 .withName(name)
                 .withDescription(description)
                 .withAdmin(admin)
-                .withSituation(situation)
+                .withSituation(Situations.valueOf(situation))
                 .withDate(LocalDate.now())
+                .withVisible(visible)
                 .build();
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public Integer getAdminId() {
-        return adminId;
-    }
-
-    public Situations getSituation() throws InvalidSituationException {
-        switch (situation.toLowerCase()) {
-            case "o":
-                return Situations.OPEN;
-            case "c":
-                return Situations.CLOSED;
-            default:
-                throw new InvalidSituationException("Value in situation is not valid");
-        }
     }
 }

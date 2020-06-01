@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class ConstraintViolationHandler {
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(ConstraintViolationException.class)
-    public DefaultErrorDto handle() {
+    public DefaultErrorDto handle(Exception exception) {
         return new DefaultErrorDto(
-                "Some database constraint has been breached",
-                "Try changing the value of fields like login or id"
+                "Dados inválidos tentaram ser inseridos na base de dados",
+                exception.getMessage()
         );
     }
 }

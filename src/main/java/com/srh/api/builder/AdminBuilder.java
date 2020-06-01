@@ -2,7 +2,6 @@ package com.srh.api.builder;
 
 import com.srh.api.model.Admin;
 import com.srh.api.model.Project;
-import com.srh.api.model.TypeUsers;
 
 import java.util.List;
 
@@ -10,9 +9,10 @@ public final class AdminBuilder {
     protected String password;
     private List<Project> projects;
     private Integer id;
-    private String name;
     private String login;
-    private TypeUsers profile;
+    private String oldPassword;
+    private String name;
+    private String email;
 
     private AdminBuilder() {
     }
@@ -31,13 +31,23 @@ public final class AdminBuilder {
         return this;
     }
 
+    public AdminBuilder withLogin(String login) {
+        this.login = login;
+        return this;
+    }
+
+    public AdminBuilder withOldPassword(String oldPassword) {
+        this.oldPassword = oldPassword;
+        return this;
+    }
+
     public AdminBuilder withName(String name) {
         this.name = name;
         return this;
     }
 
-    public AdminBuilder withLogin(String login) {
-        this.login = login;
+    public AdminBuilder withEmail(String email) {
+        this.email = email;
         return this;
     }
 
@@ -46,19 +56,15 @@ public final class AdminBuilder {
         return this;
     }
 
-    public AdminBuilder withProfile(TypeUsers profile) {
-        this.profile = profile;
-        return this;
-    }
-
     public Admin build() {
         Admin admin = new Admin();
         admin.setProjects(projects);
         admin.setId(id);
-        admin.setName(name);
         admin.setLogin(login);
+        admin.setOldPassword(oldPassword);
+        admin.setName(name);
+        admin.setEmail(email);
         admin.setPassword(password);
-        admin.setProfile(profile);
         return admin;
     }
 }

@@ -10,6 +10,7 @@ public final class ProjectBuilder {
     private String name;
     private String description;
     private LocalDate date;
+    private Boolean visible;
     private Situations situation;
     private Admin admin;
     private List<Recommender> recommenders;
@@ -42,6 +43,11 @@ public final class ProjectBuilder {
         return this;
     }
 
+    public ProjectBuilder withVisible(Boolean visible) {
+        this.visible = visible;
+        return this;
+    }
+
     public ProjectBuilder withSituation(Situations situation) {
         this.situation = situation;
         return this;
@@ -68,6 +74,7 @@ public final class ProjectBuilder {
         project.setName(name);
         project.setDescription(description);
         project.setDate(date);
+        project.setVisible(visible);
         project.setSituation(situation);
         project.setAdmin(admin);
         project.setRecommenders(recommenders);

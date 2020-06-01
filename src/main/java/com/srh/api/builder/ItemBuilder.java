@@ -9,9 +9,9 @@ public final class ItemBuilder {
     private String name;
     private String description;
     private List<Rating> ratings;
-    private Project project;
-    private List<ItemTag> itensTag;
     private List<Recommendation> recommendations;
+    private Project project;
+    private List<Tag> tags;
 
     private ItemBuilder() {
     }
@@ -40,18 +40,18 @@ public final class ItemBuilder {
         return this;
     }
 
+    public ItemBuilder withRecommendations(List<Recommendation> recommendations) {
+        this.recommendations = recommendations;
+        return this;
+    }
+
     public ItemBuilder withProject(Project project) {
         this.project = project;
         return this;
     }
 
-    public ItemBuilder withItensTag(List<ItemTag> itensTag) {
-        this.itensTag = itensTag;
-        return this;
-    }
-
-    public ItemBuilder withRecommendations(List<Recommendation> recommendations) {
-        this.recommendations = recommendations;
+    public ItemBuilder withTags(List<Tag> tags) {
+        this.tags = tags;
         return this;
     }
 
@@ -61,9 +61,9 @@ public final class ItemBuilder {
         item.setName(name);
         item.setDescription(description);
         item.setRatings(ratings);
-        item.setProject(project);
-        item.setItensTag(itensTag);
         item.setRecommendations(recommendations);
+        item.setProject(project);
+        item.setTags(tags);
         return item;
     }
 }

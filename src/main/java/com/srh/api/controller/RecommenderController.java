@@ -1,9 +1,8 @@
 package com.srh.api.controller;
 
-import com.srh.api.dto.resource.UserForm;
 import com.srh.api.dto.resource.RecommenderDto;
+import com.srh.api.dto.resource.RecommenderForm;
 import com.srh.api.hypermedia.RecommenderModelAssembler;
-import com.srh.api.model.TypeUsers;
 import com.srh.api.model.Recommender;
 import com.srh.api.service.RecommenderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,23 +48,23 @@ public class RecommenderController {
     }
 
     @PostMapping
-    public ResponseEntity<EntityModel<RecommenderDto>> create(@RequestBody @Valid UserForm userForm,
+    public ResponseEntity<EntityModel<RecommenderDto>> create(@RequestBody @Valid RecommenderForm recommenderForm,
                                                               UriComponentsBuilder uriBuilder) {
-        Recommender user = (Recommender) userForm.build(TypeUsers.RECOMMENDATION);
-        recommenderService.save(user);
-        URI uri = uriBuilder.path("/users/recommenders/{id}").buildAndExpand(user.getId()).toUri();
+        Recommender recommender = recommenderForm.build();
+        recommenderService.save(recommender);
+        URI uri = uriBuilder.path("/users/recommenders/{id}").buildAndExpand(recommender.getId()).toUri();
         return ResponseEntity.created(uri)
-                .body(recommenderModelAssembler.toModel(new RecommenderDto(user)));
+                .body(recommenderModelAssembler.toModel(new RecommenderDto(recommender)));
     }
 
     @PutMapping("/{id}")
     @Transactional
-    public EntityModel<RecommenderDto> update(@RequestBody @Valid UserForm userForm,
+    public EntityModel<RecommenderDto> update(@RequestBody @Valid RecommenderForm recommenderForm,
                                               @PathVariable Integer id) {
-        Recommender user = (Recommender) userForm.build(TypeUsers.RECOMMENDATION);
-        user.setId(id);
-        user = recommenderService.update(user);
-        return recommenderModelAssembler.toModel(new RecommenderDto(user));
+        Recommender recommender = recommenderForm.build();
+        recommender.setId(id);
+        recommender = recommenderService.update(recommender);
+        return recommenderModelAssembler.toModel(new RecommenderDto(recommender));
     }
 
     @DeleteMapping("/{id}")

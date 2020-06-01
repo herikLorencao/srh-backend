@@ -1,43 +1,48 @@
 package com.srh.api.dto.resource;
 
-import com.srh.api.builder.ApiUserBuilder;
-import com.srh.api.model.ApiUser;
+import com.srh.api.builder.AdminBuilder;
+import com.srh.api.model.Admin;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ApiUserForm {
-    @NotEmpty
+public class AdminForm {
     @NotNull
-    @Length(min = 3)
+    @NotEmpty
     private String name;
 
-    @NotEmpty
     @NotNull
-    @Length(min = 3)
+    @NotEmpty
     private String login;
 
-    @NotEmpty
     @NotNull
+    @NotEmpty
     @Length(min = 6)
     private String password;
 
+    @NotNull
+    @NotEmpty
+    @Email
+    private String email;
+
     private String oldPassword;
 
-    public ApiUser build() {
-        return ApiUserBuilder.anApiUser()
-                .withLogin(login)
+    public Admin build() {
+        return AdminBuilder.anAdmin()
                 .withName(name)
+                .withLogin(login)
+                .withEmail(email)
                 .withPassword(new BCryptPasswordEncoder().encode(password))
-                .withOldPassword(oldPassword)
+                .withOldPassword(password)
                 .build();
     }
 }

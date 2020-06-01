@@ -1,14 +1,14 @@
 package com.srh.api.builder;
 
-import com.srh.api.model.ItemTag;
+import com.srh.api.model.Item;
 import com.srh.api.model.Tag;
 
 import java.util.List;
 
 public final class TagBuilder {
-    protected Integer id;
+    private Integer id;
     private String name;
-    private List<ItemTag> itensTag;
+    private List<Item> itens;
 
     private TagBuilder() {
     }
@@ -17,26 +17,26 @@ public final class TagBuilder {
         return new TagBuilder();
     }
 
-    public TagBuilder withName(String name) {
-        this.name = name;
-        return this;
-    }
-
-    public TagBuilder withItensTag(List<ItemTag> itensTag) {
-        this.itensTag = itensTag;
-        return this;
-    }
-
     public TagBuilder withId(Integer id) {
         this.id = id;
         return this;
     }
 
+    public TagBuilder withName(String name) {
+        this.name = name;
+        return this;
+    }
+
+    public TagBuilder withItens(List<Item> itens) {
+        this.itens = itens;
+        return this;
+    }
+
     public Tag build() {
         Tag tag = new Tag();
-        tag.setName(name);
-        tag.setItensTag(itensTag);
         tag.setId(id);
+        tag.setName(name);
+        tag.setItens(itens);
         return tag;
     }
 }

@@ -1,26 +1,17 @@
 package com.srh.api.dto.resource;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
 import javax.validation.constraints.NotNull;
 
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
 public class ProjectRecommenderForm {
     @NotNull
     private Integer projectId;
     @NotNull
     private Integer recommenderId;
-
-    public ProjectRecommenderForm() {
-    }
-
-    public ProjectRecommenderForm(@NotNull Integer projectId, @NotNull Integer recommenderId) {
-        this.projectId = projectId;
-        this.recommenderId = recommenderId;
-    }
-
-    public Integer getProjectId() {
-        return projectId;
-    }
-
-    public Integer getRecommenderId() {
-        return recommenderId;
-    }
 }
