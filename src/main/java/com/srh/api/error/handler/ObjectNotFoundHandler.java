@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class ObjectNotFoundHandler {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(ObjectNotFoundException.class)
-    public DefaultErrorDto handle() {
+    public DefaultErrorDto handle(Exception exception) {
         return new DefaultErrorDto(
-                "The resource is not found",
-                "The resource not exist in system"
+                "O recurso não foi encontrado",
+                exception.getMessage()
         );
     }
 }

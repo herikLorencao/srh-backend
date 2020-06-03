@@ -2,10 +2,10 @@ package com.srh.api.controller;
 
 import com.srh.api.dto.resource.ProjectDto;
 import com.srh.api.dto.resource.ProjectForm;
-import com.srh.api.error.exception.InvalidSituationException;
 import com.srh.api.hypermedia.ProjectModelAssembler;
 import com.srh.api.model.Project;
 import com.srh.api.service.ProjectService;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -49,8 +49,9 @@ public class ProjectController {
     }
 
     @PostMapping
+    @SneakyThrows
     public ResponseEntity<EntityModel<ProjectDto>> create(@RequestBody @Valid ProjectForm projectForm,
-                                                          UriComponentsBuilder uriBuilder) throws InvalidSituationException {
+                                                          UriComponentsBuilder uriBuilder) {
         Project project = projectForm.build();
         Project projectPersist = projectService.save(project);
         URI uri = uriBuilder.path("/projects/{id}").buildAndExpand(project.getId()).toUri();
@@ -60,8 +61,9 @@ public class ProjectController {
 
     @PutMapping("/{id}")
     @Transactional
+    @SneakyThrows
     public EntityModel<ProjectDto> update(@RequestBody @Valid ProjectForm projectForm,
-                                          @PathVariable Integer id) throws InvalidSituationException {
+                                          @PathVariable Integer id) {
         Project project = projectForm.build();
         project.setId(id);
         project = projectService.update(project);

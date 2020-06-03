@@ -5,6 +5,7 @@ import com.srh.api.dto.resource.AdminForm;
 import com.srh.api.hypermedia.AdminModelAssembler;
 import com.srh.api.model.Admin;
 import com.srh.api.service.AdminService;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -57,11 +58,12 @@ public class AdminController {
     }
 
     @PutMapping("/{id}")
+    @SneakyThrows
     @Transactional
     public EntityModel<AdminDto> update(@RequestBody @Valid AdminForm adminForm, @PathVariable Integer id) {
         Admin admin = adminForm.build();
         admin.setId(id);
-        admin = adminService.update(admin);
+        admin = adminService.update(admin, adminForm.getOldPassword());
         return adminModelAssembler.toModel(new AdminDto(admin));
     }
 

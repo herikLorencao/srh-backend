@@ -2,6 +2,8 @@ package com.srh.api.service;
 
 import com.srh.api.model.Admin;
 import com.srh.api.repository.AdminRepository;
+import com.srh.api.utils.PasswordUtil;
+import lombok.SneakyThrows;
 import org.hibernate.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -14,6 +16,8 @@ import java.util.Optional;
 public class AdminService {
     @Autowired
     private AdminRepository adminRepository;
+
+    private PasswordUtil<Admin> passwordUtil = new PasswordUtil<Admin>();
 
     public Admin find(Integer id) {
         Optional<Admin> admin = adminRepository.findById(id);
@@ -29,11 +33,14 @@ public class AdminService {
     }
 
     public Admin save(Admin admin) {
+        passwordUtil.encodedPasswordForUser(admin);
         return adminRepository.save(admin);
     }
 
-    public Admin update(Admin admin) {
-        find(admin.getId());
+    @SneakyThrows
+    public Admin update(Admin admin, String oldRawPassword) {
+        Admin oldAdmin = find(admin.getId());
+        passwordUtil.verifyPasswordChanges(admin, oldAdmin, oldRawPassword);
         return adminRepository.save(admin);
     }
 

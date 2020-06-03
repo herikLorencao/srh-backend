@@ -6,6 +6,7 @@ import com.srh.api.model.Project;
 import com.srh.api.model.ProjectRecommender;
 import com.srh.api.model.Recommender;
 import com.srh.api.utils.PageUtil;
+import lombok.SneakyThrows;
 import org.hibernate.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -41,7 +42,8 @@ public class ProjectRecommenderService {
         return pageUtil.getPage();
     }
 
-    public ProjectRecommender save(Integer projectId, Integer recommenderId) throws DuplicateValueException {
+    @SneakyThrows
+    public ProjectRecommender save(Integer projectId, Integer recommenderId) {
         Project project = projectService.find(projectId);
         Recommender recommender = recommenderService.find(recommenderId);
 
@@ -52,7 +54,8 @@ public class ProjectRecommenderService {
         return projectRecommender;
     }
 
-    public void delete(Integer projectId, Integer recommenderId) throws RelationshipNotFoundException {
+    @SneakyThrows
+    public void delete(Integer projectId, Integer recommenderId) {
         Project project = projectService.find(projectId);
         Recommender recommender = recommenderService.find(recommenderId);
 

@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class RelationshipNotFoundHandler {
     @ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(RelationshipNotFoundException.class)
-    public DefaultErrorDto handle() {
+    public DefaultErrorDto handle(Exception exception) {
         return new DefaultErrorDto(
-                "The relationship not exist",
-                "Inform a valid relationship"
+                "O relacionamento não existe",
+                exception.getMessage()
         );
     }
 }

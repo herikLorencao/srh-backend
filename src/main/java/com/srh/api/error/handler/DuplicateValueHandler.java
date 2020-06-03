@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class DuplicateValueHandler {
     @ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(DuplicateValueException.class)
-    public DefaultErrorDto handle() {
+    public DefaultErrorDto handle(Exception exception) {
         return new DefaultErrorDto(
-                "The link between resources already exists",
-                "Duplicate values in resources"
+                "O vínculo entre os recursos não existe",
+                exception.getMessage()
         );
     }
 }

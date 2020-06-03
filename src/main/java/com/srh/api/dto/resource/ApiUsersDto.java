@@ -1,7 +1,6 @@
 package com.srh.api.dto.resource;
 
 import com.srh.api.model.ApiUser;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.data.domain.Page;
 import org.springframework.hateoas.server.core.Relation;

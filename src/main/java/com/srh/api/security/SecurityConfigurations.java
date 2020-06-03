@@ -3,6 +3,7 @@ package com.srh.api.security;
 import com.srh.api.repository.ApiUserRepository;
 import com.srh.api.service.AuthService;
 import com.srh.api.service.JWTService;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -30,18 +31,21 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
     private ApiUserRepository APIUserRepository;
 
     @Override
+    @SneakyThrows
     @Bean
-    protected AuthenticationManager authenticationManager() throws Exception {
+    protected AuthenticationManager authenticationManager() {
         return super.authenticationManager();
     }
 
     @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+    @SneakyThrows
+    protected void configure(AuthenticationManagerBuilder auth) {
         auth.userDetailsService(authService).passwordEncoder(new BCryptPasswordEncoder());
     }
 
     @Override
-    protected void configure(HttpSecurity http) throws Exception {
+    @SneakyThrows
+    protected void configure(HttpSecurity http) {
         http.authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/auth").permitAll()
                 .antMatchers("/itens").hasRole("ADMIN")
@@ -57,7 +61,8 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
     }
 
     @Override
-    public void configure(WebSecurity web) throws Exception {
+    @SneakyThrows
+    public void configure(WebSecurity web) {
         web.ignoring()
                 .antMatchers("/**.html", "/v2/api-docs", "/webjars/**", "/configuration/**", "/swagger-resources/**");
     }

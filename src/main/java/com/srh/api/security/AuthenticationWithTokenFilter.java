@@ -4,6 +4,7 @@ import com.srh.api.error.exception.InvalidTokenException;
 import com.srh.api.model.ApiUser;
 import com.srh.api.repository.ApiUserRepository;
 import com.srh.api.service.JWTService;
+import lombok.SneakyThrows;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -27,9 +28,10 @@ public class AuthenticationWithTokenFilter extends OncePerRequestFilter {
     }
 
     @Override
+    @SneakyThrows
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
-                                    FilterChain filterChain) throws ServletException, IOException {
+                                    FilterChain filterChain) {
         String token = extractToken(request);
         boolean isValidToken = jwtService.isValidJWT(token);
 

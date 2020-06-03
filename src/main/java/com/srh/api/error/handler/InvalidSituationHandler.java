@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class InvalidSituationHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(InvalidSituationException.class)
-    public DefaultErrorDto handle() {
+    public DefaultErrorDto handle(Exception exception) {
         return new DefaultErrorDto(
-                "Invalid situation value",
-                "The allowed values are 'O' and 'C'"
+                "Uma situação inválida foi informada",
+                exception.getMessage()
         );
     }
 }

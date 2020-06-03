@@ -3,6 +3,7 @@ package com.srh.api.model;
 import com.srh.api.error.exception.DuplicateValueException;
 import com.srh.api.error.exception.RelationshipNotFoundException;
 import lombok.Data;
+import lombok.SneakyThrows;
 
 import java.util.List;
 
@@ -16,17 +17,20 @@ public class ProjectRecommender {
         this.recommender = recommender;
     }
 
-    public void addEntities() throws DuplicateValueException {
+    @SneakyThrows
+    public void addEntities() {
         addProjectInRecommender();
         addRecommenderInProject();
     }
 
-    public void removeEntities() throws RelationshipNotFoundException {
+    @SneakyThrows
+    public void removeEntities() {
         removeProjectInRecommender();
         removeRecommenderInProject();
     }
 
-    private void addRecommenderInProject() throws DuplicateValueException {
+    @SneakyThrows
+    private void addRecommenderInProject() {
         List<Recommender> recommendersInProject = getRecommenderListInProject();
 
         if (recommendersInProject.contains(recommender))
@@ -35,7 +39,8 @@ public class ProjectRecommender {
         recommendersInProject.add(recommender);
     }
 
-    private void addProjectInRecommender() throws DuplicateValueException {
+    @SneakyThrows
+    private void addProjectInRecommender() {
         List<Project> projectsInRecommender = getProjectListInRecommender();
 
         if (projectsInRecommender.contains(project))
@@ -44,7 +49,8 @@ public class ProjectRecommender {
         projectsInRecommender.add(project);
     }
 
-    private void removeRecommenderInProject() throws RelationshipNotFoundException {
+    @SneakyThrows
+    private void removeRecommenderInProject() {
         List<Recommender> recommendersInProject = getRecommenderListInProject();
 
         if (!recommendersInProject.contains(recommender))
@@ -53,7 +59,8 @@ public class ProjectRecommender {
         recommendersInProject.remove(recommender);
     }
 
-    private void removeProjectInRecommender() throws RelationshipNotFoundException {
+    @SneakyThrows
+    private void removeProjectInRecommender() {
         List<Project> projectsInRecommender = getProjectListInRecommender();
 
         if (!projectsInRecommender.contains(project))

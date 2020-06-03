@@ -3,13 +3,12 @@ package com.srh.api.controller;
 import com.srh.api.dto.resource.ProjectRecommenderDto;
 import com.srh.api.dto.resource.ProjectRecommenderForm;
 import com.srh.api.dto.resource.RecommenderDto;
-import com.srh.api.error.exception.DuplicateValueException;
-import com.srh.api.error.exception.RelationshipNotFoundException;
 import com.srh.api.hypermedia.ProjectRecommenderModelAssembler;
 import com.srh.api.hypermedia.RecommenderModelAssembler;
 import com.srh.api.model.ProjectRecommender;
 import com.srh.api.model.Recommender;
 import com.srh.api.service.ProjectRecommenderService;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -57,9 +56,10 @@ public class ProjectRecommenderController {
     }
 
     @PostMapping
+    @SneakyThrows
     public ResponseEntity<EntityModel<ProjectRecommenderDto>> linkRecommendersToProject(
             @PathVariable Integer projectId, @RequestBody @Valid ProjectRecommenderForm
-            projectRecommenderForm, UriComponentsBuilder uriBuilder) throws DuplicateValueException {
+            projectRecommenderForm, UriComponentsBuilder uriBuilder) {
 
         ProjectRecommender projectRecommender = projectRecommenderService.save(
                 projectRecommenderForm.getProjectId(),
@@ -76,8 +76,9 @@ public class ProjectRecommenderController {
     }
 
     @DeleteMapping("/{recommenderId}")
+    @SneakyThrows
     public ResponseEntity<Void> delete(@PathVariable Integer projectId,
-                                       @PathVariable Integer recommenderId) throws RelationshipNotFoundException {
+                                       @PathVariable Integer recommenderId) {
         projectRecommenderService.delete(projectId, recommenderId);
         return ResponseEntity.noContent().build();
     }
