@@ -14,7 +14,7 @@ public class ConstraintViolationHandler {
     public DefaultErrorDto handle(Exception exception) {
         return new DefaultErrorDto(
                 "Dados inválidos tentaram ser inseridos na base de dados",
-                exception.getMessage()
+                "Veja se campos como login ou outros com validações não possuem problema"
         );
     }
 }
