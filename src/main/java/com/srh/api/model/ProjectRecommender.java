@@ -10,11 +10,11 @@ import java.util.List;
 @Data
 public class ProjectRecommender {
     private Project project;
-    private Recommender recommender;
+    private Evaluator evaluator;
 
-    public ProjectRecommender(Project project, Recommender recommender) {
+    public ProjectRecommender(Project project, Evaluator evaluator) {
         this.project = project;
-        this.recommender = recommender;
+        this.evaluator = evaluator;
     }
 
     @SneakyThrows
@@ -31,12 +31,12 @@ public class ProjectRecommender {
 
     @SneakyThrows
     private void addRecommenderInProject() {
-        List<Recommender> recommendersInProject = getRecommenderListInProject();
+        List<Evaluator> recommendersInProject = getRecommenderListInProject();
 
-        if (recommendersInProject.contains(recommender))
+        if (recommendersInProject.contains(evaluator))
             throw new DuplicateValueException("Recommender link already exists");
 
-        recommendersInProject.add(recommender);
+        recommendersInProject.add(evaluator);
     }
 
     @SneakyThrows
@@ -51,12 +51,12 @@ public class ProjectRecommender {
 
     @SneakyThrows
     private void removeRecommenderInProject() {
-        List<Recommender> recommendersInProject = getRecommenderListInProject();
+        List<Evaluator> recommendersInProject = getRecommenderListInProject();
 
-        if (!recommendersInProject.contains(recommender))
+        if (!recommendersInProject.contains(evaluator))
             throw new RelationshipNotFoundException("Project not exist in Recommender");
 
-        recommendersInProject.remove(recommender);
+        recommendersInProject.remove(evaluator);
     }
 
     @SneakyThrows
@@ -69,11 +69,11 @@ public class ProjectRecommender {
         projectsInRecommender.remove(project);
     }
 
-    private List<Recommender> getRecommenderListInProject() {
-        return project.getRecommenders();
+    private List<Evaluator> getRecommenderListInProject() {
+        return project.getEvaluators();
     }
 
     private List<Project> getProjectListInRecommender() {
-        return recommender.getProjects();
+        return evaluator.getProjects();
     }
 }

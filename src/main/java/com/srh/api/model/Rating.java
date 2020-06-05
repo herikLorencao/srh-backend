@@ -2,22 +2,19 @@ package com.srh.api.model;
 
 import lombok.Data;
 
-import javax.persistence.*;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.MappedSuperclass;
 import java.time.LocalDateTime;
 
-@Entity
+@MappedSuperclass
 @Data
-public class Rating {
+public abstract class Rating {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     private Double score;
     private LocalDateTime date;
-
-    @ManyToOne
-    private Recommender user;
-
-    @ManyToOne
-    private Item item;
 }

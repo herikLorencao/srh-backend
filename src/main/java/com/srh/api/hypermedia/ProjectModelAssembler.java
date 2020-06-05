@@ -1,7 +1,7 @@
 package com.srh.api.hypermedia;
 
 import com.srh.api.controller.ProjectController;
-import com.srh.api.controller.ProjectRecommenderController;
+import com.srh.api.controller.ProjectEvaluatorController;
 import com.srh.api.dto.resource.ProjectDto;
 import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.EntityModel;
@@ -17,7 +17,7 @@ public class ProjectModelAssembler implements RepresentationModelAssembler<Proje
         return new EntityModel<>(projectDto,
                 linkTo(methodOn(ProjectController.class).find(projectDto.getId())).withSelfRel(),
                 linkTo(ProjectController.class).withRel("projects"),
-                linkTo(methodOn(ProjectRecommenderController.class).listRecommendersByProject(
+                linkTo(methodOn(ProjectEvaluatorController.class).listRecommendersByProject(
                         projectDto.getId(), Pageable.unpaged())).withRel("recommenders")
         );
     }

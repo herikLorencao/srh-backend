@@ -1,7 +1,7 @@
 package com.srh.api.dto.resource;
 
-import com.srh.api.builder.RecommenderBuilder;
-import com.srh.api.model.Recommender;
+import com.srh.api.builder.EvaluatorBuilder;
+import com.srh.api.model.Evaluator;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,7 +15,7 @@ import javax.validation.constraints.NotNull;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class RecommenderForm {
+public class EvaluatorForm {
     @NotNull
     @NotEmpty
     private String name;
@@ -36,8 +36,8 @@ public class RecommenderForm {
 
     private String oldPassword;
 
-    public Recommender build() {
-        return RecommenderBuilder.aRecommender()
+    public Evaluator build() {
+        return EvaluatorBuilder.anEvaluator()
                 .withName(name)
                 .withLogin(login)
                 .withPassword(new BCryptPasswordEncoder().encode(password))

@@ -2,7 +2,7 @@ package com.srh.api.builder;
 
 import com.srh.api.model.Item;
 import com.srh.api.model.Recommendation;
-import com.srh.api.model.Recommender;
+import com.srh.api.model.Evaluator;
 import com.srh.api.model.TypeRecommendation;
 
 import java.time.LocalDateTime;
@@ -10,11 +10,10 @@ import java.time.LocalDateTime;
 public final class RecommendationBuilder {
     private Integer id;
     private Double weight;
-    private Double score;
     private LocalDateTime date;
     private Integer runtimeInSeconds;
     private TypeRecommendation typeRecommendation;
-    private Recommender recommender;
+    private Evaluator evaluator;
     private Item item;
 
     private RecommendationBuilder() {
@@ -34,11 +33,6 @@ public final class RecommendationBuilder {
         return this;
     }
 
-    public RecommendationBuilder withScore(Double score) {
-        this.score = score;
-        return this;
-    }
-
     public RecommendationBuilder withDate(LocalDateTime date) {
         this.date = date;
         return this;
@@ -54,8 +48,8 @@ public final class RecommendationBuilder {
         return this;
     }
 
-    public RecommendationBuilder withRecommender(Recommender recommender) {
-        this.recommender = recommender;
+    public RecommendationBuilder withRecommender(Evaluator evaluator) {
+        this.evaluator = evaluator;
         return this;
     }
 
@@ -68,11 +62,10 @@ public final class RecommendationBuilder {
         Recommendation recommendation = new Recommendation();
         recommendation.setId(id);
         recommendation.setWeight(weight);
-        recommendation.setScore(score);
         recommendation.setDate(date);
         recommendation.setRuntimeInSeconds(runtimeInSeconds);
         recommendation.setTypeRecommendation(typeRecommendation);
-        recommendation.setRecommender(recommender);
+        recommendation.setEvaluator(evaluator);
         recommendation.setItem(item);
         return recommendation;
     }

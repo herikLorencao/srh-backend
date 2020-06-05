@@ -11,10 +11,13 @@ import java.util.List;
 @Entity
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class Recommender extends User {
+public class Evaluator extends User {
     @ManyToMany
     private List<Project> projects;
     
     @OneToMany(mappedBy = "user")
-    private List<Rating> ratings;
+    private List<ItemRating> itemRatings;
+
+    @OneToMany(mappedBy = "evaluator")
+    private List<RecommendationRating> recommendationRatings;
 }

@@ -4,6 +4,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Data
@@ -13,7 +14,6 @@ public class Recommendation {
     private Integer id;
 
     private Double weight;
-    private Double score;
     private LocalDateTime date;
     private Integer runtimeInSeconds;
 
@@ -21,8 +21,11 @@ public class Recommendation {
     private TypeRecommendation typeRecommendation;
 
     @ManyToOne
-    private Recommender recommender;
+    private Evaluator evaluator;
 
     @ManyToOne
     private Item item;
+
+    @OneToMany(mappedBy = "recommendation")
+    private List<RecommendationRating> recommendationRatings;
 }

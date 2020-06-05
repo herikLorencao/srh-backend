@@ -16,13 +16,16 @@ public class Item {
     private String description;
 
     @OneToMany(mappedBy = "item")
-    private List<Rating> ratings;
+    private List<ItemRating> itemRatings;
 
     @OneToMany(mappedBy = "item")
     private List<Recommendation> recommendations;
 
     @ManyToOne
     private Project project;
+
+    @ManyToOne
+    private TypeItem typeItem;
 
     @ManyToMany(mappedBy = "itens")
     private List<Tag> tags;

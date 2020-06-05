@@ -3,7 +3,7 @@ package com.srh.api.controller;
 import com.srh.api.dto.resource.RatingDto;
 import com.srh.api.dto.resource.RatingForm;
 import com.srh.api.hypermedia.RatingModelAssembler;
-import com.srh.api.model.Rating;
+import com.srh.api.model.ItemRating;
 import com.srh.api.service.RatingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -37,34 +37,34 @@ public class RatingController {
     @GetMapping
     public PagedModel<EntityModel<RatingDto>> listAll(@PageableDefault(page = 0, size = 5)
                                                               Pageable pageInfo) {
-        Page<Rating> ratings = ratingService.findAll(pageInfo);
+        Page<ItemRating> ratings = ratingService.findAll(pageInfo);
         return pagedResourcesAssembler.toModel(convert(ratings));
     }
 
     @GetMapping("/{id}")
     public EntityModel<RatingDto> find(@PathVariable Integer id) {
-        Rating rating = ratingService.find(id);
-        return ratingModelAssembler.toModel(new RatingDto(rating));
+        ItemRating itemRating = ratingService.find(id);
+        return ratingModelAssembler.toModel(new RatingDto(itemRating));
     }
 
     @PostMapping
     public ResponseEntity<EntityModel<RatingDto>> create(@RequestBody @Valid RatingForm ratingForm,
                                                          UriComponentsBuilder uriBuilder) {
-        Rating rating = ratingForm.build();
-        ratingService.save(rating);
-        URI uri = uriBuilder.path("/ratings/{id}").buildAndExpand(rating.getId()).toUri();
+        ItemRating itemRating = ratingForm.build();
+        ratingService.save(itemRating);
+        URI uri = uriBuilder.path("/ratings/{id}").buildAndExpand(itemRating.getId()).toUri();
         return ResponseEntity.created(uri)
-                .body(ratingModelAssembler.toModel(new RatingDto(rating)));
+                .body(ratingModelAssembler.toModel(new RatingDto(itemRating)));
     }
 
     @PutMapping("/{id}")
     @Transactional
     public EntityModel<RatingDto> update(@RequestBody @Valid RatingForm ratingForm,
                                          @PathVariable Integer id) {
-        Rating rating = ratingForm.build();
-        rating.setId(id);
-        rating = ratingService.update(rating);
-        return ratingModelAssembler.toModel(new RatingDto(rating));
+        ItemRating itemRating = ratingForm.build();
+        itemRating.setId(id);
+        itemRating = ratingService.update(itemRating);
+        return ratingModelAssembler.toModel(new RatingDto(itemRating));
     }
 
     @DeleteMapping("/{id}")

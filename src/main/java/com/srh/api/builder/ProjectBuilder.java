@@ -13,7 +13,7 @@ public final class ProjectBuilder {
     private Boolean visible;
     private Situations situation;
     private Admin admin;
-    private List<Recommender> recommenders;
+    private List<Evaluator> evaluators;
     private List<Item> itens;
 
     private ProjectBuilder() {
@@ -58,8 +58,8 @@ public final class ProjectBuilder {
         return this;
     }
 
-    public ProjectBuilder withRecommenders(List<Recommender> recommenders) {
-        this.recommenders = recommenders;
+    public ProjectBuilder withRecommenders(List<Evaluator> evaluators) {
+        this.evaluators = evaluators;
         return this;
     }
 
@@ -77,7 +77,7 @@ public final class ProjectBuilder {
         project.setVisible(visible);
         project.setSituation(situation);
         project.setAdmin(admin);
-        project.setRecommenders(recommenders);
+        project.setEvaluators(evaluators);
         project.setItens(itens);
         return project;
     }

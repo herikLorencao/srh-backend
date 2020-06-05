@@ -25,7 +25,7 @@ public class Project {
     private Admin admin;
 
     @ManyToMany(mappedBy = "projects")
-    private List<Recommender> recommenders;
+    private List<Evaluator> evaluators;
 
     @OneToMany(mappedBy = "project")
     private List<Item> itens;

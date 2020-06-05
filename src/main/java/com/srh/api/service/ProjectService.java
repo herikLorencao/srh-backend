@@ -4,6 +4,8 @@ import com.srh.api.model.Admin;
 import com.srh.api.model.Project;
 import com.srh.api.repository.ProjectRepository;
 import org.hibernate.ObjectNotFoundException;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

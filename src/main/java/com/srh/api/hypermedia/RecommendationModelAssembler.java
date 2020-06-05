@@ -1,7 +1,7 @@
 package com.srh.api.hypermedia;
 
 import com.srh.api.controller.RecommendationController;
-import com.srh.api.controller.RecommenderController;
+import com.srh.api.controller.EvaluatorController;
 import com.srh.api.dto.resource.RecommendationDto;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.RepresentationModelAssembler;
@@ -17,7 +17,7 @@ public class RecommendationModelAssembler implements RepresentationModelAssemble
         return new EntityModel<>(recommendationDto,
                 linkTo(methodOn(RecommendationController.class).find(recommendationDto.getId())).withSelfRel(),
                 linkTo(RecommendationController.class).withRel("recommendations"),
-                linkTo(methodOn(RecommenderController.class).find(recommendationDto.getUserId()))
+                linkTo(methodOn(EvaluatorController.class).find(recommendationDto.getUserId()))
                         .withRel("recommender")
         );
     }

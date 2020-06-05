@@ -1,6 +1,6 @@
 package com.srh.api.service;
 
-import com.srh.api.model.Recommender;
+import com.srh.api.model.Evaluator;
 import com.srh.api.repository.RecommenderRepository;
 import org.hibernate.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,26 +15,26 @@ public class RecommenderService {
     @Autowired
     private RecommenderRepository recommenderRepository;
 
-    public Recommender find(Integer id) {
-        Optional<Recommender> userRecommendation = recommenderRepository.findById(id);
+    public Evaluator find(Integer id) {
+        Optional<Evaluator> userRecommendation = recommenderRepository.findById(id);
 
         if (userRecommendation.isPresent())
             return userRecommendation.get();
 
-        throw new ObjectNotFoundException(id, Recommender.class.getName());
+        throw new ObjectNotFoundException(id, Evaluator.class.getName());
     }
 
-    public Page<Recommender> findAll(Pageable pageInfo) {
+    public Page<Evaluator> findAll(Pageable pageInfo) {
         return recommenderRepository.findAll(pageInfo);
     }
 
-    public Recommender save(Recommender recommender) {
-        return recommenderRepository.save(recommender);
+    public Evaluator save(Evaluator evaluator) {
+        return recommenderRepository.save(evaluator);
     }
 
-    public Recommender update(Recommender recommender) {
-        find(recommender.getId());
-        return recommenderRepository.save(recommender);
+    public Evaluator update(Evaluator evaluator) {
+        find(evaluator.getId());
+        return recommenderRepository.save(evaluator);
     }
 
     public void delete(Integer id) {

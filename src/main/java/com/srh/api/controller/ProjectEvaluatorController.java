@@ -2,11 +2,11 @@ package com.srh.api.controller;
 
 import com.srh.api.dto.resource.ProjectRecommenderDto;
 import com.srh.api.dto.resource.ProjectRecommenderForm;
-import com.srh.api.dto.resource.RecommenderDto;
+import com.srh.api.dto.resource.EvaluatorDto;
 import com.srh.api.hypermedia.ProjectRecommenderModelAssembler;
 import com.srh.api.hypermedia.RecommenderModelAssembler;
 import com.srh.api.model.ProjectRecommender;
-import com.srh.api.model.Recommender;
+import com.srh.api.model.Evaluator;
 import com.srh.api.service.ProjectRecommenderService;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +25,7 @@ import java.net.URI;
 
 @RestController
 @RequestMapping("/projects/{projectId}/recommenders")
-public class ProjectRecommenderController {
+public class ProjectEvaluatorController {
     @Autowired
     private ProjectRecommenderService projectRecommenderService;
 
@@ -36,23 +36,23 @@ public class ProjectRecommenderController {
     private RecommenderModelAssembler recommenderModelAssembler;
 
     @Autowired
-    private PagedResourcesAssembler<RecommenderDto> recommenderDtoPagedResourcesAssembler;
+    private PagedResourcesAssembler<EvaluatorDto> recommenderDtoPagedResourcesAssembler;
 
     @GetMapping
-    public PagedModel<EntityModel<RecommenderDto>> listRecommendersByProject(
+    public PagedModel<EntityModel<EvaluatorDto>> listRecommendersByProject(
             @PathVariable Integer projectId, @PageableDefault(page = 0, size = 5) Pageable pageInfo) {
-        Page<Recommender> recommendersPage = projectRecommenderService.
+        Page<Evaluator> recommendersPage = projectRecommenderService.
                 listRecommendersByProject(projectId, pageInfo);
-        return recommenderDtoPagedResourcesAssembler.toModel(RecommenderDto
+        return recommenderDtoPagedResourcesAssembler.toModel(EvaluatorDto
                 .convert(recommendersPage));
     }
 
     @GetMapping("/{recommenderId}")
-    public EntityModel<RecommenderDto> findRecommenderInProject(@PathVariable Integer projectId,
-                                                                @PathVariable Integer recommenderId) {
-        Recommender recommender = projectRecommenderService.findRecommenderByProject(projectId,
+    public EntityModel<EvaluatorDto> findRecommenderInProject(@PathVariable Integer projectId,
+                                                              @PathVariable Integer recommenderId) {
+        Evaluator evaluator = projectRecommenderService.findRecommenderByProject(projectId,
                 recommenderId);
-        return recommenderModelAssembler.toModel(new RecommenderDto(recommender));
+        return recommenderModelAssembler.toModel(new EvaluatorDto(evaluator));
     }
 
     @PostMapping
@@ -66,7 +66,7 @@ public class ProjectRecommenderController {
                 projectRecommenderForm.getRecommenderId());
 
         URI uri = uriBuilder.path("/projects/{projectId}/recommenders/{recommenderId}")
-                .buildAndExpand(projectId, projectRecommender.getRecommender().getId())
+                .buildAndExpand(projectId, projectRecommender.getEvaluator().getId())
                 .toUri();
 
         return ResponseEntity.created(uri)

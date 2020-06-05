@@ -12,6 +12,6 @@ public class ProjectRecommenderDto {
 
     public ProjectRecommenderDto(ProjectRecommender projectRecommender) {
         this.projectId = projectRecommender.getProject().getId();
-        this.recommenderId = projectRecommender.getRecommender().getId();
+        this.recommenderId = projectRecommender.getEvaluator().getId();
     }
 }
