@@ -1,9 +1,10 @@
 package com.srh.api.service;
 
 import com.srh.api.model.ApiUser;
-import io.jsonwebtoken.Claims;
+import com.srh.api.utils.UserApiJwtUtil;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,9 @@ public class JWTService {
 
     @Value("${srh.jwt.secret}")
     private String secret;
+
+    @Autowired
+    private UserApiJwtUtil userApiJwtUtil;
 
     public String buildToken(Authentication authentication) {
         ApiUser userLogged = (ApiUser) authentication.getPrincipal();
@@ -35,8 +39,7 @@ public class JWTService {
     }
 
     public Integer getUserId(String token) {
-        Claims claims = Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
-        return Integer.parseInt(claims.getSubject());
+        return userApiJwtUtil.getUserId(token);
     }
 
     private String buildJWT(ApiUser user, Date today, Date expirationDate) {

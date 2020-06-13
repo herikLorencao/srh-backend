@@ -4,6 +4,7 @@ import com.srh.api.model.Item;
 import com.srh.api.model.ItemRating;
 import com.srh.api.model.Evaluator;
 import com.srh.api.repository.RatingRepository;
+import lombok.Setter;
 import org.hibernate.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -13,15 +14,18 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class RatingService {
+public class ItemRatingService {
     @Autowired
     private RatingRepository ratingRepository;
 
     @Autowired
-    private RecommenderService recommenderService;
+    private EvaluatorService evaluatorService;
 
     @Autowired
     private ItemService itemService;
+
+    @Setter
+    private String authorizationHeaderValue;
 
     public ItemRating find(Integer id) {
         Optional<ItemRating> rating = ratingRepository.findById(id);
@@ -41,7 +45,7 @@ public class RatingService {
         Integer itemId = itemRating.getItem().getId();
 
         Item item = itemService.find(itemId);
-        Evaluator evaluator = recommenderService.find(recommenderId);
+        Evaluator evaluator = evaluatorService.find(recommenderId);
 
         itemRating.setItem(item);
         itemRating.setUser(evaluator);
@@ -58,5 +62,4 @@ public class RatingService {
         find(id);
         ratingRepository.deleteById(id);
     }
-
 }

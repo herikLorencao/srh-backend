@@ -40,8 +40,8 @@ public class AdminService {
     @SneakyThrows
     public Admin update(Admin admin, String oldRawPassword) {
         Admin oldAdmin = find(admin.getId());
-        passwordUtil.verifyPasswordChanges(admin, oldAdmin, oldRawPassword);
-        return adminRepository.save(admin);
+        Admin persistAdmin = passwordUtil.verifyPasswordChanges(admin, oldAdmin, oldRawPassword);
+        return adminRepository.save(persistAdmin);
     }
 
     public void delete(Integer id) {

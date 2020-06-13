@@ -4,7 +4,7 @@ import com.srh.api.dto.resource.EvaluatorDto;
 import com.srh.api.dto.resource.EvaluatorForm;
 import com.srh.api.hypermedia.RecommenderModelAssembler;
 import com.srh.api.model.Evaluator;
-import com.srh.api.service.RecommenderService;
+import com.srh.api.service.EvaluatorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -26,7 +26,7 @@ import static com.srh.api.dto.resource.EvaluatorDto.convert;
 @RequestMapping("/users/recommenders")
 public class EvaluatorController {
     @Autowired
-    private RecommenderService recommenderService;
+    private EvaluatorService evaluatorService;
 
     @Autowired
     private RecommenderModelAssembler recommenderModelAssembler;
@@ -37,13 +37,13 @@ public class EvaluatorController {
     @GetMapping
     public PagedModel<EntityModel<EvaluatorDto>> listAll(@PageableDefault(page = 0, size = 5)
                                                                           Pageable pageInfo) {
-        Page<Evaluator> users = recommenderService.findAll(pageInfo);
+        Page<Evaluator> users = evaluatorService.findAll(pageInfo);
         return pagedResourcesAssembler.toModel(convert(users));
     }
 
     @GetMapping("/{id}")
     public EntityModel<EvaluatorDto> find(@PathVariable Integer id) {
-        Evaluator evaluator = recommenderService.find(id);
+        Evaluator evaluator = evaluatorService.find(id);
         return recommenderModelAssembler.toModel(new EvaluatorDto(evaluator));
     }
 
@@ -51,7 +51,7 @@ public class EvaluatorController {
     public ResponseEntity<EntityModel<EvaluatorDto>> create(@RequestBody @Valid EvaluatorForm evaluatorForm,
                                                             UriComponentsBuilder uriBuilder) {
         Evaluator evaluator = evaluatorForm.build();
-        recommenderService.save(evaluator);
+        evaluatorService.save(evaluator);
         URI uri = uriBuilder.path("/users/recommenders/{id}").buildAndExpand(evaluator.getId()).toUri();
         return ResponseEntity.created(uri)
                 .body(recommenderModelAssembler.toModel(new EvaluatorDto(evaluator)));
@@ -63,14 +63,14 @@ public class EvaluatorController {
                                             @PathVariable Integer id) {
         Evaluator evaluator = evaluatorForm.build();
         evaluator.setId(id);
-        evaluator = recommenderService.update(evaluator);
+        evaluator = evaluatorService.update(evaluator, evaluatorForm.getOldPassword());
         return recommenderModelAssembler.toModel(new EvaluatorDto(evaluator));
     }
 
     @DeleteMapping("/{id}")
     @Transactional
     public ResponseEntity<Void> delete(@PathVariable Integer id) {
-        recommenderService.delete(id);
+        evaluatorService.delete(id);
         return ResponseEntity.noContent().build();
     }
 }

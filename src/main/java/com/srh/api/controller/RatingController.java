@@ -4,7 +4,7 @@ import com.srh.api.dto.resource.RatingDto;
 import com.srh.api.dto.resource.RatingForm;
 import com.srh.api.hypermedia.RatingModelAssembler;
 import com.srh.api.model.ItemRating;
-import com.srh.api.service.RatingService;
+import com.srh.api.service.ItemRatingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -26,7 +26,7 @@ import static com.srh.api.dto.resource.RatingDto.convert;
 @RequestMapping("/ratings")
 public class RatingController {
     @Autowired
-    private RatingService ratingService;
+    private ItemRatingService itemRatingService;
 
     @Autowired
     private RatingModelAssembler ratingModelAssembler;
@@ -37,13 +37,13 @@ public class RatingController {
     @GetMapping
     public PagedModel<EntityModel<RatingDto>> listAll(@PageableDefault(page = 0, size = 5)
                                                               Pageable pageInfo) {
-        Page<ItemRating> ratings = ratingService.findAll(pageInfo);
+        Page<ItemRating> ratings = itemRatingService.findAll(pageInfo);
         return pagedResourcesAssembler.toModel(convert(ratings));
     }
 
     @GetMapping("/{id}")
     public EntityModel<RatingDto> find(@PathVariable Integer id) {
-        ItemRating itemRating = ratingService.find(id);
+        ItemRating itemRating = itemRatingService.find(id);
         return ratingModelAssembler.toModel(new RatingDto(itemRating));
     }
 
@@ -51,7 +51,7 @@ public class RatingController {
     public ResponseEntity<EntityModel<RatingDto>> create(@RequestBody @Valid RatingForm ratingForm,
                                                          UriComponentsBuilder uriBuilder) {
         ItemRating itemRating = ratingForm.build();
-        ratingService.save(itemRating);
+        itemRatingService.save(itemRating);
         URI uri = uriBuilder.path("/ratings/{id}").buildAndExpand(itemRating.getId()).toUri();
         return ResponseEntity.created(uri)
                 .body(ratingModelAssembler.toModel(new RatingDto(itemRating)));
@@ -63,14 +63,14 @@ public class RatingController {
                                          @PathVariable Integer id) {
         ItemRating itemRating = ratingForm.build();
         itemRating.setId(id);
-        itemRating = ratingService.update(itemRating);
+        itemRating = itemRatingService.update(itemRating);
         return ratingModelAssembler.toModel(new RatingDto(itemRating));
     }
 
     @DeleteMapping("/{id}")
     @Transactional
     public ResponseEntity<Void> delete(@PathVariable Integer id) {
-        ratingService.delete(id);
+        itemRatingService.delete(id);
         return ResponseEntity.noContent().build();
     }
 }

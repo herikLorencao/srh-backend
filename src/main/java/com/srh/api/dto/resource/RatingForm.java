@@ -23,19 +23,20 @@ public class RatingForm {
     private Integer itemId;
 
     public ItemRating build() {
-        Evaluator evaluator = RecommenderBuilder.aRecommender()
-                .withId(recommenderId)
-                .build();
-
-        Item item = ItemBuilder.anItem()
-                .withId(itemId)
-                .build();
-
-        return RatingBuilder.aRating()
-                .withScore(score)
-                .withUser(evaluator)
-                .withItem(item)
-                .withDate(LocalDateTime.now())
-                .build();
+//        Evaluator evaluator = Eval
+//                .withId(recommenderId)
+//                .build();
+//
+//        Item item = ItemBuilder.anItem()
+//                .withId(itemId)
+//                .build();
+//
+//        return RatingBuilder.aRating()
+//                .withScore(score)
+//                .withUser(evaluator)
+//                .withItem(item)
+//                .withDate(LocalDateTime.now())
+//                .build();
+        return null;
     }
 }

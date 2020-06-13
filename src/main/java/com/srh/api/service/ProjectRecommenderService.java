@@ -19,11 +19,11 @@ public class ProjectRecommenderService {
     private ProjectService projectService;
 
     @Autowired
-    private RecommenderService recommenderService;
+    private EvaluatorService evaluatorService;
 
     public Evaluator findRecommenderByProject(Integer projectId, Integer recommenderId) {
         Project project = projectService.find(projectId);
-        Evaluator evaluator = recommenderService.find(recommenderId);
+        Evaluator evaluator = evaluatorService.find(recommenderId);
 
         if (project.getEvaluators().contains(evaluator)) {
             return evaluator;
@@ -43,7 +43,7 @@ public class ProjectRecommenderService {
     @SneakyThrows
     public ProjectRecommender save(Integer projectId, Integer recommenderId) {
         Project project = projectService.find(projectId);
-        Evaluator evaluator = recommenderService.find(recommenderId);
+        Evaluator evaluator = evaluatorService.find(recommenderId);
 
         ProjectRecommender projectRecommender = new ProjectRecommender(project, evaluator);
         projectRecommender.addEntities();
@@ -55,7 +55,7 @@ public class ProjectRecommenderService {
     @SneakyThrows
     public void delete(Integer projectId, Integer recommenderId) {
         Project project = projectService.find(projectId);
-        Evaluator evaluator = recommenderService.find(recommenderId);
+        Evaluator evaluator = evaluatorService.find(recommenderId);
 
         ProjectRecommender projectRecommender = new ProjectRecommender(project, evaluator);
         projectRecommender.removeEntities();
@@ -64,6 +64,6 @@ public class ProjectRecommenderService {
 
     private void persistEntities(ProjectRecommender projectRecommender) {
         projectService.save(projectRecommender.getProject());
-        recommenderService.save(projectRecommender.getEvaluator());
+        evaluatorService.save(projectRecommender.getEvaluator());
     }
 }
