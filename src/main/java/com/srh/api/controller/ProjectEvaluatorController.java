@@ -1,7 +1,7 @@
 package com.srh.api.controller;
 
-import com.srh.api.dto.resource.ProjectRecommenderDto;
-import com.srh.api.dto.resource.ProjectRecommenderForm;
+import com.srh.api.dto.resource.ProjectEvaluatorDto;
+import com.srh.api.dto.resource.ProjectEvaluatorForm;
 import com.srh.api.dto.resource.EvaluatorDto;
 import com.srh.api.hypermedia.ProjectRecommenderModelAssembler;
 import com.srh.api.hypermedia.RecommenderModelAssembler;
@@ -57,8 +57,8 @@ public class ProjectEvaluatorController {
 
     @PostMapping
     @SneakyThrows
-    public ResponseEntity<EntityModel<ProjectRecommenderDto>> linkRecommendersToProject(
-            @PathVariable Integer projectId, @RequestBody @Valid ProjectRecommenderForm
+    public ResponseEntity<EntityModel<ProjectEvaluatorDto>> linkRecommendersToProject(
+            @PathVariable Integer projectId, @RequestBody @Valid ProjectEvaluatorForm
             projectRecommenderForm, UriComponentsBuilder uriBuilder) {
 
         ProjectRecommender projectRecommender = projectRecommenderService.save(
@@ -71,7 +71,7 @@ public class ProjectEvaluatorController {
 
         return ResponseEntity.created(uri)
                 .body(projectRecommenderModelAssembler.toModel(
-                        new ProjectRecommenderDto(projectRecommender)
+                        new ProjectEvaluatorDto(projectRecommender)
                 ));
     }
 

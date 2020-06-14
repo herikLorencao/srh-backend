@@ -12,7 +12,7 @@ public abstract class User {
     private Integer id;
 
     @Column(unique = true)
-    private String login;
+    protected String login;
 
     @Transient
     private String oldPassword;

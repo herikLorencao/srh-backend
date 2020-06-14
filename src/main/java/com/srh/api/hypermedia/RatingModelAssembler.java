@@ -11,9 +11,9 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 @Component
 public class RatingModelAssembler implements RepresentationModelAssembler<RatingDto, EntityModel<RatingDto>> {
     @Override
-    public EntityModel<RatingDto> toModel(RatingDto ratingDto) {
-        return new EntityModel<>(ratingDto,
-                linkTo(methodOn(RatingController.class).find(ratingDto.getId())).withSelfRel(),
+    public EntityModel<RatingDto> toModel(RatingDto itemRatingDto) {
+        return new EntityModel<>(itemRatingDto,
+                linkTo(methodOn(RatingController.class).find(itemRatingDto.getId())).withSelfRel(),
                 linkTo(RatingController.class).withRel("ratings")
         );
     }

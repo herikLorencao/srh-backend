@@ -24,6 +24,10 @@ public class ItemForm {
     @Length(min = 3)
     private String description;
 
+    @NotNull
+    @NotEmpty
+    private String attributes;
+
     public Item build() {
         return ItemBuilder.anItem()
                 .withName(name)

@@ -3,7 +3,6 @@ package com.srh.api.model;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.util.HashMap;
 import java.util.List;
 
 @Entity
@@ -14,7 +13,7 @@ public class TypeItem {
     private Integer id;
 
     private String name;
-    private HashMap<String, String> attributes;
+    private List<String> requiredAttributes;
 
     @OneToMany(mappedBy = "typeItem")
     private List<Item> itens;

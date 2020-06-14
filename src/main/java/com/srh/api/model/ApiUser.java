@@ -15,10 +15,6 @@ import java.util.List;
 public class ApiUser extends User implements UserDetails {
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Profile> profiles;
-
-    @OneToOne
-    private Layout layout;
-
     private boolean isAdmin;
 
     @Override

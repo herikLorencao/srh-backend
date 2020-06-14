@@ -9,7 +9,7 @@ import javax.validation.constraints.NotNull;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProjectRecommenderForm {
+public class ProjectEvaluatorForm {
     @NotNull
     private Integer projectId;
     @NotNull

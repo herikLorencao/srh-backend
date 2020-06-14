@@ -17,7 +17,7 @@ public class ProjectDto {
     private final String description;
     private Situations situation;
     private final LocalDate date;
-    private final Admin admin;
+    private final Boolean visible;
 
     public ProjectDto(Project project) {
         this.id = project.getId();
@@ -25,7 +25,7 @@ public class ProjectDto {
         this.description = project.getDescription();
         this.date = project.getDate();
         this.situation = project.getSituation();
-        this.admin = project.getAdmin();
+        this.visible = project.getVisible();
     }
 
     public static Page<ProjectDto> convert(Page<Project> projects) {

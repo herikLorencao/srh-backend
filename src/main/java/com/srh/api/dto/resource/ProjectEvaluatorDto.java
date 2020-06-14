@@ -6,11 +6,11 @@ import org.springframework.hateoas.server.core.Relation;
 
 @Getter
 @Relation(collectionRelation = "relationship")
-public class ProjectRecommenderDto {
+public class ProjectEvaluatorDto {
     private final Integer projectId;
     private final Integer recommenderId;
 
-    public ProjectRecommenderDto(ProjectRecommender projectRecommender) {
+    public ProjectEvaluatorDto(ProjectRecommender projectRecommender) {
         this.projectId = projectRecommender.getProject().getId();
         this.recommenderId = projectRecommender.getEvaluator().getId();
     }
