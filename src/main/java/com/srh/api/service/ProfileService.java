@@ -4,10 +4,10 @@ import com.srh.api.model.Profile;
 import com.srh.api.repository.ProfileRepository;
 import org.hibernate.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -15,23 +15,30 @@ public class ProfileService {
     @Autowired
     private ProfileRepository profileRepository;
 
-    public Profile findByName(String name) {
-        Optional<Profile> profile = profileRepository.findByName(name);
+    public Profile find(Integer id) {
+        Optional<Profile> profile = profileRepository.findById(id);
 
         if (profile.isPresent())
             return profile.get();
 
-        throw new ObjectNotFoundException(name, Profile.class.getName());
+        throw new ObjectNotFoundException(id, Profile.class.getName());
     }
 
-    public List<Profile> generateProfileList(boolean isAdmin) {
-        List<Profile> profiles = new ArrayList<>();
-        profiles.add(findByName("ROLE_USER"));
+    public Page<Profile> findAll(Pageable pageInfo) {
+        return profileRepository.findAll(pageInfo);
+    }
 
-        if (isAdmin) {
-            profiles.add(findByName("ROLE_ADMIN"));
-        }
+    public Profile save(Profile profile) {
+        return profileRepository.save(profile);
+    }
 
-        return profiles;
+    public Profile update(Profile profile) {
+        find(profile.getId());
+        return profileRepository.save(profile);
+    }
+
+    public void delete(Integer id) {
+        find(id);
+        profileRepository.deleteById(id);
     }
 }

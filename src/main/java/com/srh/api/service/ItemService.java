@@ -42,8 +42,7 @@ public class ItemService {
         find(item.getId());
 
         if (!itemProjectIsOpenAndVisible(item))
-            throw new ProjectNotOpenedException("O projeto está fechado ou com a visibilidade " +
-                    "desativada");
+            throw new ProjectNotOpenedException("The project is closed or invisible");
 
         return itemRepository.save(item);
     }

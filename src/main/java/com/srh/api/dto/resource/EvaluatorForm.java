@@ -1,5 +1,6 @@
 package com.srh.api.dto.resource;
 
+import com.srh.api.builder.EvaluatorBuilder;
 import com.srh.api.model.Evaluator;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -39,7 +40,7 @@ public class EvaluatorForm {
         return EvaluatorBuilder.anEvaluator()
                 .withName(name)
                 .withLogin(login)
-                .withPassword(new BCryptPasswordEncoder().encode(password))
+                .withPassword(password)
                 .withOldPassword(oldPassword)
                 .withEmail(email)
                 .build();

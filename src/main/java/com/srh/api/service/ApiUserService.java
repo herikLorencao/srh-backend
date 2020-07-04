@@ -2,7 +2,7 @@ package com.srh.api.service;
 
 import com.srh.api.model.ApiUser;
 import com.srh.api.repository.ApiUserRepository;
-import com.srh.api.repository.ProfileRepository;
+import com.srh.api.utils.PasswordUtil;
 import org.hibernate.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -15,6 +15,8 @@ import java.util.Optional;
 public class ApiUserService {
     @Autowired
     private ApiUserRepository apiUserRepository;
+
+    private PasswordUtil<ApiUser> passwordUtil = new PasswordUtil<>();
 
     public ApiUser find(Integer id) {
         Optional<ApiUser> userApi = apiUserRepository.findById(id);
@@ -30,12 +32,14 @@ public class ApiUserService {
     }
 
     public ApiUser save(ApiUser apiUser) {
-        return apiUserRepository.save(apiUser);
+        ApiUser apiUserEncoded = passwordUtil.encodedPasswordForUser(apiUser);
+        return apiUserRepository.save(apiUserEncoded);
     }
 
-    public ApiUser update(ApiUser apiUser) {
-        find(apiUser.getId());
-        return apiUserRepository.save(apiUser);
+    public ApiUser update(ApiUser apiUser, String oldPasswordRaw) {
+        ApiUser oldApiUser = find(apiUser.getId());
+        ApiUser persistApiUser = passwordUtil.verifyPasswordChanges(apiUser, oldApiUser, oldPasswordRaw);
+        return apiUserRepository.save(persistApiUser);
     }
 
     public void delete(Integer id) {

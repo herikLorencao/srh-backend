@@ -33,8 +33,8 @@ public class AdminService {
     }
 
     public Admin save(Admin admin) {
-        passwordUtil.encodedPasswordForUser(admin);
-        return adminRepository.save(admin);
+        Admin adminEncoded = passwordUtil.encodedPasswordForUser(admin);
+        return adminRepository.save(adminEncoded);
     }
 
     @SneakyThrows
