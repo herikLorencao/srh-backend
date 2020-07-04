@@ -15,12 +15,11 @@ public class Item {
 
     private String name;
     private String description;
-    private HashMap<String, String> attributes;
 
-    @OneToMany(mappedBy = "item")
+    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ItemRating> itemRatings;
 
-    @OneToMany(mappedBy = "item")
+    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Recommendation> recommendations;
 
     @ManyToOne
@@ -31,4 +30,7 @@ public class Item {
 
     @ManyToMany(mappedBy = "itens")
     private List<Tag> tags;
+
+    @ManyToMany
+    private List<Attribute> attributes;
 }

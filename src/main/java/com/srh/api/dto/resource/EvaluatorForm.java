@@ -1,6 +1,5 @@
 package com.srh.api.dto.resource;
 
-import com.srh.api.builder.EvaluatorBuilder;
 import com.srh.api.model.Evaluator;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

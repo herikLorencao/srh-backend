@@ -1,6 +1,5 @@
 package com.srh.api.dto.resource;
 
-import com.srh.api.builder.AdminBuilder;
 import com.srh.api.model.Admin;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

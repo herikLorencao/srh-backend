@@ -1,7 +1,7 @@
 package com.srh.api.service;
 
 import com.srh.api.model.Project;
-import com.srh.api.model.ProjectRecommender;
+import com.srh.api.model.ProjectEvaluator;
 import com.srh.api.model.Evaluator;
 import com.srh.api.utils.PageUtil;
 import lombok.SneakyThrows;
@@ -41,15 +41,15 @@ public class ProjectRecommenderService {
     }
 
     @SneakyThrows
-    public ProjectRecommender save(Integer projectId, Integer recommenderId) {
+    public ProjectEvaluator save(Integer projectId, Integer recommenderId) {
         Project project = projectService.find(projectId);
         Evaluator evaluator = evaluatorService.find(recommenderId);
 
-        ProjectRecommender projectRecommender = new ProjectRecommender(project, evaluator);
-        projectRecommender.addEntities();
-        persistEntities(projectRecommender);
+        ProjectEvaluator projectEvaluator = new ProjectEvaluator(project, evaluator);
+        projectEvaluator.addEntities();
+        persistEntities(projectEvaluator);
 
-        return projectRecommender;
+        return projectEvaluator;
     }
 
     @SneakyThrows
@@ -57,13 +57,13 @@ public class ProjectRecommenderService {
         Project project = projectService.find(projectId);
         Evaluator evaluator = evaluatorService.find(recommenderId);
 
-        ProjectRecommender projectRecommender = new ProjectRecommender(project, evaluator);
-        projectRecommender.removeEntities();
-        persistEntities(projectRecommender);
+        ProjectEvaluator projectEvaluator = new ProjectEvaluator(project, evaluator);
+        projectEvaluator.removeEntities();
+        persistEntities(projectEvaluator);
     }
 
-    private void persistEntities(ProjectRecommender projectRecommender) {
-        projectService.save(projectRecommender.getProject());
-        evaluatorService.save(projectRecommender.getEvaluator());
+    private void persistEntities(ProjectEvaluator projectEvaluator) {
+        projectService.save(projectEvaluator.getProject());
+        evaluatorService.save(projectEvaluator.getEvaluator());
     }
 }

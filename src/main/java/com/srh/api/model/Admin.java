@@ -3,6 +3,7 @@ package com.srh.api.model;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import java.util.List;
@@ -11,6 +12,6 @@ import java.util.List;
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class Admin extends User {
-    @OneToMany(mappedBy = "admin")
+    @OneToMany(mappedBy = "admin", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Project> projects;
 }

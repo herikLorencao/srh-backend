@@ -7,16 +7,18 @@ import java.util.List;
 
 @Entity
 @Data
-public class TypeItem {
+public class Attribute {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     private String name;
+    private String value;
+    private TypeAttribute type;
 
-    @OneToMany(mappedBy = "typeItem")
+    @ManyToMany
     private List<Item> itens;
 
     @ManyToMany
-    private List<Attribute> attributes;
+    private List<TypeItem> typeItens;
 }

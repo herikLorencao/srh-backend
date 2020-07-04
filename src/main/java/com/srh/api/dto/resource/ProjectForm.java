@@ -1,7 +1,5 @@
 package com.srh.api.dto.resource;
 
-import com.srh.api.builder.AdminBuilder;
-import com.srh.api.builder.ProjectBuilder;
 import com.srh.api.model.Admin;
 import com.srh.api.model.Project;
 import com.srh.api.model.Situations;

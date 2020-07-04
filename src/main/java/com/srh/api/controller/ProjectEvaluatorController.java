@@ -5,7 +5,7 @@ import com.srh.api.dto.resource.ProjectEvaluatorForm;
 import com.srh.api.dto.resource.EvaluatorDto;
 import com.srh.api.hypermedia.ProjectRecommenderModelAssembler;
 import com.srh.api.hypermedia.RecommenderModelAssembler;
-import com.srh.api.model.ProjectRecommender;
+import com.srh.api.model.ProjectEvaluator;
 import com.srh.api.model.Evaluator;
 import com.srh.api.service.ProjectRecommenderService;
 import lombok.SneakyThrows;
@@ -61,17 +61,17 @@ public class ProjectEvaluatorController {
             @PathVariable Integer projectId, @RequestBody @Valid ProjectEvaluatorForm
             projectRecommenderForm, UriComponentsBuilder uriBuilder) {
 
-        ProjectRecommender projectRecommender = projectRecommenderService.save(
+        ProjectEvaluator projectEvaluator = projectRecommenderService.save(
                 projectRecommenderForm.getProjectId(),
                 projectRecommenderForm.getRecommenderId());
 
         URI uri = uriBuilder.path("/projects/{projectId}/recommenders/{recommenderId}")
-                .buildAndExpand(projectId, projectRecommender.getEvaluator().getId())
+                .buildAndExpand(projectId, projectEvaluator.getEvaluator().getId())
                 .toUri();
 
         return ResponseEntity.created(uri)
                 .body(projectRecommenderModelAssembler.toModel(
-                        new ProjectEvaluatorDto(projectRecommender)
+                        new ProjectEvaluatorDto(projectEvaluator)
                 ));
     }
 

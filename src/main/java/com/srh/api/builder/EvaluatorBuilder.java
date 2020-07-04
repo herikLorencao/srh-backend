@@ -1,17 +1,17 @@
 package com.srh.api.builder;
 
-import com.srh.api.model.Evaluator;
-import com.srh.api.model.Project;
-import com.srh.api.model.ItemRating;
+import com.srh.api.model.*;
 
 import java.util.List;
 
 public final class EvaluatorBuilder {
+    protected String login;
     protected String password;
     private List<Project> projects;
+    private List<Recommendation> recommendations;
     private List<ItemRating> itemRatings;
+    private List<RecommendationRating> recommendationRatings;
     private Integer id;
-    private String login;
     private String oldPassword;
     private String name;
     private String email;
@@ -28,8 +28,18 @@ public final class EvaluatorBuilder {
         return this;
     }
 
-    public EvaluatorBuilder withRatings(List<ItemRating> itemRatings) {
+    public EvaluatorBuilder withRecommendations(List<Recommendation> recommendations) {
+        this.recommendations = recommendations;
+        return this;
+    }
+
+    public EvaluatorBuilder withItemRatings(List<ItemRating> itemRatings) {
         this.itemRatings = itemRatings;
+        return this;
+    }
+
+    public EvaluatorBuilder withRecommendationRatings(List<RecommendationRating> recommendationRatings) {
+        this.recommendationRatings = recommendationRatings;
         return this;
     }
 
@@ -66,7 +76,9 @@ public final class EvaluatorBuilder {
     public Evaluator build() {
         Evaluator evaluator = new Evaluator();
         evaluator.setProjects(projects);
+        evaluator.setRecommendations(recommendations);
         evaluator.setItemRatings(itemRatings);
+        evaluator.setRecommendationRatings(recommendationRatings);
         evaluator.setId(id);
         evaluator.setLogin(login);
         evaluator.setOldPassword(oldPassword);

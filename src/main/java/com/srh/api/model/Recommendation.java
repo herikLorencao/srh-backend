@@ -17,8 +17,8 @@ public class Recommendation {
     private LocalDateTime date;
     private Integer runtimeInSeconds;
 
-    @Enumerated(EnumType.STRING)
-    private TypeRecommendation typeRecommendation;
+    @ManyToOne
+    private Algorithm algorithm;
 
     @ManyToOne
     private Evaluator evaluator;

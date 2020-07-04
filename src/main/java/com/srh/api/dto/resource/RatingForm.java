@@ -1,15 +1,11 @@
 package com.srh.api.dto.resource;
 
-import com.srh.api.builder.ItemBuilder;
-import com.srh.api.model.Item;
 import com.srh.api.model.ItemRating;
-import com.srh.api.model.Evaluator;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotNull;
-import java.time.LocalDateTime;
 
 @Getter
 @AllArgsConstructor

@@ -1,6 +1,5 @@
 package com.srh.api.dto.resource;
 
-import com.srh.api.builder.TagBuilder;
 import com.srh.api.model.Tag;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -13,6 +13,7 @@ public final class ItemBuilder {
     private Project project;
     private TypeItem typeItem;
     private List<Tag> tags;
+    private List<Attribute> attributes;
 
     private ItemBuilder() {
     }
@@ -36,7 +37,7 @@ public final class ItemBuilder {
         return this;
     }
 
-    public ItemBuilder withRatings(List<ItemRating> itemRatings) {
+    public ItemBuilder withItemRatings(List<ItemRating> itemRatings) {
         this.itemRatings = itemRatings;
         return this;
     }
@@ -61,6 +62,11 @@ public final class ItemBuilder {
         return this;
     }
 
+    public ItemBuilder withAttributes(List<Attribute> attributes) {
+        this.attributes = attributes;
+        return this;
+    }
+
     public Item build() {
         Item item = new Item();
         item.setId(id);
@@ -71,6 +77,7 @@ public final class ItemBuilder {
         item.setProject(project);
         item.setTypeItem(typeItem);
         item.setTags(tags);
+        item.setAttributes(attributes);
         return item;
     }
 }

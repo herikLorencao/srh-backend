@@ -7,17 +7,27 @@ import com.srh.api.model.ItemRating;
 import java.time.LocalDateTime;
 
 public final class ItemRatingBuilder {
+    private Evaluator evaluator;
+    private Item item;
     private Integer id;
     private Double score;
     private LocalDateTime date;
-    private Evaluator user;
-    private Item item;
 
     private ItemRatingBuilder() {
     }
 
     public static ItemRatingBuilder anItemRating() {
         return new ItemRatingBuilder();
+    }
+
+    public ItemRatingBuilder withEvaluator(Evaluator evaluator) {
+        this.evaluator = evaluator;
+        return this;
+    }
+
+    public ItemRatingBuilder withItem(Item item) {
+        this.item = item;
+        return this;
     }
 
     public ItemRatingBuilder withId(Integer id) {
@@ -35,23 +45,13 @@ public final class ItemRatingBuilder {
         return this;
     }
 
-    public ItemRatingBuilder withUser(Evaluator user) {
-        this.user = user;
-        return this;
-    }
-
-    public ItemRatingBuilder withItem(Item item) {
-        this.item = item;
-        return this;
-    }
-
     public ItemRating build() {
         ItemRating itemRating = new ItemRating();
+        itemRating.setEvaluator(evaluator);
+        itemRating.setItem(item);
         itemRating.setId(id);
         itemRating.setScore(score);
         itemRating.setDate(date);
-        itemRating.setUser(user);
-        itemRating.setItem(item);
         return itemRating;
     }
 }
