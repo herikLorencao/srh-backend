@@ -7,7 +7,7 @@ import com.srh.api.hypermedia.ProjectRecommenderModelAssembler;
 import com.srh.api.hypermedia.RecommenderModelAssembler;
 import com.srh.api.model.ProjectEvaluator;
 import com.srh.api.model.Evaluator;
-import com.srh.api.service.ProjectRecommenderService;
+import com.srh.api.service.ProjectEvaluatorService;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -27,7 +27,7 @@ import java.net.URI;
 @RequestMapping("/projects/{projectId}/recommenders")
 public class ProjectEvaluatorController {
     @Autowired
-    private ProjectRecommenderService projectRecommenderService;
+    private ProjectEvaluatorService projectEvaluatorService;
 
     @Autowired
     private ProjectRecommenderModelAssembler projectRecommenderModelAssembler;
@@ -41,8 +41,8 @@ public class ProjectEvaluatorController {
     @GetMapping
     public PagedModel<EntityModel<EvaluatorDto>> listRecommendersByProject(
             @PathVariable Integer projectId, @PageableDefault(page = 0, size = 5) Pageable pageInfo) {
-        Page<Evaluator> recommendersPage = projectRecommenderService.
-                listRecommendersByProject(projectId, pageInfo);
+        Page<Evaluator> recommendersPage = projectEvaluatorService.
+                listEvaluatorsByProject(projectId, pageInfo);
         return recommenderDtoPagedResourcesAssembler.toModel(EvaluatorDto
                 .convert(recommendersPage));
     }
@@ -50,7 +50,7 @@ public class ProjectEvaluatorController {
     @GetMapping("/{recommenderId}")
     public EntityModel<EvaluatorDto> findRecommenderInProject(@PathVariable Integer projectId,
                                                               @PathVariable Integer recommenderId) {
-        Evaluator evaluator = projectRecommenderService.findRecommenderByProject(projectId,
+        Evaluator evaluator = projectEvaluatorService.findEvaluatorByProject(projectId,
                 recommenderId);
         return recommenderModelAssembler.toModel(new EvaluatorDto(evaluator));
     }
@@ -61,7 +61,7 @@ public class ProjectEvaluatorController {
             @PathVariable Integer projectId, @RequestBody @Valid ProjectEvaluatorForm
             projectRecommenderForm, UriComponentsBuilder uriBuilder) {
 
-        ProjectEvaluator projectEvaluator = projectRecommenderService.save(
+        ProjectEvaluator projectEvaluator = projectEvaluatorService.save(
                 projectRecommenderForm.getProjectId(),
                 projectRecommenderForm.getRecommenderId());
 
@@ -79,7 +79,7 @@ public class ProjectEvaluatorController {
     @SneakyThrows
     public ResponseEntity<Void> delete(@PathVariable Integer projectId,
                                        @PathVariable Integer recommenderId) {
-        projectRecommenderService.delete(projectId, recommenderId);
+        projectEvaluatorService.delete(projectId, recommenderId);
         return ResponseEntity.noContent().build();
     }
 }

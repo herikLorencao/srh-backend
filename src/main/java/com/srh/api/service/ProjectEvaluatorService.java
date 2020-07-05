@@ -14,25 +14,25 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class ProjectRecommenderService {
+public class ProjectEvaluatorService {
     @Autowired
     private ProjectService projectService;
 
     @Autowired
     private EvaluatorService evaluatorService;
 
-    public Evaluator findRecommenderByProject(Integer projectId, Integer recommenderId) {
+    public Evaluator findEvaluatorByProject(Integer projectId, Integer evaluatorId) {
         Project project = projectService.find(projectId);
-        Evaluator evaluator = evaluatorService.find(recommenderId);
+        Evaluator evaluator = evaluatorService.find(evaluatorId);
 
         if (project.getEvaluators().contains(evaluator)) {
             return evaluator;
         }
 
-        throw new ObjectNotFoundException(recommenderId, Evaluator.class.getName());
+        throw new ObjectNotFoundException(evaluatorId, Evaluator.class.getName());
     }
 
-    public Page<Evaluator> listRecommendersByProject(Integer projectId, Pageable pageInfo) {
+    public Page<Evaluator> listEvaluatorsByProject(Integer projectId, Pageable pageInfo) {
         Project project = projectService.find(projectId);
         List<Evaluator> evaluatorList = project.getEvaluators();
 
@@ -41,9 +41,9 @@ public class ProjectRecommenderService {
     }
 
     @SneakyThrows
-    public ProjectEvaluator save(Integer projectId, Integer recommenderId) {
+    public ProjectEvaluator save(Integer projectId, Integer evaluatorId) {
         Project project = projectService.find(projectId);
-        Evaluator evaluator = evaluatorService.find(recommenderId);
+        Evaluator evaluator = evaluatorService.find(evaluatorId);
 
         ProjectEvaluator projectEvaluator = new ProjectEvaluator(project, evaluator);
         projectEvaluator.addEntities();
@@ -53,9 +53,9 @@ public class ProjectRecommenderService {
     }
 
     @SneakyThrows
-    public void delete(Integer projectId, Integer recommenderId) {
+    public void delete(Integer projectId, Integer evaluatorId) {
         Project project = projectService.find(projectId);
-        Evaluator evaluator = evaluatorService.find(recommenderId);
+        Evaluator evaluator = evaluatorService.find(evaluatorId);
 
         ProjectEvaluator projectEvaluator = new ProjectEvaluator(project, evaluator);
         projectEvaluator.removeEntities();
