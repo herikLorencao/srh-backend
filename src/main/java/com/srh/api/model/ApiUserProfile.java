@@ -2,10 +2,12 @@ package com.srh.api.model;
 
 import com.srh.api.error.exception.DuplicateValueException;
 import com.srh.api.error.exception.RelationshipNotFoundException;
+import lombok.Data;
 import lombok.SneakyThrows;
 
 import java.util.List;
 
+@Data
 public class ApiUserProfile {
     private ApiUser apiUser;
     private Profile profile;

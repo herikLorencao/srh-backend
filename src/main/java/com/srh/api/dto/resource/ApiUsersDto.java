@@ -11,13 +11,11 @@ public class ApiUsersDto {
     private final Integer id;
     private final String name;
     private final String login;
-    private final boolean isAdmin;
 
     public ApiUsersDto(ApiUser apiUser) {
         this.id = apiUser.getId();
         this.name = apiUser.getName();
         this.login = apiUser.getLogin();
-        this.isAdmin = apiUser.isAdmin();
     }
 
     public static Page<ApiUsersDto> convert(Page<ApiUser> users) {

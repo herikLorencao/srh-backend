@@ -19,13 +19,13 @@ public class ProjectRecommenderModelAssembler implements RepresentationModelAsse
         return new EntityModel<>(projectRecommender,
                 linkTo(methodOn(ProjectEvaluatorController.class).
                         findRecommenderInProject(projectRecommender.getProjectId(),
-                                projectRecommender.getRecommenderId())).withSelfRel(),
+                                projectRecommender.getEvaluatorId())).withSelfRel(),
                 linkTo(methodOn(ProjectEvaluatorController.class).
                         listRecommendersByProject(projectRecommender.getProjectId(), Pageable.unpaged()))
                         .withRel("recommendersInProject"),
                 linkTo(methodOn(ProjectController.class).find(projectRecommender.getProjectId()))
                         .withRel("project"),
-                linkTo(methodOn(EvaluatorController.class).find(projectRecommender.getRecommenderId()))
+                linkTo(methodOn(EvaluatorController.class).find(projectRecommender.getEvaluatorId()))
                         .withRel("recommender")
         );
     }

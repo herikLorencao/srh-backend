@@ -4,13 +4,11 @@ import com.srh.api.model.ItemRating;
 import com.srh.api.model.Rating;
 import lombok.Getter;
 import org.springframework.data.domain.Page;
-import org.springframework.hateoas.server.core.Relation;
 
 import java.time.LocalDateTime;
 
 @Getter
-@Relation(collectionRelation = "ratings")
-public class RatingDto{
+public class RatingDto {
     private final Integer id;
     private final Double score;
     private final LocalDateTime date;

@@ -1,5 +1,6 @@
 package com.srh.api.dto.resource;
 
+import com.srh.api.builder.AdminBuilder;
 import com.srh.api.model.Admin;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -16,10 +17,12 @@ import javax.validation.constraints.NotNull;
 public class AdminForm {
     @NotNull
     @NotEmpty
+    @Length(min = 3)
     private String name;
 
     @NotNull
     @NotEmpty
+    @Length(min = 3)
     private String login;
 
     @NotNull

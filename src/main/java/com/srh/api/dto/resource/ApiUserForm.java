@@ -1,11 +1,11 @@
 package com.srh.api.dto.resource;
 
+import com.srh.api.builder.ApiUserBuilder;
 import com.srh.api.model.ApiUser;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
@@ -41,7 +41,7 @@ public class ApiUserForm {
         return ApiUserBuilder.anApiUser()
                 .withLogin(login)
                 .withName(name)
-                .withPassword(new BCryptPasswordEncoder().encode(password))
+                .withPassword(password)
                 .withOldPassword(oldPassword)
                 .build();
     }

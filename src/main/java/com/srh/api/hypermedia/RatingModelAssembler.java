@@ -1,6 +1,5 @@
 package com.srh.api.hypermedia;
 
-import com.srh.api.controller.RatingController;
 import com.srh.api.dto.resource.RatingDto;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.RepresentationModelAssembler;

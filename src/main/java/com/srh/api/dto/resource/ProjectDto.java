@@ -1,6 +1,5 @@
 package com.srh.api.dto.resource;
 
-import com.srh.api.model.Admin;
 import com.srh.api.model.Project;
 import com.srh.api.model.Situations;
 import lombok.Getter;
@@ -15,7 +14,7 @@ public class ProjectDto {
     private final Integer id;
     private final String name;
     private final String description;
-    private Situations situation;
+    private final Situations situation;
     private final LocalDate date;
     private final Boolean visible;
 

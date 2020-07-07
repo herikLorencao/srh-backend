@@ -8,10 +8,10 @@ import org.springframework.hateoas.server.core.Relation;
 @Relation(collectionRelation = "relationship")
 public class ProjectEvaluatorDto {
     private final Integer projectId;
-    private final Integer recommenderId;
+    private final Integer evaluatorId;
 
     public ProjectEvaluatorDto(ProjectEvaluator projectEvaluator) {
         this.projectId = projectEvaluator.getProject().getId();
-        this.recommenderId = projectEvaluator.getEvaluator().getId();
+        this.evaluatorId = projectEvaluator.getEvaluator().getId();
     }
 }

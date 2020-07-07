@@ -13,5 +13,5 @@ public class ProjectEvaluatorForm {
     @NotNull
     private Integer projectId;
     @NotNull
-    private Integer recommenderId;
+    private Integer evaluatorId;
 }
