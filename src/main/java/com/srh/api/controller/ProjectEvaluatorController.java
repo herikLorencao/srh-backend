@@ -63,7 +63,7 @@ public class ProjectEvaluatorController {
 
         ProjectEvaluator projectEvaluator = projectEvaluatorService.save(
                 projectRecommenderForm.getProjectId(),
-                projectRecommenderForm.getRecommenderId());
+                projectRecommenderForm.getEvaluatorId());
 
         URI uri = uriBuilder.path("/projects/{projectId}/recommenders/{recommenderId}")
                 .buildAndExpand(projectId, projectEvaluator.getEvaluator().getId())

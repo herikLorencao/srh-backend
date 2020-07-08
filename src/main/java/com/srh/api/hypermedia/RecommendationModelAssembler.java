@@ -16,9 +16,7 @@ public class RecommendationModelAssembler implements RepresentationModelAssemble
     public EntityModel<RecommendationDto> toModel(RecommendationDto recommendationDto) {
         return new EntityModel<>(recommendationDto,
                 linkTo(methodOn(RecommendationController.class).find(recommendationDto.getId())).withSelfRel(),
-                linkTo(RecommendationController.class).withRel("recommendations"),
-                linkTo(methodOn(EvaluatorController.class).find(recommendationDto.getUserId()))
-                        .withRel("recommender")
+                linkTo(RecommendationController.class).withRel("recommendations")
         );
     }
 }

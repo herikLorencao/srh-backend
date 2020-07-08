@@ -1,6 +1,5 @@
 package com.srh.api.config;
 
-import com.srh.api.database.DbSeeder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,7 +13,6 @@ public class TestProfile {
 
     @Bean
     public boolean initializeDatabase() {
-        dbSeeder.seed();
-        return true;
+        return dbSeeder.seed();
     }
 }

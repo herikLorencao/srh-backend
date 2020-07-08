@@ -1,6 +1,5 @@
 package com.srh.api.config;
 
-import com.srh.api.database.DbSeeder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -19,8 +18,7 @@ public class DevProfile {
     @Bean
     public boolean initializeDatabase() {
         if (strategy.equals("create")) {
-            dbSeeder.seed();
-            return true;
+            return dbSeeder.seed();
         }
 
         return false;

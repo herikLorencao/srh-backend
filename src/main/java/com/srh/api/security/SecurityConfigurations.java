@@ -48,6 +48,7 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) {
         http.authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/auth").permitAll()
+                .antMatchers("/h2-console/**").permitAll()
                 .antMatchers("/itens").hasRole("ADMIN")
                 .antMatchers("/projects").hasRole("ADMIN")
                 .antMatchers("/users/admins").hasRole("ADMIN")
@@ -58,6 +59,8 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().addFilterBefore(new AuthenticationWithTokenFilter(jwtService, APIUserRepository),
                 UsernamePasswordAuthenticationFilter.class);
+
+        http.headers().frameOptions().disable();
     }
 
     @Override

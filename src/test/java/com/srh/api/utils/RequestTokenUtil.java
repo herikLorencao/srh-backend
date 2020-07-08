@@ -1,5 +1,6 @@
 package com.srh.api.utils;
 
+import com.srh.api.builder.LoginFormBuilder;
 import com.srh.api.dto.auth.LoginForm;
 import lombok.SneakyThrows;
 import org.springframework.boot.test.web.client.TestRestTemplate;
