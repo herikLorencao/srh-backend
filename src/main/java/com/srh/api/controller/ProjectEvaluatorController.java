@@ -24,7 +24,7 @@ import javax.validation.Valid;
 import java.net.URI;
 
 @RestController
-@RequestMapping("/projects/{projectId}/recommenders")
+@RequestMapping("/projects/{projectId}/evaluators")
 public class ProjectEvaluatorController {
     @Autowired
     private ProjectEvaluatorService projectEvaluatorService;

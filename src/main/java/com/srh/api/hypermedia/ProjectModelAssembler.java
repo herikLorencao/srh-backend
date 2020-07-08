@@ -18,7 +18,7 @@ public class ProjectModelAssembler implements RepresentationModelAssembler<Proje
                 linkTo(methodOn(ProjectController.class).find(projectDto.getId())).withSelfRel(),
                 linkTo(ProjectController.class).withRel("projects"),
                 linkTo(methodOn(ProjectEvaluatorController.class).listRecommendersByProject(
-                        projectDto.getId(), Pageable.unpaged())).withRel("recommenders")
+                        projectDto.getId(), Pageable.unpaged())).withRel("evaluators")
         );
     }
 }

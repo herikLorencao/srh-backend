@@ -1,6 +1,8 @@
 package com.srh.api.hypermedia;
 
 import com.srh.api.controller.ItemController;
+import com.srh.api.controller.ProjectController;
+import com.srh.api.controller.TypeItemController;
 import com.srh.api.dto.resource.ItemDto;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.RepresentationModelAssembler;
@@ -15,7 +17,8 @@ public class ItemModelAssembler implements RepresentationModelAssembler<ItemDto,
     public EntityModel<ItemDto> toModel(ItemDto itemDto) {
         return new EntityModel<>(itemDto,
                 linkTo(methodOn(ItemController.class).find(itemDto.getId())).withSelfRel(),
-                linkTo(ItemController.class).withRel("itens")
+                linkTo(ItemController.class).withRel("itens"),
+                linkTo(methodOn(ProjectController.class).find(itemDto.getProject().getId())).withRel("project")
         );
     }
 }

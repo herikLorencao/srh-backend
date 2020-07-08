@@ -1,10 +1,14 @@
 package com.srh.api.controller;
 
+import com.srh.api.dto.resource.ItemDto;
 import com.srh.api.dto.resource.ProjectDto;
 import com.srh.api.dto.resource.ProjectForm;
+import com.srh.api.hypermedia.ItemModelAssembler;
 import com.srh.api.hypermedia.ProjectModelAssembler;
+import com.srh.api.model.Item;
 import com.srh.api.model.Project;
 import com.srh.api.service.ProjectService;
+import com.srh.api.utils.PageUtil;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -34,6 +38,9 @@ public class ProjectController {
 
     @Autowired
     private PagedResourcesAssembler<ProjectDto> pagedResourcesAssembler;
+
+    @Autowired
+    private PagedResourcesAssembler<ItemDto> itemDtoPagedResourcesAssembler;
 
     @GetMapping
     public PagedModel<EntityModel<ProjectDto>> listAll(@PageableDefault(page = 0, size = 5)
@@ -75,5 +82,16 @@ public class ProjectController {
     public ResponseEntity<Void> delete(@PathVariable Integer id) {
         projectService.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/{projectId}/itens")
+    public PagedModel<EntityModel<ItemDto>> findItensByProject(
+            @PathVariable Integer projectId,
+            @PageableDefault(page = 0, size = 5) Pageable pageInfo
+    ) {
+        Project project = projectService.find(projectId);
+        PageUtil<Item> pageUtil = new PageUtil<>(pageInfo, project.getItens());
+
+        return itemDtoPagedResourcesAssembler.toModel(ItemDto.convert(pageUtil.getPage()));
     }
 }
