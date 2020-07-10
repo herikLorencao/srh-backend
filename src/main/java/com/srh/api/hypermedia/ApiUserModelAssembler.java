@@ -19,7 +19,7 @@ public class ApiUserModelAssembler implements RepresentationModelAssembler<ApiUs
     public EntityModel<ApiUsersDto> toModel(ApiUsersDto apiUsersDto) {
         EntityModel<ApiUsersDto> apiUsersEntityModel = new EntityModel<>(apiUsersDto,
                 linkTo(methodOn(ApiUsersController.class).find(apiUsersDto.getId())).withSelfRel(),
-                linkTo(ApiUsersController.class).withRel("/users/apis")
+                linkTo(ApiUsersController.class).withRel("apis")
         );
 
         if (apiUsersDto.getProfiles() != null) {
@@ -33,7 +33,7 @@ public class ApiUserModelAssembler implements RepresentationModelAssembler<ApiUs
         List<Link> links = new ArrayList<>();
 
         for (Profile profile : profiles) {
-            links.add(linkTo(methodOn(ApiUsersController.class).find(profile.getId())).withRel("/profiles"));
+            links.add(linkTo(methodOn(ApiUsersController.class).find(profile.getId())).withRel("profiles"));
         }
 
         return links;

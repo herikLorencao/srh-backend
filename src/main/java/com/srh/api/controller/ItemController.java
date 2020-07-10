@@ -2,9 +2,12 @@ package com.srh.api.controller;
 
 import com.srh.api.dto.resource.ItemDto;
 import com.srh.api.dto.resource.ItemForm;
+import com.srh.api.dto.resource.RecommendationDto;
 import com.srh.api.hypermedia.ItemModelAssembler;
 import com.srh.api.model.Item;
+import com.srh.api.model.Recommendation;
 import com.srh.api.service.ItemService;
+import com.srh.api.utils.PageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -33,6 +36,9 @@ public class ItemController {
 
     @Autowired
     private PagedResourcesAssembler<ItemDto> pagedResourcesAssembler;
+
+    @Autowired
+    private PagedResourcesAssembler<RecommendationDto> recommendationsPagedResourcesAssembler;
 
     @GetMapping
     public PagedModel<EntityModel<ItemDto>> listAll(@PageableDefault(page = 0, size = 5)
@@ -71,5 +77,15 @@ public class ItemController {
     public ResponseEntity<Void> delete(@PathVariable Integer id) {
         itemService.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/{itemId}/recommendations")
+    public PagedModel<EntityModel<RecommendationDto>> listRecommendationsByItem(
+            @PathVariable Integer itemId,
+            @PageableDefault(page = 0, size = 5) Pageable pageInfo
+    ) {
+        Item item = itemService.find(itemId);
+        PageUtil<Recommendation> pageUtil = new PageUtil<>(pageInfo, item.getRecommendations());
+        return recommendationsPagedResourcesAssembler.toModel(RecommendationDto.convert(pageUtil.getPage()));
     }
 }

@@ -3,8 +3,8 @@ package com.srh.api.controller;
 import com.srh.api.dto.resource.ProjectEvaluatorDto;
 import com.srh.api.dto.resource.ProjectEvaluatorForm;
 import com.srh.api.dto.resource.EvaluatorDto;
-import com.srh.api.hypermedia.ProjectRecommenderModelAssembler;
-import com.srh.api.hypermedia.RecommenderModelAssembler;
+import com.srh.api.hypermedia.ProjectEvaluatorModelAssembler;
+import com.srh.api.hypermedia.EvaluatorModelAssembler;
 import com.srh.api.model.ProjectEvaluator;
 import com.srh.api.model.Evaluator;
 import com.srh.api.service.ProjectEvaluatorService;
@@ -30,34 +30,34 @@ public class ProjectEvaluatorController {
     private ProjectEvaluatorService projectEvaluatorService;
 
     @Autowired
-    private ProjectRecommenderModelAssembler projectRecommenderModelAssembler;
+    private ProjectEvaluatorModelAssembler projectEvaluatorModelAssembler;
 
     @Autowired
-    private RecommenderModelAssembler recommenderModelAssembler;
+    private EvaluatorModelAssembler evaluatorModelAssembler;
 
     @Autowired
-    private PagedResourcesAssembler<EvaluatorDto> recommenderDtoPagedResourcesAssembler;
+    private PagedResourcesAssembler<EvaluatorDto> evaluatorDtoPagedResourcesAssembler;
 
     @GetMapping
     public PagedModel<EntityModel<EvaluatorDto>> listRecommendersByProject(
             @PathVariable Integer projectId, @PageableDefault(page = 0, size = 5) Pageable pageInfo) {
         Page<Evaluator> recommendersPage = projectEvaluatorService.
                 listEvaluatorsByProject(projectId, pageInfo);
-        return recommenderDtoPagedResourcesAssembler.toModel(EvaluatorDto
+        return evaluatorDtoPagedResourcesAssembler.toModel(EvaluatorDto
                 .convert(recommendersPage));
     }
 
-    @GetMapping("/{recommenderId}")
-    public EntityModel<EvaluatorDto> findRecommenderInProject(@PathVariable Integer projectId,
-                                                              @PathVariable Integer recommenderId) {
+    @GetMapping("/{evaluatorId}")
+    public EntityModel<EvaluatorDto> findEvaluatorInProject(@PathVariable Integer projectId,
+                                                            @PathVariable Integer evaluatorId) {
         Evaluator evaluator = projectEvaluatorService.findEvaluatorByProject(projectId,
-                recommenderId);
-        return recommenderModelAssembler.toModel(new EvaluatorDto(evaluator));
+                evaluatorId);
+        return evaluatorModelAssembler.toModel(new EvaluatorDto(evaluator));
     }
 
     @PostMapping
     @SneakyThrows
-    public ResponseEntity<EntityModel<ProjectEvaluatorDto>> linkRecommendersToProject(
+    public ResponseEntity<EntityModel<ProjectEvaluatorDto>> linkEvaluatorsProject(
             @PathVariable Integer projectId, @RequestBody @Valid ProjectEvaluatorForm
             projectRecommenderForm, UriComponentsBuilder uriBuilder) {
 
@@ -65,21 +65,21 @@ public class ProjectEvaluatorController {
                 projectRecommenderForm.getProjectId(),
                 projectRecommenderForm.getEvaluatorId());
 
-        URI uri = uriBuilder.path("/projects/{projectId}/recommenders/{recommenderId}")
+        URI uri = uriBuilder.path("/projects/{projectId}/recommenders/{evaluatorId}")
                 .buildAndExpand(projectId, projectEvaluator.getEvaluator().getId())
                 .toUri();
 
         return ResponseEntity.created(uri)
-                .body(projectRecommenderModelAssembler.toModel(
+                .body(projectEvaluatorModelAssembler.toModel(
                         new ProjectEvaluatorDto(projectEvaluator)
                 ));
     }
 
-    @DeleteMapping("/{recommenderId}")
+    @DeleteMapping("/{evaluatorId}")
     @SneakyThrows
     public ResponseEntity<Void> delete(@PathVariable Integer projectId,
-                                       @PathVariable Integer recommenderId) {
-        projectEvaluatorService.delete(projectId, recommenderId);
+                                       @PathVariable Integer evaluatorId) {
+        projectEvaluatorService.delete(projectId, evaluatorId);
         return ResponseEntity.noContent().build();
     }
 }

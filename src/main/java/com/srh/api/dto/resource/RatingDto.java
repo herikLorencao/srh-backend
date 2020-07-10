@@ -18,8 +18,4 @@ public class RatingDto {
         this.score = rating.getScore();
         this.date = rating.getDate();
     }
-
-    public static Page<RatingDto> convert(Page<ItemRating> ratings) {
-        return ratings.map(RatingDto::new);
-    }
 }

@@ -77,7 +77,9 @@
 //    }
 //
 //    @Test
-//    public void WhenGetAllAdminsThenStatusCodeOk() {
+//    public void WhenGetAllAdminsThenew Admin(1, "admin 1", "admin 1", "123", null),
+//                new Admin(2, "admin 2", "admin 2", "345", null),
+//                new Admin(3, "admin 3", "admin 3", "567", null)nStatusCodeOk() {
 //        String url = UrlUtils.generateBasicUrl("/users/admins", port);
 //        ResponseEntity<String> response = restTemplate.exchange(url, GET, validHeader, String.class);
 //        assertThat(response.getStatusCode()).isEqualTo(OK);

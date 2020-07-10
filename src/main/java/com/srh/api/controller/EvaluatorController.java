@@ -2,7 +2,7 @@ package com.srh.api.controller;
 
 import com.srh.api.dto.resource.EvaluatorDto;
 import com.srh.api.dto.resource.EvaluatorForm;
-import com.srh.api.hypermedia.RecommenderModelAssembler;
+import com.srh.api.hypermedia.EvaluatorModelAssembler;
 import com.srh.api.model.Evaluator;
 import com.srh.api.service.EvaluatorService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +29,7 @@ public class EvaluatorController {
     private EvaluatorService evaluatorService;
 
     @Autowired
-    private RecommenderModelAssembler recommenderModelAssembler;
+    private EvaluatorModelAssembler evaluatorModelAssembler;
 
     @Autowired
     private PagedResourcesAssembler<EvaluatorDto> pagedResourcesAssembler;
@@ -44,7 +44,7 @@ public class EvaluatorController {
     @GetMapping("/{id}")
     public EntityModel<EvaluatorDto> find(@PathVariable Integer id) {
         Evaluator evaluator = evaluatorService.find(id);
-        return recommenderModelAssembler.toModel(new EvaluatorDto(evaluator));
+        return evaluatorModelAssembler.toModel(new EvaluatorDto(evaluator));
     }
 
     @PostMapping
@@ -54,7 +54,7 @@ public class EvaluatorController {
         evaluatorService.save(evaluator);
         URI uri = uriBuilder.path("/users/recommenders/{id}").buildAndExpand(evaluator.getId()).toUri();
         return ResponseEntity.created(uri)
-                .body(recommenderModelAssembler.toModel(new EvaluatorDto(evaluator)));
+                .body(evaluatorModelAssembler.toModel(new EvaluatorDto(evaluator)));
     }
 
     @PutMapping("/{id}")
@@ -64,11 +64,10 @@ public class EvaluatorController {
         Evaluator evaluator = evaluatorForm.build();
         evaluator.setId(id);
         evaluator = evaluatorService.update(evaluator, evaluatorForm.getOldPassword());
-        return recommenderModelAssembler.toModel(new EvaluatorDto(evaluator));
+        return evaluatorModelAssembler.toModel(new EvaluatorDto(evaluator));
     }
 
     @DeleteMapping("/{id}")
-    @Transactional
     public ResponseEntity<Void> delete(@PathVariable Integer id) {
         evaluatorService.delete(id);
         return ResponseEntity.noContent().build();

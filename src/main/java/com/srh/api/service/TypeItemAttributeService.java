@@ -41,7 +41,7 @@ public class TypeItemAttributeService {
     }
 
     @SneakyThrows
-    TypeItemAttribute save(Integer typeItemId, Integer attributeId) {
+    public TypeItemAttribute save(Integer typeItemId, Integer attributeId) {
         TypeItem typeItem = typeItemService.find(typeItemId);
         Attribute attribute = attributeService.find(attributeId);
 

@@ -21,7 +21,7 @@ public class AdminModelAssembler implements RepresentationModelAssembler<AdminDt
     public EntityModel<AdminDto> toModel(AdminDto adminDto) {
         EntityModel<AdminDto> adminEntityModel = new EntityModel<>(adminDto,
                 linkTo(methodOn(AdminController.class).find(adminDto.getId())).withSelfRel(),
-                linkTo(AdminController.class).withRel("/users/admins")
+                linkTo(AdminController.class).withRel("admins")
         );
 
         if (adminDto.getProjects() != null) {
@@ -35,7 +35,7 @@ public class AdminModelAssembler implements RepresentationModelAssembler<AdminDt
         List<Link> links = new ArrayList<>();
 
         for (Project project : projects) {
-            links.add(linkTo(methodOn(ProjectController.class).find(project.getId())).withRel("/projects"));
+            links.add(linkTo(methodOn(ProjectController.class).find(project.getId())).withRel("projects"));
         }
 
         return links;
