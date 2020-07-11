@@ -40,6 +40,11 @@ public class EvaluatorService {
         Evaluator oldEvaluator = find(evaluator.getId());
         Evaluator persistEvaluator = passwordUtil.verifyPasswordChanges(evaluator, oldEvaluator,
                 oldRawPassword);
+
+        persistEvaluator.setItemRatings(oldEvaluator.getItemRatings());
+        persistEvaluator.setRecommendationRatings(oldEvaluator.getRecommendationRatings());
+        persistEvaluator.setRecommendations(oldEvaluator.getRecommendations());
+
         return evaluatorRepository.save(persistEvaluator);
     }
 

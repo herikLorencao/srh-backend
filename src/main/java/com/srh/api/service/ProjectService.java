@@ -1,11 +1,11 @@
 package com.srh.api.service;
 
+import com.srh.api.error.exception.ChangeRootRelationException;
 import com.srh.api.model.Admin;
 import com.srh.api.model.Project;
 import com.srh.api.repository.ProjectRepository;
+import lombok.SneakyThrows;
 import org.hibernate.ObjectNotFoundException;
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -41,8 +41,15 @@ public class ProjectService {
         return projectRepository.save(project);
     }
 
+    @SneakyThrows
     public Project update(Project project) {
-        find(project.getId());
+        Project oldProject = find(project.getId());
+
+        if (project.getAdmin().equals(oldProject.getAdmin())) {
+            throw new ChangeRootRelationException("Correct value: " + oldProject.getAdmin().getId());
+        }
+
+        project.setItens(oldProject.getItens());
         return projectRepository.save(project);
     }
 

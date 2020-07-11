@@ -41,6 +41,7 @@ public class AdminService {
     public Admin update(Admin admin, String oldRawPassword) {
         Admin oldAdmin = find(admin.getId());
         Admin persistAdmin = passwordUtil.verifyPasswordChanges(admin, oldAdmin, oldRawPassword);
+        persistAdmin.setProjects(oldAdmin.getProjects());
         return adminRepository.save(persistAdmin);
     }
 

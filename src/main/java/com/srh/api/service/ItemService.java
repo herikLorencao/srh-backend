@@ -1,5 +1,6 @@
 package com.srh.api.service;
 
+import com.srh.api.error.exception.ChangeRootRelationException;
 import com.srh.api.error.exception.ProjectNotOpenedException;
 import com.srh.api.model.Item;
 import com.srh.api.model.Project;
@@ -18,6 +19,9 @@ import java.util.Optional;
 public class ItemService {
     @Autowired
     private ItemRepository itemRepository;
+
+    @Autowired
+    private ProjectService projectService;
 
     public Item find(Integer id) {
         Optional<Item> item = itemRepository.findById(id);
@@ -39,10 +43,19 @@ public class ItemService {
 
     @SneakyThrows
     public Item update(Item item) {
-        find(item.getId());
+        Item oldItem = find(item.getId());
+        Integer oldProjectId = oldItem.getProject().getId();
 
-        if (!itemProjectIsOpenAndVisible(item))
+        if (oldProjectId != item.getId()) {
+            throw new ChangeRootRelationException("Não é possível alterar o projeto do item");
+        }
+
+        if (!itemProjectIsOpenAndVisible(item)) {
             throw new ProjectNotOpenedException("The project is closed or invisible");
+        }
+
+        item.setItemRatings(oldItem.getItemRatings());
+        item.setRecommendations(oldItem.getRecommendations());
 
         return itemRepository.save(item);
     }
@@ -53,7 +66,7 @@ public class ItemService {
     }
 
     private boolean itemProjectIsOpenAndVisible(Item item) {
-        Project project = item.getProject();
+        Project project = projectService.find(item.getProject().getId());
 
         if (!project.getVisible())
             return false;

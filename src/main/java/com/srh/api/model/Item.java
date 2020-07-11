@@ -3,7 +3,6 @@ package com.srh.api.model;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.util.HashMap;
 import java.util.List;
 
 @Entity

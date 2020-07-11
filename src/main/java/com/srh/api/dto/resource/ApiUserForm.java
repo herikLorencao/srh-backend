@@ -37,10 +37,14 @@ public class ApiUserForm {
 
     private String oldPassword;
 
+    @NotNull
+    private Boolean isAdmin;
+
     public ApiUser build() {
         return ApiUserBuilder.anApiUser()
                 .withLogin(login)
                 .withName(name)
+                .withEmail(email)
                 .withPassword(password)
                 .withOldPassword(oldPassword)
                 .build();

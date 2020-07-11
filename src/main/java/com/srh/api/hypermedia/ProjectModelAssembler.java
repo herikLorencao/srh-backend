@@ -1,5 +1,6 @@
 package com.srh.api.hypermedia;
 
+import com.srh.api.controller.AdminController;
 import com.srh.api.controller.ProjectController;
 import com.srh.api.controller.ProjectEvaluatorController;
 import com.srh.api.dto.resource.ProjectDto;
@@ -17,6 +18,7 @@ public class ProjectModelAssembler implements RepresentationModelAssembler<Proje
         return new EntityModel<>(projectDto,
                 linkTo(methodOn(ProjectController.class).find(projectDto.getId())).withSelfRel(),
                 linkTo(ProjectController.class).withRel("projects"),
+                linkTo(methodOn(AdminController.class).find(projectDto.getAdmin().getId())).withRel("admin"),
                 linkTo(methodOn(ProjectEvaluatorController.class).listRecommendersByProject(
                         projectDto.getId(), Pageable.unpaged())).withRel("evaluators"),
                 linkTo(methodOn(ProjectController.class).findItensByProject(projectDto.getId(), Pageable.unpaged()))

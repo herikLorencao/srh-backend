@@ -23,7 +23,7 @@ import java.net.URI;
 import static com.srh.api.dto.resource.EvaluatorDto.convert;
 
 @RestController
-@RequestMapping("/users/recommenders")
+@RequestMapping("/users/evaluators")
 public class EvaluatorController {
     @Autowired
     private EvaluatorService evaluatorService;
@@ -52,7 +52,7 @@ public class EvaluatorController {
                                                             UriComponentsBuilder uriBuilder) {
         Evaluator evaluator = evaluatorForm.build();
         evaluatorService.save(evaluator);
-        URI uri = uriBuilder.path("/users/recommenders/{id}").buildAndExpand(evaluator.getId()).toUri();
+        URI uri = uriBuilder.path("/users/evaluators/{id}").buildAndExpand(evaluator.getId()).toUri();
         return ResponseEntity.created(uri)
                 .body(evaluatorModelAssembler.toModel(new EvaluatorDto(evaluator)));
     }

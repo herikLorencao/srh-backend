@@ -8,6 +8,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -40,5 +43,12 @@ public class ProfileService {
     public void delete(Integer id) {
         find(id);
         profileRepository.deleteById(id);
+    }
+
+    public List<Profile> getProfilesByAuthority(boolean isAdmin) {
+        if (isAdmin) {
+            return (List<Profile>) profileRepository.findAll();
+        }
+        return Collections.singletonList(find(2));
     }
 }
