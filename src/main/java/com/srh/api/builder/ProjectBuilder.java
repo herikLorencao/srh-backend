@@ -58,7 +58,7 @@ public final class ProjectBuilder {
         return this;
     }
 
-    public ProjectBuilder withRecommenders(List<Evaluator> evaluators) {
+    public ProjectBuilder withEvaluators(List<Evaluator> evaluators) {
         this.evaluators = evaluators;
         return this;
     }

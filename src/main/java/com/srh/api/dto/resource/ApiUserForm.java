@@ -6,7 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
@@ -38,11 +37,15 @@ public class ApiUserForm {
 
     private String oldPassword;
 
+    @NotNull
+    private Boolean isAdmin;
+
     public ApiUser build() {
         return ApiUserBuilder.anApiUser()
                 .withLogin(login)
                 .withName(name)
-                .withPassword(new BCryptPasswordEncoder().encode(password))
+                .withEmail(email)
+                .withPassword(password)
                 .withOldPassword(oldPassword)
                 .build();
     }

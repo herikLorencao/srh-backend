@@ -15,7 +15,6 @@ import java.util.List;
 public class ApiUser extends User implements UserDetails {
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Profile> profiles;
-    private boolean isAdmin;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

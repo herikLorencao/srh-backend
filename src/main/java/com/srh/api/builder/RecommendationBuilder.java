@@ -1,20 +1,19 @@
 package com.srh.api.builder;
 
-import com.srh.api.model.Item;
-import com.srh.api.model.Recommendation;
-import com.srh.api.model.Evaluator;
-import com.srh.api.model.TypeRecommendation;
+import com.srh.api.model.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public final class RecommendationBuilder {
     private Integer id;
     private Double weight;
     private LocalDateTime date;
     private Integer runtimeInSeconds;
-    private TypeRecommendation typeRecommendation;
+    private Algorithm algorithm;
     private Evaluator evaluator;
     private Item item;
+    private List<RecommendationRating> recommendationRatings;
 
     private RecommendationBuilder() {
     }
@@ -43,12 +42,12 @@ public final class RecommendationBuilder {
         return this;
     }
 
-    public RecommendationBuilder withTypeRecommendation(TypeRecommendation typeRecommendation) {
-        this.typeRecommendation = typeRecommendation;
+    public RecommendationBuilder withAlgorithm(Algorithm algorithm) {
+        this.algorithm = algorithm;
         return this;
     }
 
-    public RecommendationBuilder withRecommender(Evaluator evaluator) {
+    public RecommendationBuilder withEvaluator(Evaluator evaluator) {
         this.evaluator = evaluator;
         return this;
     }
@@ -58,15 +57,21 @@ public final class RecommendationBuilder {
         return this;
     }
 
+    public RecommendationBuilder withRecommendationRatings(List<RecommendationRating> recommendationRatings) {
+        this.recommendationRatings = recommendationRatings;
+        return this;
+    }
+
     public Recommendation build() {
         Recommendation recommendation = new Recommendation();
         recommendation.setId(id);
         recommendation.setWeight(weight);
         recommendation.setDate(date);
         recommendation.setRuntimeInSeconds(runtimeInSeconds);
-        recommendation.setTypeRecommendation(typeRecommendation);
+        recommendation.setAlgorithm(algorithm);
         recommendation.setEvaluator(evaluator);
         recommendation.setItem(item);
+        recommendation.setRecommendationRatings(recommendationRatings);
         return recommendation;
     }
 }

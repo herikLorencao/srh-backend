@@ -1,6 +1,6 @@
 package com.srh.api.dto.resource;
 
-import com.srh.api.model.ProjectRecommender;
+import com.srh.api.model.ProjectEvaluator;
 import lombok.Getter;
 import org.springframework.hateoas.server.core.Relation;
 
@@ -8,10 +8,10 @@ import org.springframework.hateoas.server.core.Relation;
 @Relation(collectionRelation = "relationship")
 public class ProjectEvaluatorDto {
     private final Integer projectId;
-    private final Integer recommenderId;
+    private final Integer evaluatorId;
 
-    public ProjectEvaluatorDto(ProjectRecommender projectRecommender) {
-        this.projectId = projectRecommender.getProject().getId();
-        this.recommenderId = projectRecommender.getEvaluator().getId();
+    public ProjectEvaluatorDto(ProjectEvaluator projectEvaluator) {
+        this.projectId = projectEvaluator.getProject().getId();
+        this.evaluatorId = projectEvaluator.getEvaluator().getId();
     }
 }

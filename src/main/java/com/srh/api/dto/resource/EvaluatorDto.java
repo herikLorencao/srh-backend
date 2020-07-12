@@ -6,7 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.hateoas.server.core.Relation;
 
 @Getter
-@Relation(collectionRelation = "recommenders")
+@Relation(collectionRelation = "evaluators")
 public class EvaluatorDto {
     private final Integer id;
     private final String name;

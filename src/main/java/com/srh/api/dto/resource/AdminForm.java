@@ -17,10 +17,12 @@ import javax.validation.constraints.NotNull;
 public class AdminForm {
     @NotNull
     @NotEmpty
+    @Length(min = 3)
     private String name;
 
     @NotNull
     @NotEmpty
+    @Length(min = 3)
     private String login;
 
     @NotNull

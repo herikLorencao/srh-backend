@@ -31,7 +31,7 @@ public class ItemTag {
         List<Item> itensInTag = getItensListInTag();
 
         if (itensInTag.contains(item))
-            throw new DuplicateValueException("O item já possui vínculo com a tag");
+            throw new DuplicateValueException("Item link already exists");
 
         itensInTag.add(item);
     }
@@ -41,7 +41,7 @@ public class ItemTag {
         List<Tag> tagsInItem = getTagListInItem();
 
         if (tagsInItem.contains(tag))
-            throw new DuplicateValueException("A tag já possui vínculo com o item");
+            throw new DuplicateValueException("Tag link already exists");
 
         tagsInItem.add(tag);
     }
@@ -51,7 +51,7 @@ public class ItemTag {
         List<Item> itensInTag = getItensListInTag();
 
         if (!itensInTag.contains(item))
-            throw new RelationshipNotFoundException("Não existe vínculo entre o Item e a Tag");
+            throw new RelationshipNotFoundException("Item not exist in Evaluator");
 
         itensInTag.remove(item);
     }
@@ -61,7 +61,7 @@ public class ItemTag {
         List<Tag> tagsInItem = getTagListInItem();
 
         if (!tagsInItem.contains(tag))
-            throw new RelationshipNotFoundException("Não existe vínculo entre a Tag e o Item");
+            throw new RelationshipNotFoundException("Tag not exist in Evaluator");
 
         tagsInItem.remove(tag);
     }

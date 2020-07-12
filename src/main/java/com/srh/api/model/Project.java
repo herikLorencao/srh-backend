@@ -27,6 +27,6 @@ public class Project {
     @ManyToMany(mappedBy = "projects")
     private List<Evaluator> evaluators;
 
-    @OneToMany(mappedBy = "project")
+    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Item> itens;
 }

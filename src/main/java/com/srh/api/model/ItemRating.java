@@ -10,7 +10,7 @@ import javax.persistence.*;
 @EqualsAndHashCode(callSuper = true)
 public class ItemRating extends Rating {
     @ManyToOne
-    private Evaluator user;
+    private Evaluator evaluator;
 
     @ManyToOne
     private Item item;

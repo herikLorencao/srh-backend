@@ -1,5 +1,6 @@
 package com.srh.api.dto.resource;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.srh.api.model.Admin;
 import com.srh.api.model.Project;
 import com.srh.api.model.Situations;
@@ -15,9 +16,11 @@ public class ProjectDto {
     private final Integer id;
     private final String name;
     private final String description;
-    private Situations situation;
+    private final Situations situation;
     private final LocalDate date;
     private final Boolean visible;
+    @JsonIgnore
+    private final Admin admin;
 
     public ProjectDto(Project project) {
         this.id = project.getId();
@@ -26,6 +29,7 @@ public class ProjectDto {
         this.date = project.getDate();
         this.situation = project.getSituation();
         this.visible = project.getVisible();
+        this.admin = project.getAdmin();
     }
 
     public static Page<ProjectDto> convert(Page<Project> projects) {

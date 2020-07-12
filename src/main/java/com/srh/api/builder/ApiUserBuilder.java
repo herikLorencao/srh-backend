@@ -6,10 +6,10 @@ import com.srh.api.model.Profile;
 import java.util.List;
 
 public final class ApiUserBuilder {
+    protected String login;
     protected String password;
     private List<Profile> profiles;
     private Integer id;
-    private String login;
     private String oldPassword;
     private String name;
     private String email;
@@ -65,7 +65,6 @@ public final class ApiUserBuilder {
         apiUser.setName(name);
         apiUser.setEmail(email);
         apiUser.setPassword(password);
-        apiUser.setAdmin(false);
         return apiUser;
     }
 }

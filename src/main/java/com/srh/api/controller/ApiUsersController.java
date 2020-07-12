@@ -55,7 +55,7 @@ public class ApiUsersController {
     public ResponseEntity<EntityModel<ApiUsersDto>> create(@RequestBody @Valid ApiUserForm apiUserForm,
                                                            UriComponentsBuilder uriBuilder) {
         ApiUser apiUser = apiUserForm.build();
-        List<Profile> profiles = profileService.generateProfileList(apiUser.isAdmin());
+        List<Profile> profiles = profileService.getProfilesByAuthority(apiUserForm.getIsAdmin());
 
         apiUser.setProfiles(profiles);
         apiUserService.save(apiUser);
@@ -70,8 +70,11 @@ public class ApiUsersController {
     public EntityModel<ApiUsersDto> update(@RequestBody @Valid ApiUserForm apiUserForm,
                                            @PathVariable Integer id) {
         ApiUser apiUser = apiUserForm.build();
+        List<Profile> profiles = profileService.getProfilesByAuthority(apiUserForm.getIsAdmin());
+
         apiUser.setId(id);
-        apiUser = apiUserService.update(apiUser);
+        apiUser.setProfiles(profiles);
+        apiUser = apiUserService.update(apiUser, apiUserForm.getOldPassword());
         return apiUserModelAssembler.toModel(new ApiUsersDto(apiUser));
     }
 

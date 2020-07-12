@@ -3,7 +3,7 @@ package com.srh.api.service;
 import com.srh.api.model.Item;
 import com.srh.api.model.ItemRating;
 import com.srh.api.model.Evaluator;
-import com.srh.api.repository.RatingRepository;
+import com.srh.api.repository.ItemRatingRepository;
 import lombok.Setter;
 import org.hibernate.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +16,7 @@ import java.util.Optional;
 @Service
 public class ItemRatingService {
     @Autowired
-    private RatingRepository ratingRepository;
+    private ItemRatingRepository itemRatingRepository;
 
     @Autowired
     private EvaluatorService evaluatorService;
@@ -28,38 +28,38 @@ public class ItemRatingService {
     private String authorizationHeaderValue;
 
     public ItemRating find(Integer id) {
-        Optional<ItemRating> rating = ratingRepository.findById(id);
+        Optional<ItemRating> itemRating = itemRatingRepository.findById(id);
 
-        if (rating.isPresent())
-            return rating.get();
+        if (itemRating.isPresent())
+            return itemRating.get();
 
         throw new ObjectNotFoundException(id, ItemRating.class.getName());
     }
 
     public Page<ItemRating> findAll(Pageable pageInfo) {
-        return ratingRepository.findAll(pageInfo);
+        return itemRatingRepository.findAll(pageInfo);
     }
 
     public ItemRating save(ItemRating itemRating) {
-        Integer recommenderId = itemRating.getUser().getId();
+        Integer evaluatorId = itemRating.getEvaluator().getId();
         Integer itemId = itemRating.getItem().getId();
 
         Item item = itemService.find(itemId);
-        Evaluator evaluator = evaluatorService.find(recommenderId);
+        Evaluator evaluator = evaluatorService.find(evaluatorId);
 
         itemRating.setItem(item);
-        itemRating.setUser(evaluator);
+        itemRating.setEvaluator(evaluator);
 
-        return ratingRepository.save(itemRating);
+        return itemRatingRepository.save(itemRating);
     }
 
     public ItemRating update(ItemRating itemRating) {
         find(itemRating.getId());
-        return ratingRepository.save(itemRating);
+        return itemRatingRepository.save(itemRating);
     }
 
     public void delete(Integer id) {
         find(id);
-        ratingRepository.deleteById(id);
+        itemRatingRepository.deleteById(id);
     }
 }

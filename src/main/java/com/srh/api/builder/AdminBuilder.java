@@ -6,10 +6,10 @@ import com.srh.api.model.Project;
 import java.util.List;
 
 public final class AdminBuilder {
+    protected String login;
     protected String password;
     private List<Project> projects;
     private Integer id;
-    private String login;
     private String oldPassword;
     private String name;
     private String email;
