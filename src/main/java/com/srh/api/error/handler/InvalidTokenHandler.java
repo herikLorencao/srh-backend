@@ -11,9 +11,10 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class InvalidTokenHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(InvalidTokenException.class)
-    public DefaultErrorDto handle() {
+    public DefaultErrorDto handle(Exception exception) {
         return new DefaultErrorDto(
-                "The token is not valid",
-                "the reported token is in the wrong format");
+                "O token informado não é válido",
+                exception.getMessage()
+        );
     }
 }

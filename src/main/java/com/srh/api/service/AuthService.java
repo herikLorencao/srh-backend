@@ -1,7 +1,8 @@
 package com.srh.api.service;
 
-import com.srh.api.model.UserApi;
-import com.srh.api.repository.UserApiRepository;
+import com.srh.api.model.ApiUser;
+import com.srh.api.repository.ApiUserRepository;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -16,11 +17,12 @@ public class AuthService implements UserDetailsService {
     private JWTService jwtService;
 
     @Autowired
-    private UserApiRepository repository;
+    private ApiUserRepository repository;
 
     @Override
-    public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
-        Optional<UserApi> user = repository.findByLogin(login);
+    @SneakyThrows
+    public UserDetails loadUserByUsername(String login) {
+        Optional<ApiUser> user = repository.findByLogin(login);
         if (user.isPresent())
             return user.get();
 

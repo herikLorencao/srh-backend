@@ -1,60 +1,76 @@
 package com.srh.api.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.srh.api.error.exception.DuplicateValueException;
+import com.srh.api.error.exception.RelationshipNotFoundException;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.SneakyThrows;
 
-import javax.persistence.EmbeddedId;
-import javax.persistence.Entity;
-import java.util.Objects;
+import java.util.List;
 
-@Entity
+@Data
+@AllArgsConstructor
 public class ItemTag {
-    @JsonIgnore
-    @EmbeddedId
-    private ItemTagPK id = new ItemTagPK();
+    private Item item;
+    private Tag tag;
 
-    public ItemTag() {
+    @SneakyThrows
+    public void addEntities() {
+        addItemInTag();
+        addTagInItem();
     }
 
-    public ItemTag(Item item, Tag tag) {
-        this.id.setItem(item);
-        this.id.setTag(tag);
+    @SneakyThrows
+    public void removeEntities() {
+        removeItemInTag();
+        removeTagInItem();
     }
 
-    @JsonIgnore
-    public Item getItem() {
-        return this.id.getItem();
+    @SneakyThrows
+    private void addItemInTag() {
+        List<Item> itensInTag = getItensListInTag();
+
+        if (itensInTag.contains(item))
+            throw new DuplicateValueException("Item link already exists");
+
+        itensInTag.add(item);
     }
 
-    public void setItem(Item item) {
-        this.setItem(item);
+    @SneakyThrows
+    private void addTagInItem() {
+        List<Tag> tagsInItem = getTagListInItem();
+
+        if (tagsInItem.contains(tag))
+            throw new DuplicateValueException("Tag link already exists");
+
+        tagsInItem.add(tag);
     }
 
-    public Tag getTag() {
-        return this.id.getTag();
+    @SneakyThrows
+    private void removeItemInTag() {
+        List<Item> itensInTag = getItensListInTag();
+
+        if (!itensInTag.contains(item))
+            throw new RelationshipNotFoundException("Item not exist in Evaluator");
+
+        itensInTag.remove(item);
     }
 
-    public void setTag(Tag tag) {
-        this.id.setTag(tag);
+    @SneakyThrows
+    private void removeTagInItem() {
+        List<Tag> tagsInItem = getTagListInItem();
+
+        if (!tagsInItem.contains(tag))
+            throw new RelationshipNotFoundException("Tag not exist in Evaluator");
+
+        tagsInItem.remove(tag);
     }
 
-    public ItemTagPK getId() {
-        return id;
+    private List<Item> getItensListInTag() {
+        return tag.getItens();
     }
 
-    public void setId(ItemTagPK id) {
-        this.id = id;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        ItemTag itemTag = (ItemTag) o;
-        return Objects.equals(id, itemTag.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
+    private List<Tag> getTagListInItem() {
+        return item.getTags();
     }
 }

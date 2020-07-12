@@ -1,8 +1,9 @@
 package com.srh.api.security;
 
-import com.srh.api.repository.UserApiRepository;
+import com.srh.api.repository.ApiUserRepository;
 import com.srh.api.service.AuthService;
 import com.srh.api.service.JWTService;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,32 +28,44 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
     private JWTService jwtService;
 
     @Autowired
-    private UserApiRepository userAPIRepository;
+    private ApiUserRepository APIUserRepository;
 
     @Override
+    @SneakyThrows
     @Bean
-    protected AuthenticationManager authenticationManager() throws Exception {
+    protected AuthenticationManager authenticationManager() {
         return super.authenticationManager();
     }
 
     @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+    @SneakyThrows
+    protected void configure(AuthenticationManagerBuilder auth) {
         auth.userDetailsService(authService).passwordEncoder(new BCryptPasswordEncoder());
     }
 
     @Override
-    protected void configure(HttpSecurity http) throws Exception {
+    @SneakyThrows
+    protected void configure(HttpSecurity http) {
         http.authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/auth").permitAll()
-                .anyRequest().authenticated()
+                .antMatchers("/h2-console/**").permitAll()
+                .antMatchers("/itens").hasRole("ADMIN")
+                .antMatchers("/projects").hasRole("ADMIN")
+                .antMatchers("/users/admins").hasRole("ADMIN")
+                .antMatchers("/users/apis").hasRole("ADMIN")
+                .antMatchers("/recommendations/types").hasRole("ADMIN")
+                .anyRequest().hasRole("USER")
                 .and().csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and().addFilterBefore(new AuthenticationWithTokenFilter(jwtService, userAPIRepository),
+                .and().addFilterBefore(new AuthenticationWithTokenFilter(jwtService, APIUserRepository),
                 UsernamePasswordAuthenticationFilter.class);
+
+        http.headers().frameOptions().disable();
     }
 
     @Override
-    public void configure(WebSecurity web) throws Exception {
+    @SneakyThrows
+    public void configure(WebSecurity web) {
         web.ignoring()
                 .antMatchers("/**.html", "/v2/api-docs", "/webjars/**", "/configuration/**", "/swagger-resources/**");
     }

@@ -3,7 +3,6 @@ package com.srh.api.controller;
 import com.srh.api.dto.auth.AuthDto;
 import com.srh.api.dto.auth.LoginForm;
 import com.srh.api.error.exception.InvalidUserInTokenException;
-import com.srh.api.security.SecurityConstants;
 import com.srh.api.service.JWTService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;

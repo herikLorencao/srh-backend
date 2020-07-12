@@ -9,12 +9,12 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
 public class HttpRequestMethodNotSupportedHandler {
-    @ResponseStatus(code = HttpStatus.BAD_REQUEST)
+    @ResponseStatus(code = HttpStatus.NOT_FOUND)
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
-    public DefaultErrorDto handle() {
+    public DefaultErrorDto handle(Exception exception) {
         return new DefaultErrorDto(
-                "The request method not exists",
-                "The API not contains the resource searched"
+                "O método requisitado não existe",
+                exception.getMessage()
         );
     }
 }

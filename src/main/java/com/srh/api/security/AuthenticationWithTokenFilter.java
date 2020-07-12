@@ -1,9 +1,10 @@
 package com.srh.api.security;
 
 import com.srh.api.error.exception.InvalidTokenException;
-import com.srh.api.model.UserApi;
-import com.srh.api.repository.UserApiRepository;
+import com.srh.api.model.ApiUser;
+import com.srh.api.repository.ApiUserRepository;
 import com.srh.api.service.JWTService;
+import lombok.SneakyThrows;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -19,17 +20,18 @@ import static com.srh.api.security.SecurityConstants.HEADER;
 
 public class AuthenticationWithTokenFilter extends OncePerRequestFilter {
     private final JWTService jwtService;
-    private final UserApiRepository repository;
+    private final ApiUserRepository repository;
 
-    public AuthenticationWithTokenFilter(JWTService jwtService, UserApiRepository repository) {
+    public AuthenticationWithTokenFilter(JWTService jwtService, ApiUserRepository repository) {
         this.jwtService = jwtService;
         this.repository = repository;
     }
 
     @Override
+    @SneakyThrows
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
-                                    FilterChain filterChain) throws ServletException, IOException {
+                                    FilterChain filterChain) {
         String token = extractToken(request);
         boolean isValidToken = jwtService.isValidJWT(token);
 
@@ -54,10 +56,10 @@ public class AuthenticationWithTokenFilter extends OncePerRequestFilter {
         UsernamePasswordAuthenticationToken authenticationToken;
         Integer userId = jwtService.getUserId(token);
 
-        Optional<UserApi> optionalUserApi = repository.findById(userId);
+        Optional<ApiUser> optionalUserApi = repository.findById(userId);
 
         if (optionalUserApi.isPresent()) {
-            UserApi user = optionalUserApi.get();
+            ApiUser user = optionalUserApi.get();
             authenticationToken = new UsernamePasswordAuthenticationToken(user,
                     user.getPassword(), user.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(authenticationToken);

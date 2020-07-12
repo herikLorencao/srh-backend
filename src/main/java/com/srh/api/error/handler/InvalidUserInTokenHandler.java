@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class InvalidUserInTokenHandler {
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ExceptionHandler(InvalidUserInTokenException.class)
-    public DefaultErrorDto handle() {
+    public DefaultErrorDto handle(Exception exception) {
         return new DefaultErrorDto(
-                "The user informated is not valid",
-                "Inform a user registered in the api"
+                "O usuário informado não é válido",
+                exception.getMessage()
         );
     }
 }
