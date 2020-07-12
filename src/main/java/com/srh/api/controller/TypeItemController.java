@@ -27,7 +27,7 @@ import java.net.URI;
 import static com.srh.api.dto.resource.TypeItemDto.*;
 
 @RestController
-@RequestMapping("/typeitem")
+@RequestMapping("/typeitens")
 public class TypeItemController {
     @Autowired
     private TypeItemService typeItemService;

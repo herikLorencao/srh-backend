@@ -30,6 +30,6 @@ public class Item {
     @ManyToMany(mappedBy = "itens")
     private List<Tag> tags;
 
-    @ManyToMany
+    @ManyToMany(mappedBy = "itens")
     private List<Attribute> attributes;
 }

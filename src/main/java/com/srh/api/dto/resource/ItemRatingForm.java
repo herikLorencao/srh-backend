@@ -11,6 +11,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 
 @Getter
 @AllArgsConstructor
@@ -36,6 +37,7 @@ public class ItemRatingForm {
                 .withScore(score)
                 .withEvaluator(evaluator)
                 .withItem(item)
+                .withDate(LocalDateTime.now())
                 .build();
     }
 }

@@ -1,5 +1,6 @@
 package com.srh.api.hypermedia;
 
+import com.srh.api.controller.TypeItemAttributeController;
 import com.srh.api.controller.TypeItemController;
 import com.srh.api.dto.resource.TypeItemDto;
 import org.springframework.data.domain.Pageable;
@@ -18,7 +19,9 @@ public class TypeItemModelAssembler implements RepresentationModelAssembler<Type
                 linkTo(methodOn(TypeItemController.class).find(typeItemDto.getId())).withSelfRel(),
                 linkTo(methodOn(TypeItemController.class).listAll(Pageable.unpaged())).withRel("typeitems"),
                 linkTo(methodOn(TypeItemController.class).findItensByTypeItem(typeItemDto.getId(), Pageable.unpaged()))
-                        .withRel("itens")
+                        .withRel("itens"),
+                linkTo(methodOn(TypeItemAttributeController.class).listAttributesByTypeItem(typeItemDto.getId(), Pageable.unpaged()))
+                        .withRel("attributes")
         );
     }
 }
