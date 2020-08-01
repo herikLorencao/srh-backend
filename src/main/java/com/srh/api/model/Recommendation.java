@@ -28,4 +28,7 @@ public class Recommendation {
 
     @OneToMany(mappedBy = "recommendation")
     private List<RecommendationRating> recommendationRatings;
+
+    @ManyToOne
+    private RecommendationResultMatrix recommendationResultMatrix;
 }

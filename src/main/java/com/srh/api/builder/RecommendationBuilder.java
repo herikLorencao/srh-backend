@@ -14,6 +14,7 @@ public final class RecommendationBuilder {
     private Evaluator evaluator;
     private Item item;
     private List<RecommendationRating> recommendationRatings;
+    private RecommendationResultMatrix recommendationResultMatrix;
 
     private RecommendationBuilder() {
     }
@@ -62,6 +63,11 @@ public final class RecommendationBuilder {
         return this;
     }
 
+    public RecommendationBuilder withRecommendationResult(RecommendationResultMatrix recommendationResultMatrix) {
+        this.recommendationResultMatrix = recommendationResultMatrix;
+        return this;
+    }
+
     public Recommendation build() {
         Recommendation recommendation = new Recommendation();
         recommendation.setId(id);
@@ -72,6 +78,7 @@ public final class RecommendationBuilder {
         recommendation.setEvaluator(evaluator);
         recommendation.setItem(item);
         recommendation.setRecommendationRatings(recommendationRatings);
+        recommendation.setRecommendationResultMatrix(recommendationResultMatrix);
         return recommendation;
     }
 }
