@@ -52,4 +52,13 @@ public class EvaluatorService {
         find(id);
         evaluatorRepository.deleteById(id);
     }
+
+    public Evaluator findByLogin(String login) {
+        Optional<Evaluator> evaluator = evaluatorRepository.findByLogin(login);
+
+        if (evaluator.isPresent())
+            return evaluator.get();
+
+        throw new ObjectNotFoundException(login, Evaluator.class.getName());
+    }
 }

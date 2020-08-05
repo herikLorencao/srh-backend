@@ -23,6 +23,10 @@ public class PasswordUtil<T extends User> {
         return encodedPasswordForUser(newUser, newRawPassword);
     }
 
+    public boolean isEqualsPasswords(String rawPassword, String encodedPassword) {
+        return BcriptyUtil.compareValues(rawPassword, encodedPassword);
+    }
+
     private T encodedPasswordForUser(T user, String newRawPassword) {
         String encodedPassword = BcriptyUtil.encripty(newRawPassword);
         user.setPassword(encodedPassword);
@@ -39,9 +43,5 @@ public class PasswordUtil<T extends User> {
         if (!isEqualsPasswords(oldRawPassword, oldPassword)) {
             throw new NotEqualsPasswordException("A senha antiga não confere com a cadastrada");
         }
-    }
-
-    private boolean isEqualsPasswords(String rawPassword, String encodedPassword) {
-        return BcriptyUtil.compareValues(rawPassword, encodedPassword);
     }
 }

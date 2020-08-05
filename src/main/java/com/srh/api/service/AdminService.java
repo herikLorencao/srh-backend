@@ -49,4 +49,13 @@ public class AdminService {
         find(id);
         adminRepository.deleteById(id);
     }
+
+    public Admin findByLogin(String login) {
+        Optional<Admin> admin = adminRepository.findByLogin(login);
+
+        if (admin.isPresent())
+            return admin.get();
+
+        throw new ObjectNotFoundException(login, Admin.class.getName());
+    }
 }
