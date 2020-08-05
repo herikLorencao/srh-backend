@@ -17,6 +17,7 @@ public class Project {
     private String description;
     private LocalDate date;
     private Boolean visible;
+    private Integer matrixId;
 
     @Enumerated(EnumType.STRING)
     private Situations situation;

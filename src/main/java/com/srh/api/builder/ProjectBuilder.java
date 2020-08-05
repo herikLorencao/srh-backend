@@ -11,6 +11,7 @@ public final class ProjectBuilder {
     private String description;
     private LocalDate date;
     private Boolean visible;
+    private Integer matrixId;
     private Situations situation;
     private Admin admin;
     private List<Evaluator> evaluators;
@@ -48,6 +49,11 @@ public final class ProjectBuilder {
         return this;
     }
 
+    public ProjectBuilder withMatrixId(Integer matrixId) {
+        this.matrixId = matrixId;
+        return this;
+    }
+
     public ProjectBuilder withSituation(Situations situation) {
         this.situation = situation;
         return this;
@@ -75,6 +81,7 @@ public final class ProjectBuilder {
         project.setDescription(description);
         project.setDate(date);
         project.setVisible(visible);
+        project.setMatrixId(matrixId);
         project.setSituation(situation);
         project.setAdmin(admin);
         project.setEvaluators(evaluators);

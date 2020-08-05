@@ -16,6 +16,7 @@ public class Recommendation {
     private Double weight;
     private LocalDateTime date;
     private Integer runtimeInSeconds;
+    private Integer matrixId;
 
     @ManyToOne
     private Algorithm algorithm;
@@ -28,7 +29,4 @@ public class Recommendation {
 
     @OneToMany(mappedBy = "recommendation")
     private List<RecommendationRating> recommendationRatings;
-
-    @ManyToOne
-    private RecommendationResultMatrix recommendationResultMatrix;
 }

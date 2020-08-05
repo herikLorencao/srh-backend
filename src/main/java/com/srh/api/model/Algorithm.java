@@ -16,7 +16,4 @@ public class Algorithm {
 
     @OneToMany(mappedBy = "algorithm")
     private List<Recommendation> recommendations;
-
-    @OneToMany(mappedBy = "algorithm")
-    private List<RecommendationResultMatrix> recommendationResultMatrices;
 }
