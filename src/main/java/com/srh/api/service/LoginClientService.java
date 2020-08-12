@@ -54,4 +54,24 @@ public class LoginClientService {
 
         return true;
     }
+
+    @SneakyThrows
+    public Integer getAdminId(String login) {
+        try {
+            Admin admin = adminService.findByLogin(login);
+            return admin.getId();
+        } catch (ObjectNotFoundException e) {
+            throw new InvalidLoginUserException();
+        }
+    }
+
+    @SneakyThrows
+    public Integer getEvaluatorId(String login) {
+        try {
+            Evaluator evaluator = evaluatorService.findByLogin(login);
+            return evaluator.getId();
+        } catch (ObjectNotFoundException e) {
+            throw new InvalidLoginUserException();
+        }
+    }
 }

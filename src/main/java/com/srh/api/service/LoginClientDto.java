@@ -6,5 +6,6 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class LoginClientDto {
-    private Boolean validUser = true;
+    private final Boolean validUser;
+    private Integer userId;
 }

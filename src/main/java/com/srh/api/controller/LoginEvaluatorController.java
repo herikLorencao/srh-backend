@@ -23,7 +23,7 @@ public class LoginEvaluatorController {
         Boolean validUser = loginClientService.verifyEvaluators(
                 loginForm.getLogin(), loginForm.getPassword()
         );
-
-        return ResponseEntity.ok(new LoginClientDto(validUser));
+        Integer evaluatorId = loginClientService.getEvaluatorId(loginForm.getLogin());
+        return ResponseEntity.ok(new LoginClientDto(validUser, evaluatorId));
     }
 }

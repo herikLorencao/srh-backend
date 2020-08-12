@@ -23,7 +23,7 @@ public class LoginAdminController {
         Boolean validUser = loginClientService.generateLoginTokenByAdmins(
                 loginForm.getLogin(), loginForm.getPassword()
         );
-
-        return ResponseEntity.ok(new LoginClientDto(validUser));
+        Integer adminId = loginClientService.getAdminId(loginForm.getLogin());
+        return ResponseEntity.ok(new LoginClientDto(validUser, adminId));
     }
 }

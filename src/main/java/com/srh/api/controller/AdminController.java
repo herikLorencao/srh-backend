@@ -2,9 +2,14 @@ package com.srh.api.controller;
 
 import com.srh.api.dto.resource.AdminDto;
 import com.srh.api.dto.resource.AdminForm;
+import com.srh.api.dto.resource.ProjectDto;
+import com.srh.api.dto.resource.TypeItemDto;
 import com.srh.api.hypermedia.AdminModelAssembler;
 import com.srh.api.model.Admin;
+import com.srh.api.model.Project;
+import com.srh.api.model.TypeItem;
 import com.srh.api.service.AdminService;
+import com.srh.api.utils.PageUtil;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -34,6 +39,9 @@ public class AdminController {
 
     @Autowired
     private PagedResourcesAssembler<AdminDto> pagedResourcesAssembler;
+
+    @Autowired
+    private PagedResourcesAssembler<ProjectDto> projectDtoPagedResourcesAssembler;
 
     @GetMapping
     public PagedModel<EntityModel<AdminDto>> listAll(@PageableDefault(page = 0, size = 5) Pageable pageInfo) {
@@ -72,5 +80,18 @@ public class AdminController {
     public ResponseEntity<Void> delete(@PathVariable Integer id) {
         adminService.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("{adminId}/projects")
+    public PagedModel<EntityModel<ProjectDto>> findProjectsByAdmin(
+            @PathVariable Integer adminId,
+            @PageableDefault(page = 0, size = 5) Pageable pageInfo
+    ) {
+        PageUtil<Project> pageUtil = new PageUtil<>(pageInfo, adminService.
+                listProjectsByAdmin(adminId));
+
+        return projectDtoPagedResourcesAssembler.toModel(ProjectDto.convert(
+                pageUtil.getPage()
+        ));
     }
 }
