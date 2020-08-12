@@ -1,12 +1,8 @@
 package com.srh.api.controller;
 
-import com.srh.api.dto.resource.ItemDto;
-import com.srh.api.dto.resource.ProjectDto;
-import com.srh.api.dto.resource.ProjectForm;
-import com.srh.api.hypermedia.ItemModelAssembler;
+import com.srh.api.dto.resource.*;
 import com.srh.api.hypermedia.ProjectModelAssembler;
-import com.srh.api.model.Item;
-import com.srh.api.model.Project;
+import com.srh.api.model.*;
 import com.srh.api.service.ProjectService;
 import com.srh.api.utils.PageUtil;
 import lombok.SneakyThrows;
@@ -41,6 +37,18 @@ public class ProjectController {
 
     @Autowired
     private PagedResourcesAssembler<ItemDto> itemDtoPagedResourcesAssembler;
+
+    @Autowired
+    private PagedResourcesAssembler<RecommendationDto> recommendationDtoPagedResourcesAssembler;
+
+    @Autowired
+    private PagedResourcesAssembler<ItemRatingDto> itemRatingDtoPagedResourcesAssembler;
+
+    @Autowired
+    private PagedResourcesAssembler<TagDto> tagDtoPagedResourcesAssembler;
+
+    @Autowired
+    private PagedResourcesAssembler<TypeItemDto> typeItemDtoPagedResourcesAssembler;
 
     @GetMapping
     public PagedModel<EntityModel<ProjectDto>> listAll(@PageableDefault(page = 0, size = 5)
@@ -89,9 +97,61 @@ public class ProjectController {
             @PathVariable Integer projectId,
             @PageableDefault(page = 0, size = 5) Pageable pageInfo
     ) {
-        Project project = projectService.find(projectId);
-        PageUtil<Item> pageUtil = new PageUtil<>(pageInfo, project.getItens());
+        PageUtil<Item> pageUtil = new PageUtil<>(pageInfo, projectService.
+                listItensByProject(projectId));
 
         return itemDtoPagedResourcesAssembler.toModel(ItemDto.convert(pageUtil.getPage()));
+    }
+
+    @GetMapping("{projectId}/recommendations")
+    public PagedModel<EntityModel<RecommendationDto>> findRecommendationsByProject(
+            @PathVariable Integer projectId,
+            @PageableDefault(page = 0, size = 5) Pageable pageInfo
+    ) {
+        PageUtil<Recommendation> pageUtil = new PageUtil<>(pageInfo, projectService.
+                listRecommendationsByProject(projectId));
+
+        return recommendationDtoPagedResourcesAssembler.toModel(RecommendationDto.convert(
+                pageUtil.getPage()
+        ));
+    }
+
+    @GetMapping("{projectId}/itemratings")
+    public PagedModel<EntityModel<ItemRatingDto>> findItemRatingsByProject(
+            @PathVariable Integer projectId,
+            @PageableDefault(page = 0, size = 5) Pageable pageInfo
+    ) {
+        PageUtil<ItemRating> pageUtil = new PageUtil<>(pageInfo, projectService.
+                listItemRatingsByProject(projectId));
+
+        return itemRatingDtoPagedResourcesAssembler.toModel(ItemRatingDto.convert(
+                pageUtil.getPage()
+        ));
+    }
+
+    @GetMapping("{projectId}/tags")
+    public PagedModel<EntityModel<TagDto>> findTagsByProject(
+            @PathVariable Integer projectId,
+            @PageableDefault(page = 0, size = 5) Pageable pageInfo
+    ) {
+        PageUtil<Tag> pageUtil = new PageUtil<>(pageInfo, projectService.
+                listTagsByProject(projectId));
+
+        return tagDtoPagedResourcesAssembler.toModel(TagDto.convert(
+                pageUtil.getPage()
+        ));
+    }
+
+    @GetMapping("{projectId}/typeitens")
+    public PagedModel<EntityModel<TypeItemDto>> findTypeItensByProject(
+            @PathVariable Integer projectId,
+            @PageableDefault(page = 0, size = 5) Pageable pageInfo
+    ) {
+        PageUtil<TypeItem> pageUtil = new PageUtil<>(pageInfo, projectService.
+                listTypeItensByProject(projectId));
+
+        return typeItemDtoPagedResourcesAssembler.toModel(TypeItemDto.convert(
+                pageUtil.getPage()
+        ));
     }
 }

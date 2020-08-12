@@ -37,7 +37,12 @@ public class ItemService {
         return itemRepository.findAll(pageInfo);
     }
 
+    @SneakyThrows
     public Item save(Item item) {
+        if (!itemProjectIsOpenAndVisible(item)) {
+            throw new ProjectNotOpenedException("The project is closed or invisible");
+        }
+
         return itemRepository.save(item);
     }
 
