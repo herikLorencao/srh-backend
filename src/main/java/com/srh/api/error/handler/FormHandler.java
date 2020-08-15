@@ -19,7 +19,7 @@ public class FormHandler {
     @Autowired
     private MessageSource messageSource;
 
-    @ResponseStatus(code = HttpStatus.BAD_REQUEST)
+    @ResponseStatus(code = HttpStatus.UNPROCESSABLE_ENTITY)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public List<FormErrorDto> handle(MethodArgumentNotValidException exception) {
         List<FormErrorDto> dtos = new ArrayList<>();
