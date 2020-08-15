@@ -7,7 +7,7 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class ListRecommendationsByUser {
+public class RecommendationsByUser {
     private Evaluator evaluator;
     private List<Recommendation> recommendations;
 }

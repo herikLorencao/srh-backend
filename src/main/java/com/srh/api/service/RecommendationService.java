@@ -1,5 +1,10 @@
 package com.srh.api.service;
 
+import com.srh.api.algorithms.AlgorithmCalc;
+import com.srh.api.algorithms.AlgorithmStrategy;
+import com.srh.api.algorithms.structure.RecommendationsByUser;
+import com.srh.api.dto.resource.RecommendationForm;
+import com.srh.api.model.Evaluator;
 import com.srh.api.model.Recommendation;
 import com.srh.api.repository.RecommendationRepository;
 import org.hibernate.ObjectNotFoundException;
@@ -8,6 +13,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -40,5 +47,10 @@ public class RecommendationService {
     public void delete(Integer id) {
         find(id);
         recommendationRepository.deleteById(id);
+    }
+
+    public List<RecommendationsByUser> generateRecommendation(RecommendationForm recommendationInfo) {
+        AlgorithmCalc algorithm = AlgorithmStrategy.findInstance(recommendationInfo.getAlgorithmId());
+        return algorithm.calc(recommendationInfo);
     }
 }

@@ -1,14 +1,14 @@
 package com.srh.api.algorithms.strategies;
 
 import com.srh.api.algorithms.AlgorithmCalc;
-import com.srh.api.algorithms.structure.ListRecommendationsByUser;
-import com.srh.api.model.Evaluator;
+import com.srh.api.algorithms.structure.RecommendationsByUser;
+import com.srh.api.dto.resource.RecommendationForm;
 
 import java.util.List;
 
 public class WeightedHybridWithThreads implements AlgorithmCalc {
-    public List<ListRecommendationsByUser> calc(
-            Evaluator evaluator, Double passingScore, Boolean offline) {
+    @Override
+    public List<RecommendationsByUser> calc(RecommendationForm recommendationForm) {
         return null;
     }
 }
