@@ -4,9 +4,10 @@ import com.srh.api.algorithms.AlgorithmCalc;
 import com.srh.api.algorithms.AlgorithmStrategy;
 import com.srh.api.algorithms.structure.RecommendationsByUser;
 import com.srh.api.dto.resource.RecommendationForm;
-import com.srh.api.model.Evaluator;
-import com.srh.api.model.Recommendation;
+import com.srh.api.model.*;
+import com.srh.api.repository.ItemRepository;
 import com.srh.api.repository.RecommendationRepository;
+import com.srh.api.utils.PageUtil;
 import org.hibernate.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -21,6 +22,15 @@ import java.util.Optional;
 public class RecommendationService {
     @Autowired
     private RecommendationRepository recommendationRepository;
+
+    @Autowired
+    private ItemRepository itemRepository;
+
+    @Autowired
+    private TagService tagService;
+
+    @Autowired
+    private AlgorithmService algorithmService;
 
     public Recommendation find(Integer id) {
         Optional<Recommendation> recommendation = recommendationRepository.findById(id);
@@ -52,5 +62,31 @@ public class RecommendationService {
     public List<RecommendationsByUser> generateRecommendation(RecommendationForm recommendationInfo) {
         AlgorithmCalc algorithm = AlgorithmStrategy.findInstance(recommendationInfo.getAlgorithmId());
         return algorithm.calc(recommendationInfo);
+    }
+
+    public Page<Recommendation> listRecommendationsByAlgorithm(Integer algorithmId, Pageable pageInfo) {
+        Algorithm algorithm = algorithmService.find(algorithmId);
+        List<Recommendation> recommendations = recommendationRepository.findByAlgorithm(algorithm);
+        PageUtil<Recommendation> pageUtil = new PageUtil<>(pageInfo, recommendations);
+        return pageUtil.getPage();
+    }
+
+    public Page<Recommendation> listRecommendationsByMatrixId(Integer matrixId, Pageable pageInfo) {
+        List<Recommendation> recommendations = recommendationRepository.findByMatrixId(matrixId);
+        PageUtil<Recommendation> pageUtil = new PageUtil<>(pageInfo, recommendations);
+        return pageUtil.getPage();
+    }
+
+    public Page<Recommendation> listRecommendationsByTag(Integer tagId, Pageable pageInfo) {
+        Tag tag = tagService.find(tagId);
+        List<Item> itens = itemRepository.findByTags(tag);
+        List<Recommendation> recommendations = new ArrayList<>();
+
+        for (Item item : itens) {
+            recommendations.addAll(item.getRecommendations());
+        }
+
+        PageUtil<Recommendation> pageUtil = new PageUtil<>(pageInfo, recommendations);
+        return pageUtil.getPage();
     }
 }

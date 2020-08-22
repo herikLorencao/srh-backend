@@ -70,4 +70,28 @@ public class RecommendationController {
         return ResponseEntity.noContent().build();
     }
 
+    @GetMapping("/performances/{algorithmId}")
+    public ResponseEntity<Page<RecommendationDto>> listRecommendationsPerformance(
+            @PathVariable Integer algorithmId, Pageable pageInfo) {
+        Page<Recommendation> recommendations = recommendationService.listRecommendationsByAlgorithm(
+                algorithmId, pageInfo
+        );
+        return ResponseEntity.ok(RecommendationDto.convert(recommendations));
+    }
+
+    @GetMapping("/matrices/{matrixId}")
+    public ResponseEntity<Page<RecommendationDto>> listRecommendationsMatrix(
+            @PathVariable Integer matrixId, Pageable pageInfo) {
+        Page<Recommendation> recommendations = recommendationService.listRecommendationsByMatrixId(
+                matrixId, pageInfo);
+        return ResponseEntity.ok(RecommendationDto.convert(recommendations));
+    }
+
+    @GetMapping("/tags/{tagId}")
+    public ResponseEntity<Page<RecommendationDto>> listRecommendationsByTag(
+            @PathVariable Integer tagId, Pageable pageInfo
+    ) {
+        Page<Recommendation> recommendations = recommendationService.listRecommendationsByTag(tagId, pageInfo);
+        return ResponseEntity.ok(RecommendationDto.convert(recommendations));
+    }
 }

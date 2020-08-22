@@ -73,4 +73,17 @@ public class ItemRatingController {
         itemRatingService.delete(id);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/itens/{itemId}")
+    public ResponseEntity<Page<ItemRatingDto>> listItensRatingsByItem(@PathVariable Integer itemId, Pageable pageInfo) {
+        Page<ItemRating> itensRatings = itemRatingService.listItensRatingsByItem(itemId, pageInfo);
+        return ResponseEntity.ok(ItemRatingDto.convert(itensRatings));
+    }
+
+    @GetMapping("/tags/{tagId}")
+    public ResponseEntity<Page<ItemRatingDto>> listItensRatingsByTag(@PathVariable Integer tagId,
+                                                                     Pageable pageInfo) {
+        Page<ItemRating> itensRatings = itemRatingService.listItensRAtingsByTag(tagId, pageInfo);
+        return ResponseEntity.ok(ItemRatingDto.convert(itensRatings));
+    }
 }
