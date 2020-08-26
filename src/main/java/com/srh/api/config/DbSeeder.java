@@ -1,20 +1,17 @@
 package com.srh.api.config;
 
-import com.srh.api.builder.AlgorithmBuilder;
-import com.srh.api.builder.ApiUserBuilder;
-import com.srh.api.builder.ProfileBuilder;
-import com.srh.api.model.Algorithm;
-import com.srh.api.model.ApiUser;
-import com.srh.api.model.Profile;
-import com.srh.api.model.TypeRecommendation;
-import com.srh.api.repository.AlgorithmRepository;
-import com.srh.api.repository.ApiUserRepository;
-import com.srh.api.repository.ProfileRepository;
+import com.srh.api.builder.*;
+import com.srh.api.model.*;
+import com.srh.api.repository.*;
+import com.srh.api.utils.PasswordUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -28,6 +25,33 @@ public class DbSeeder {
     @Autowired
     private AlgorithmRepository algorithmRepository;
 
+    @Autowired
+    private AdminRepository adminRepository;
+
+    @Autowired
+    private EvaluatorRepository evaluatorRepository;
+
+    @Autowired
+    private ProjectRepository projectRepository;
+
+    @Autowired
+    private ItemRepository itemRepository;
+
+    @Autowired
+    private TagRepository tagRepository;
+
+    @Autowired
+    private TypeItemRepository typeItemRepository;
+
+    @Autowired
+    private RecommendationRepository recommendationRepository;
+
+    @Autowired
+    private ItemRatingRepository itemRatingRepository;
+
+    @Autowired
+    private RecommendationRatingRepository recommendationRatingRepository;
+
     private Profile adminProfile;
     private Profile userProfile;
 
@@ -39,6 +63,7 @@ public class DbSeeder {
         createApiUserClient();
 
         createAlgorithms();
+        populateItems();
 
         return true;
     }
@@ -137,5 +162,106 @@ public class DbSeeder {
                 algorithm1, algorithm2, algorithm3,
                 algorithm4, algorithm5, algorithm6
         ));
+    }
+
+    private void populateItems() {
+        PasswordUtil<Admin> adminPasswordUtil = new PasswordUtil<>();
+        PasswordUtil<Evaluator> evaluatorPasswordUtil = new PasswordUtil<>();
+
+        Admin admin = AdminBuilder.anAdmin()
+                .withId(1)
+                .withLogin("adminTest")
+                .withName("adminTest")
+                .withEmail("admin@email.com")
+                .withPassword("123456")
+                .build();
+
+        adminRepository.save(adminPasswordUtil.encodedPasswordForUser(admin));
+
+        Evaluator evaluator = EvaluatorBuilder.anEvaluator()
+                .withId(1)
+                .withLogin("evaluator")
+                .withName("evaluator")
+                .withEmail("evaluator@email.com")
+                .withPassword("123456")
+                .build();
+
+        evaluatorRepository.save(evaluatorPasswordUtil.encodedPasswordForUser(evaluator));
+
+        Project project = ProjectBuilder.aProject()
+                .withId(1)
+                .withAdmin(admin)
+                .withDate(LocalDate.now())
+                .withDescription("A project")
+                .withName("project")
+                .withSituation(Situations.OPEN)
+                .withVisible(true)
+                .withLastMatrixId(1)
+                .build();
+
+        projectRepository.save(project);
+
+        TypeItem typeItem = TypeItemBuilder.aTypeItem()
+                .withId(1)
+                .withName("typeItem 1")
+                .build();
+
+        typeItemRepository.save(typeItem);
+
+        Item item = ItemBuilder.anItem()
+                .withId(1)
+                .withName("Item")
+                .withDescription("A item")
+                .withProject(project)
+                .build();
+
+        itemRepository.save(item);
+
+        Tag tag = TagBuilder.aTag()
+                .withId(1)
+                .withName("Tag")
+                .withItens(Collections.singletonList(item))
+                .build();
+
+        tagRepository.save(tag);
+
+        Algorithm algorithm = AlgorithmBuilder.anAlgorithm()
+                .withId(1)
+                .withName("Filtragem Colaborativa")
+                .withTypeRecommendation(TypeRecommendation.COLLABORATIVE)
+                .build();
+
+        Recommendation recommendation = RecommendationBuilder.aRecommendation()
+                .withId(1)
+                .withMatrixId(1)
+                .withWeight(0.5)
+                .withRuntimeInSeconds(30)
+                .withEvaluator(evaluator)
+                .withDate(LocalDateTime.now())
+                .withItem(item)
+                .withAlgorithm(algorithm)
+                .build();
+
+        recommendationRepository.save(recommendation);
+
+        ItemRating itemRating = ItemRatingBuilder.anItemRating()
+                .withItem(item)
+                .withDate(LocalDateTime.now())
+                .withEvaluator(evaluator)
+                .withId(1)
+                .withScore(5.0)
+                .build();
+
+        itemRatingRepository.save(itemRating);
+
+        RecommendationRating recommendationRating = RecommendationRatingBuilder.aRecommendationRating()
+                .withId(1)
+                .withRecommendation(recommendation)
+                .withDate(LocalDateTime.now())
+                .withEvaluator(evaluator)
+                .withScore(2.0)
+                .build();
+
+        recommendationRatingRepository.save(recommendationRating);
     }
 }
