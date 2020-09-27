@@ -1,5 +1,10 @@
 package com.srh.api.service;
 
+import com.srh.api.algorithms.resources.AlgorithmStrategy;
+import com.srh.api.algorithms.resources.RecommendationAlgorithm;
+import com.srh.api.algorithms.resources.RecommendationsByEvaluator;
+import com.srh.api.algorithms.strategies.Collaborative;
+import com.srh.api.dto.resource.RecommendationForm;
 import com.srh.api.model.*;
 import com.srh.api.repository.ItemRepository;
 import com.srh.api.repository.RecommendationRepository;
@@ -28,6 +33,9 @@ public class RecommendationService {
     @Autowired
     private AlgorithmService algorithmService;
 
+    @Autowired
+    private AlgorithmStrategy algorithmStrategy;
+
     public Recommendation find(Integer id) {
         Optional<Recommendation> recommendation = recommendationRepository.findById(id);
 
@@ -41,8 +49,9 @@ public class RecommendationService {
         return recommendationRepository.findAll(pageInfo);
     }
 
-    public Recommendation save(Recommendation recommendation) {
-        return recommendationRepository.save(recommendation);
+    public List<RecommendationsByEvaluator> generateRecommendations(RecommendationForm form) {
+        RecommendationAlgorithm algorithm = algorithmStrategy.getAlgorithm(form.getAlgorithmId());
+        return algorithm.calc(form);
     }
 
     public Recommendation update(Recommendation recommendation) {

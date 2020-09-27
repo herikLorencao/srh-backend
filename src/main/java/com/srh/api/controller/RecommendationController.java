@@ -1,11 +1,18 @@
 package com.srh.api.controller;
 
+import com.srh.api.algorithms.resources.RecommendationsByEvaluator;
 import com.srh.api.dto.resource.RecommendationDto;
+import com.srh.api.dto.resource.RecommendationForm;
+import com.srh.api.dto.resource.RecommendationsByEvaluatorDto;
 import com.srh.api.hypermedia.RecommendationModelAssembler;
+import com.srh.api.hypermedia.RecommendationsByEvaluatorModelAssembler;
+import com.srh.api.model.Evaluator;
 import com.srh.api.model.Recommendation;
 import com.srh.api.service.RecommendationService;
+import com.srh.api.utils.PageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.data.web.PagedResourcesAssembler;
@@ -15,6 +22,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
+import javax.validation.Valid;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.srh.api.dto.resource.RecommendationDto.convert;
 
@@ -26,6 +37,9 @@ public class RecommendationController {
 
     @Autowired
     private RecommendationModelAssembler recommendationModelAssembler;
+
+    @Autowired
+    private PagedResourcesAssembler<RecommendationsByEvaluatorDto> recommendationsByEvaluatorModelAssembler;
 
     @Autowired
     private PagedResourcesAssembler<RecommendationDto> pagedResourcesAssembler;
@@ -41,6 +55,19 @@ public class RecommendationController {
     public EntityModel<RecommendationDto> find(@PathVariable Integer id) {
         Recommendation recommendation = recommendationService.find(id);
         return recommendationModelAssembler.toModel(new RecommendationDto(recommendation));
+    }
+
+    @PostMapping
+    public PagedModel<EntityModel<RecommendationsByEvaluatorDto>> create(
+            @RequestBody @Valid RecommendationForm recommendationForm,
+            @PageableDefault(page = 0, size = 5) Pageable pageInfo) {
+        List<RecommendationsByEvaluator> recommendationsByEvaluatorList = recommendationService.
+                generateRecommendations(recommendationForm);
+
+        PageUtil<RecommendationsByEvaluator> pageUtil = new PageUtil<>(pageInfo,
+                recommendationsByEvaluatorList);
+
+        return recommendationsByEvaluatorModelAssembler.toModel(RecommendationsByEvaluatorDto.convert(pageUtil.getPage()));
     }
 
     @DeleteMapping("/{id}")
