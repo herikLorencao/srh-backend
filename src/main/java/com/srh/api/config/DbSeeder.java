@@ -3,6 +3,7 @@ package com.srh.api.config;
 import com.srh.api.builder.*;
 import com.srh.api.model.*;
 import com.srh.api.repository.*;
+import com.srh.api.utils.BcriptyUtil;
 import com.srh.api.utils.PasswordUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -78,7 +79,7 @@ public class DbSeeder {
                 .withEmail("admin@email.com")
                 .withName("admin")
                 .withLogin("admin")
-                .withPassword("$2a$10$sFKmbxbG4ryhwPNx/l3pgOJSt.fW1z6YcUnuE2X8APA/Z3NI/oSpq")
+                .withPassword(BcriptyUtil.encripty("123456"))
                 .withProfiles(profiles)
                 .build();
 
@@ -91,10 +92,10 @@ public class DbSeeder {
 
         ApiUser apiUser = ApiUserBuilder.anApiUser()
                 .withId(2)
-                .withEmail("admin@email.com")
+                .withEmail("client@email.com")
                 .withName("client")
                 .withLogin("client")
-                .withPassword("$2a$10$sFKmbxbG4ryhwPNx/l3pgOJSt.fW1z6YcUnuE2X8APA/Z3NI/oSpq")
+                .withPassword(BcriptyUtil.encripty("123456"))
                 .withProfiles(profiles)
                 .build();
 

@@ -1,9 +1,5 @@
 package com.srh.api.service;
 
-import com.srh.api.algorithms.AlgorithmCalc;
-import com.srh.api.algorithms.AlgorithmStrategy;
-import com.srh.api.algorithms.structure.RecommendationsByUser;
-import com.srh.api.dto.resource.RecommendationForm;
 import com.srh.api.model.*;
 import com.srh.api.repository.ItemRepository;
 import com.srh.api.repository.RecommendationRepository;
@@ -57,11 +53,6 @@ public class RecommendationService {
     public void delete(Integer id) {
         find(id);
         recommendationRepository.deleteById(id);
-    }
-
-    public List<RecommendationsByUser> generateRecommendation(RecommendationForm recommendationInfo) {
-        AlgorithmCalc algorithm = AlgorithmStrategy.findInstance(recommendationInfo.getAlgorithmId());
-        return algorithm.calc(recommendationInfo);
     }
 
     public Page<Recommendation> listRecommendationsByAlgorithm(Integer algorithmId, Pageable pageInfo) {
