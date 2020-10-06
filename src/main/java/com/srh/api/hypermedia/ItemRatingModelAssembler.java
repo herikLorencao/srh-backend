@@ -17,10 +17,11 @@ public class ItemRatingModelAssembler implements RepresentationModelAssembler<It
     @Override
     public EntityModel<ItemRatingDto> toModel(ItemRatingDto itemRatingDto) {
         return new EntityModel<>(itemRatingDto,
-                linkTo(methodOn(ItemRatingController.class).find(itemRatingDto.getId())).withSelfRel(),
+                linkTo(methodOn(ItemRatingController.class)
+                        .find(itemRatingDto.getItemId(), itemRatingDto.getEvaluatorId())).withSelfRel(),
                 linkTo(methodOn(ItemRatingController.class).listAll(Pageable.unpaged())).withRel("item ratings"),
-                linkTo(methodOn(ItemController.class).find(itemRatingDto.getItem().getId())).withRel("item"),
-                linkTo(methodOn(EvaluatorController.class).find(itemRatingDto.getEvaluator().getId())).withRel("evaluator")
+                linkTo(methodOn(ItemController.class).find(itemRatingDto.getItemId())).withRel("item"),
+                linkTo(methodOn(EvaluatorController.class).find(itemRatingDto.getEvaluatorId())).withRel("evaluator")
         );
     }
 }

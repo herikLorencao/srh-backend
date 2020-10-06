@@ -10,6 +10,7 @@ import com.srh.api.model.Evaluator;
 import com.srh.api.model.Recommendation;
 import com.srh.api.service.RecommendationService;
 import com.srh.api.utils.PageUtil;
+import com.sun.mail.iap.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -58,16 +59,19 @@ public class RecommendationController {
     }
 
     @PostMapping
-    public PagedModel<EntityModel<RecommendationsByEvaluatorDto>> create(
+//    PagedModel<EntityModel<RecommendationsByEvaluatorDto>>
+    public ResponseEntity<?> create(
             @RequestBody @Valid RecommendationForm recommendationForm,
             @PageableDefault(page = 0, size = 5) Pageable pageInfo) {
-        List<RecommendationsByEvaluator> recommendationsByEvaluatorList = recommendationService.
+        List<?> recommendationsByEvaluatorList = recommendationService.
                 generateRecommendations(recommendationForm);
 
-        PageUtil<RecommendationsByEvaluator> pageUtil = new PageUtil<>(pageInfo,
-                recommendationsByEvaluatorList);
+        return ResponseEntity.ok(recommendationsByEvaluatorList.size());
 
-        return recommendationsByEvaluatorModelAssembler.toModel(RecommendationsByEvaluatorDto.convert(pageUtil.getPage()));
+//        PageUtil<RecommendationsByEvaluator> pageUtil = new PageUtil<>(pageInfo,
+//                recommendationsByEvaluatorList);
+//
+//        return recommendationsByEvaluatorModelAssembler.toModel(RecommendationsByEvaluatorDto.convert(pageUtil.getPage()));
     }
 
     @DeleteMapping("/{id}")

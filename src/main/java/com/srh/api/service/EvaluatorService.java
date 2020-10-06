@@ -1,6 +1,7 @@
 package com.srh.api.service;
 
 import com.srh.api.model.Evaluator;
+import com.srh.api.model.Project;
 import com.srh.api.repository.EvaluatorRepository;
 import com.srh.api.utils.PasswordUtil;
 import org.hibernate.ObjectNotFoundException;
@@ -9,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -29,10 +31,6 @@ public class EvaluatorService {
 
     public Page<Evaluator> findAll(Pageable pageInfo) {
         return evaluatorRepository.findAll(pageInfo);
-    }
-
-    public Iterable<Evaluator> listAll() {
-        return evaluatorRepository.findAll();
     }
 
     public Evaluator save(Evaluator evaluator) {

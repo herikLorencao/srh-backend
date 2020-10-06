@@ -1,9 +1,11 @@
 package com.srh.api.controller;
 
+import com.srh.api.builder.ItemRatingPKBuilder;
 import com.srh.api.dto.resource.ItemRatingDto;
 import com.srh.api.dto.resource.ItemRatingForm;
 import com.srh.api.hypermedia.ItemRatingModelAssembler;
 import com.srh.api.model.ItemRating;
+import com.srh.api.model.ItemRatingPK;
 import com.srh.api.service.ItemRatingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -42,9 +44,12 @@ public class ItemRatingController {
         return pagedResourcesAssembler.toModel(convert(itemRatings));
     }
 
-    @GetMapping("/{id}")
-    public EntityModel<ItemRatingDto> find(@PathVariable Integer id) {
-        ItemRating itemRating = itemRatingService.find(id);
+    @GetMapping("/itens/{itemId}/evaluators/{evaluatorId}")
+    public EntityModel<ItemRatingDto> find(@PathVariable Integer itemId, @PathVariable Integer evaluatorId) {
+        ItemRatingForm itemRatingForm = new ItemRatingForm(null, evaluatorId, itemId);
+        ItemRating itemRatingGet = itemRatingForm.build();
+
+        ItemRating itemRating = itemRatingService.find(itemRatingGet.getId());
         return itemRatingModelAssembler.toModel(new ItemRatingDto(itemRating));
     }
 
@@ -53,24 +58,27 @@ public class ItemRatingController {
                                                              UriComponentsBuilder uriBuilder) {
         ItemRating itemRating = itemRatingForm.build();
         itemRatingService.save(itemRating);
-        URI uri = uriBuilder.path("/itemratings/{id}").buildAndExpand(itemRating.getId()).toUri();
+        URI uri = uriBuilder.path("/itemratings/itens/{itemId}/evaluators/{evaluatorId}")
+                .buildAndExpand(itemRating.getId().getItem().getId(),
+                        itemRating.getId().getEvaluator().getId()).toUri();
         return ResponseEntity.created(uri)
                 .body(itemRatingModelAssembler.toModel(new ItemRatingDto(itemRating)));
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/itens/{itemId}/evaluators/{evaluatorId}")
     @Transactional
     public EntityModel<ItemRatingDto> update(@RequestBody @Valid ItemRatingForm itemRatingForm,
-                                             @PathVariable Integer id) {
+                                             @PathVariable Integer itemId, @PathVariable Integer evaluatorId) {
         ItemRating itemRating = itemRatingForm.build();
-        itemRating.setId(id);
-        itemRating = itemRatingService.update(itemRating);
+        itemRating = itemRatingService.update(itemRating, evaluatorId, itemId);
         return itemRatingModelAssembler.toModel(new ItemRatingDto(itemRating));
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Integer id) {
-        itemRatingService.delete(id);
+    @DeleteMapping("/itens/{itemId}/evaluators/{evaluatorId}")
+    public ResponseEntity<Void> delete(@PathVariable Integer itemId, @PathVariable Integer evaluatorId) {
+        ItemRatingForm itemRatingForm = new ItemRatingForm(null, evaluatorId, itemId);
+        ItemRating itemRatingGet = itemRatingForm.build();
+        itemRatingService.delete(itemRatingGet.getId());
         return ResponseEntity.noContent().build();
     }
 

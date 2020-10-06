@@ -12,10 +12,12 @@ import java.util.List;
 @Relation(collectionRelation = "recommendations")
 public class RecommendationsByEvaluatorDto {
     private final Integer evaluatorId;
+    private final Integer matrixId;
     private final List<Recommendation> recommendations;
 
     public RecommendationsByEvaluatorDto(RecommendationsByEvaluator recommendationsByEvaluator) {
         this.evaluatorId = recommendationsByEvaluator.getEvaluator().getId();
+        this.matrixId = recommendationsByEvaluator.getMatrixId();
         this.recommendations = recommendationsByEvaluator.getRecommendations();
     }
 

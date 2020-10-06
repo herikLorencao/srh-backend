@@ -1,11 +1,11 @@
 package com.srh.api.repository;
 
-import com.srh.api.model.Item;
 import com.srh.api.model.ItemRating;
+import com.srh.api.model.ItemRatingPK;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
-import java.util.List;
+import java.util.Optional;
 
-public interface ItemRatingRepository extends PagingAndSortingRepository<ItemRating, Integer> {
-    List<ItemRating> findByItem(Item item);
+public interface ItemRatingRepository extends PagingAndSortingRepository<ItemRating, ItemRatingPK> {
+    Optional<ItemRating> findById(ItemRatingPK itemRatingPK);
 }

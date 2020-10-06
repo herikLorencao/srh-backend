@@ -1,17 +1,19 @@
 package com.srh.api.model;
 
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
+import java.io.Serializable;
+import java.time.LocalDateTime;
 
 @Entity
 @Data
-@EqualsAndHashCode(callSuper = true)
-public class ItemRating extends Rating {
-    @ManyToOne
-    private Evaluator evaluator;
+public class ItemRating implements Serializable {
+    private static final long serialVersionUID = 1L;
 
-    @ManyToOne
-    private Item item;
+    @EmbeddedId
+    private ItemRatingPK id = new ItemRatingPK();
+
+    private Double score;
+    private LocalDateTime date;
 }

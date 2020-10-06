@@ -10,4 +10,5 @@ import java.util.List;
 public class RecommendationsByEvaluator {
     private Evaluator evaluator;
     private List<Recommendation> recommendations;
+    private Integer matrixId;
 }

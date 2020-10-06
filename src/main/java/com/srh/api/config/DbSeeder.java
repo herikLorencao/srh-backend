@@ -245,15 +245,15 @@ public class DbSeeder {
 
         recommendationRepository.save(recommendation);
 
-        ItemRating itemRating = ItemRatingBuilder.anItemRating()
-                .withItem(item)
-                .withDate(LocalDateTime.now())
-                .withEvaluator(evaluator)
-                .withId(1)
-                .withScore(5.0)
-                .build();
+//        ItemRating itemRating = ItemRatingBuilder.anItemRating()
+//                .withItem(item)
+//                .withDate(LocalDateTime.now())
+//                .withEvaluator(evaluator)
+//                .withId(1)
+//                .withScore(5.0)
+//                .build();
 
-        itemRatingRepository.save(itemRating);
+//        itemRatingRepository.save(itemRating);
 
         RecommendationRating recommendationRating = RecommendationRatingBuilder.aRecommendationRating()
                 .withId(1)

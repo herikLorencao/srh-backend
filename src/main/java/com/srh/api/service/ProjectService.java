@@ -38,6 +38,8 @@ public class ProjectService {
     public Project save(Project project) {
         Integer adminId = project.getAdmin().getId();
         Admin admin = adminService.find(adminId);
+
+
         project.setAdmin(admin);
         return projectRepository.save(project);
     }
@@ -108,5 +110,10 @@ public class ProjectService {
         }
 
         return typeItems;
+    }
+
+    public List<Evaluator> listEvaluatorsByProject(Integer projectId) {
+        Project project = find(projectId);
+        return project.getEvaluators();
     }
 }
