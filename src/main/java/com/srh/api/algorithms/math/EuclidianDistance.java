@@ -1,10 +1,19 @@
 package com.srh.api.algorithms.math;
 
+import java.util.List;
+
 public class EuclidianDistance {
-    public Double calc(Double x, Double y) {
-        Double sumDifferencePairs = 0.0;
-        sumDifferencePairs += calculePair(1.0, 1.0);
-        return Math.sqrt(sumDifferencePairs);
+    public Object calc(List<Coordinate> coordinates) {
+        return coordinates;
+
+//
+//        Double sumDifferencePairs = 0.0;
+//
+//        for(Coordinate coordinate: coordinates) {
+//            sumDifferencePairs += calculePair(coordinate.getX(), coordinate.getY());
+//        }
+//
+//        return Math.sqrt(sumDifferencePairs);
     }
 
     private Double calculePair(Double x, Double y) {

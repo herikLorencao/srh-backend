@@ -63,10 +63,10 @@ public class RecommendationController {
     public ResponseEntity<?> create(
             @RequestBody @Valid RecommendationForm recommendationForm,
             @PageableDefault(page = 0, size = 5) Pageable pageInfo) {
-        List<?> recommendationsByEvaluatorList = recommendationService.
+        Object recommendationsByEvaluatorList = recommendationService.
                 generateRecommendations(recommendationForm);
 
-        return ResponseEntity.ok(recommendationsByEvaluatorList.size());
+        return ResponseEntity.ok(recommendationsByEvaluatorList);
 
 //        PageUtil<RecommendationsByEvaluator> pageUtil = new PageUtil<>(pageInfo,
 //                recommendationsByEvaluatorList);
