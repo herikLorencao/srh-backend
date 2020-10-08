@@ -3,117 +3,75 @@ package com.srh.api.algorithms.resources.matrices.collaborative;
 import com.srh.api.algorithms.math.Coordinate;
 import com.srh.api.algorithms.math.EuclidianDistance;
 import com.srh.api.algorithms.math.MathUtil;
-import com.srh.api.model.*;
-import com.srh.api.service.ItemRatingService;
-import com.srh.api.service.ProjectService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import com.srh.api.model.Evaluator;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Component
 public class SimilarityMatrix {
-    @Autowired
-    private ProjectService projectService;
+    private Double[][] content;
+    Integer rowSize;
+    Integer colSize;
+    Integer evaluatorRow;
 
-    @Autowired
-    private ItemRatingService itemRatingService;
+    EuclidianDistance euclidianDistance = new EuclidianDistance();
 
-    private Double[][] primaryMatrix;
-    List<Double[][]> similaritiesMatrix = new ArrayList<>();
+    public SimilarityMatrix(PrimaryMatrix primaryMatrix, Evaluator evaluator) {
+        rowSize = primaryMatrix.getRowSize();
+        colSize = primaryMatrix.getColSize() + 2;
+        evaluatorRow = getEvaluatorRow(evaluator, primaryMatrix.getEvaluators());
 
-    private Project project;
-    private List<Evaluator> evaluators;
-    private List<Item> items;
-    private List<ItemRating> itemRatings;
-
-    private Integer rowSize;
-    private Integer colSize;
-    private final Integer extraColSize = 2;
-
-    public void fill(Integer projectId) {
-        project = projectService.find(projectId);
-        evaluators = project.getEvaluators();
-        items = project.getItens();
-        itemRatings = projectService.listItemRatingsByProject(projectId);
+        build(primaryMatrix.getContent());
     }
 
-    public Object generateSimilarity() {
-        rowSize = evaluators.size();
-        colSize = items.size();
+    private void build(Double[][] primaryMatrixContent) {
+        content = new Double[rowSize][colSize];
 
-        fillPrimaryMatrix();
-
-//        if (primaryMatrix != null && primaryMatrix.length > 0)
-//            return calculateSimilarityRows();
-
-        return primaryMatrix;
-    }
-
-    private void fillPrimaryMatrix() {
-        primaryMatrix = new Double[rowSize][colSize + extraColSize];
-
-        for(int i = 0; i < rowSize; i++) {
-            for(int j = 0; j < colSize; j++) {
-                primaryMatrix[i][j] = getItemRatingInPosition(i, j);
-            }
+        for (int i = 0; i < rowSize; i++) {
+            calculateCellsValues(primaryMatrixContent, i);
         }
     }
 
-    private Double getItemRatingInPosition(Integer x, Integer y) {
-        ItemRatingPK id = buildItemRatingId(x, y);
-
-        try {
-            ItemRating itemRating = itemRatingService.find(id);
-            return itemRating.getScore();
-        } catch (Exception e) {
-            return null;
-        }
-    }
-
-    private ItemRatingPK buildItemRatingId(Integer evaluatorPosition, Integer itemPosition) {
-        ItemRatingPK id = new ItemRatingPK();
-
-        id.setEvaluator(evaluators.get(evaluatorPosition));
-        id.setItem(items.get(itemPosition));
-
-        return id;
-    }
-
-    private Object calculateSimilarityRows() {
-        Double[][] similarityMatrix = primaryMatrix;
-
-        return null;
-    }
-
-    private List<Coordinate> calculateSimilarityCoordinate(Integer x, Integer y) {
+    private void calculateCellsValues(Double[][] primaryMatrix, Integer row) {
         List<Coordinate> coordinates = new ArrayList<>();
 
-        for(int i = 0; i < rowSize; i++) {
+        for(int j = 0; j < colSize; j++) {
+            coordinates.add(calculateCell(primaryMatrix, row, j, coordinates));
+        }
+    }
 
-            if (primaryMatrix[x][y] != null && primaryMatrix[i][y] != null) {
-                Coordinate coordinate = new Coordinate();
-                coordinate.setX(primaryMatrix[x][y]);
-                coordinate.setY(primaryMatrix[i][y]);
+    private Coordinate calculateCell(Double[][] primaryMatrix, Integer row, Integer col,  List<Coordinate> coordinates) {
+        Integer distanceColIndex = colSize - 2;
+        Integer similarityColIndex = colSize - 1;
 
-                coordinates.add(coordinate);
-            }
-
+        if (col.equals(distanceColIndex)) {
+            content[row][col] = euclidianDistance.calc(coordinates);
+            return buildCoordinate(null, null);
         }
 
-        return coordinates;
+        if (col.equals(similarityColIndex)) {
+            content[row][col] = MathUtil.calculateSimilarity(euclidianDistance.calc(coordinates));
+            return buildCoordinate(null, null);
+        }
+
+        content[row][col] = primaryMatrix[row][col];
+        return buildCoordinate(primaryMatrix[evaluatorRow][col], content[row][col]);
     }
 
-    private void defineDistance(Integer row, Double distance) {
-        if (primaryMatrix[row].length >= colSize)
-            primaryMatrix[row][colSize] = distance;
+    private Coordinate buildCoordinate(Double x, Double y) {
+        Coordinate coordinate = new Coordinate();
 
-        if (primaryMatrix[row].length >= colSize + 1)
-            primaryMatrix[row][colSize + 1] = MathUtil.calculateSimilarity(distance);
+        coordinate.setX(x);
+        coordinate.setY(y);
+
+        return coordinate;
     }
 
-    public Double[][] getPrimaryMatrix() {
-        return primaryMatrix;
+    private Integer getEvaluatorRow(Evaluator evaluator, List<Evaluator> evaluators) {
+        return evaluators.indexOf(evaluator);
+    }
+
+    public Double[][] getContent() {
+        return content;
     }
 }
