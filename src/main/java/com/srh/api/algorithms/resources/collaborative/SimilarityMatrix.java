@@ -1,4 +1,4 @@
-package com.srh.api.algorithms.resources.matrices.collaborative;
+package com.srh.api.algorithms.resources.collaborative;
 
 import com.srh.api.algorithms.math.Coordinate;
 import com.srh.api.algorithms.math.EuclidianDistance;
@@ -10,9 +10,9 @@ import java.util.List;
 
 public class SimilarityMatrix {
     private Double[][] content;
-    Integer rowSize;
-    Integer colSize;
-    Integer evaluatorRow;
+    private Integer rowSize;
+    private Integer colSize;
+    private Integer evaluatorRow;
 
     EuclidianDistance euclidianDistance = new EuclidianDistance();
 
@@ -69,6 +69,18 @@ public class SimilarityMatrix {
 
     private Integer getEvaluatorRow(Evaluator evaluator, List<Evaluator> evaluators) {
         return evaluators.indexOf(evaluator);
+    }
+
+    public Integer getRowSize() {
+        return rowSize;
+    }
+
+    public Integer getColSize() {
+        return colSize;
+    }
+
+    public Integer getEvaluatorRow() {
+        return evaluatorRow;
     }
 
     public Double[][] getContent() {

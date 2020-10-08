@@ -1,4 +1,4 @@
-package com.srh.api.algorithms.resources.matrices.collaborative;
+package com.srh.api.algorithms.resources.collaborative;
 
 import com.srh.api.model.*;
 import com.srh.api.service.ItemRatingService;
