@@ -25,4 +25,8 @@ public class RecommendationForm {
 
     @NotNull
     private Integer projectId;
+
+    @Min(value = 0)
+    @Max(value = 5)
+    private Integer decimalPrecision;
 }
