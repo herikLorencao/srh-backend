@@ -2,17 +2,16 @@ package com.srh.api.algorithms.resources.collaborative;
 
 import com.srh.api.model.Evaluator;
 
-public class RecommendationMatrixEvaluator {
+public class SimilarityMatrixEvaluator {
     Evaluator evaluator;
     Double[][] content;
-    Double[][] similarityItemMatrix;
 
     Integer rowSize;
     Integer colSize;
     Integer similarityIndex;
     Integer evaluatorRow;
 
-    public RecommendationMatrixEvaluator(SimilarityMatrix similarityMatrix, Evaluator evaluator) {
+    public SimilarityMatrixEvaluator(SimilarityMatrix similarityMatrix, Evaluator evaluator) {
         this.evaluator = evaluator;
         build(similarityMatrix);
     }
@@ -23,7 +22,7 @@ public class RecommendationMatrixEvaluator {
         similarityIndex = similarityMatrix.getColSize() - 1;
         evaluatorRow = similarityMatrix.getEvaluatorRow();
 
-        similarityItemMatrix = new Double[rowSize][colSize];
+        content = new Double[rowSize][colSize];
         calculateSimilarityByItem(similarityMatrix.getContent());
     }
 
@@ -35,7 +34,7 @@ public class RecommendationMatrixEvaluator {
 
     private void calculateSimilarityByCell(Integer i, Double[][] similarityMatrix) {
         for(int j = 0; j < colSize; j++) {
-            similarityItemMatrix[i][j] = calculateSimilarity(
+            content[i][j] = calculateSimilarity(
                     similarityMatrix[i][j], similarityMatrix[i][similarityIndex], i);
         }
     }
@@ -52,11 +51,11 @@ public class RecommendationMatrixEvaluator {
         return itemScore * similarityValue;
     }
 
-    public Double[][] getSimilarityItemMatrix() {
-        return similarityItemMatrix;
-    }
-
     public Double[][] getContent() {
         return content;
+    }
+
+    public Integer getRowSize() {
+        return rowSize;
     }
 }

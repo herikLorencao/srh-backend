@@ -79,6 +79,10 @@ public class PrimaryMatrix {
         return evaluators;
     }
 
+    public List<Item> getItems() {
+        return items;
+    }
+
     public Integer getRowSize() {
         return rowSize;
     }
