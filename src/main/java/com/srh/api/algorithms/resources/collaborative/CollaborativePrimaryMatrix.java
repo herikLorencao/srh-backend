@@ -1,5 +1,6 @@
 package com.srh.api.algorithms.resources.collaborative;
 
+import com.srh.api.algorithms.resources.PrimaryMatrix;
 import com.srh.api.model.*;
 import com.srh.api.service.ItemRatingService;
 import com.srh.api.service.ProjectService;
@@ -9,22 +10,16 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public class PrimaryMatrix {
+public class CollaborativePrimaryMatrix extends PrimaryMatrix {
     @Autowired
     private ProjectService projectService;
 
     @Autowired
     private ItemRatingService itemRatingService;
 
-    private Double[][] content;
-
-    private Project project;
-    private List<Evaluator> evaluators;
     private List<Item> items;
     private List<ItemRating> itemRatings;
 
-    private Integer rowSize;
-    private Integer colSize;
 
     public void build(Integer projectId) {
         project = projectService.find(projectId);
@@ -71,23 +66,7 @@ public class PrimaryMatrix {
         return id;
     }
 
-    public Double[][] getContent() {
-        return content;
-    }
-
-    public List<Evaluator> getEvaluators() {
-        return evaluators;
-    }
-
     public List<Item> getItems() {
         return items;
-    }
-
-    public Integer getRowSize() {
-        return rowSize;
-    }
-
-    public Integer getColSize() {
-        return colSize;
     }
 }

@@ -1,4 +1,4 @@
-package com.srh.api.algorithms.resources.collaborative;
+package com.srh.api.algorithms.resources;
 
 import com.srh.api.model.Evaluator;
 

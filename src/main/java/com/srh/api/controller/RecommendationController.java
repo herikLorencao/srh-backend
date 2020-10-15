@@ -59,19 +59,16 @@ public class RecommendationController {
     }
 
     @PostMapping
-//    PagedModel<EntityModel<RecommendationsByEvaluatorDto>>
-    public ResponseEntity<?> create(
+    PagedModel<EntityModel<RecommendationsByEvaluatorDto>> create(
             @RequestBody @Valid RecommendationForm recommendationForm,
             @PageableDefault(page = 0, size = 5) Pageable pageInfo) {
-        Object recommendationsByEvaluatorList = recommendationService.
+        List<RecommendationsByEvaluator> recommendationsByEvaluatorList = recommendationService.
                 generateRecommendations(recommendationForm);
 
-        return ResponseEntity.ok(recommendationsByEvaluatorList);
+        PageUtil<RecommendationsByEvaluator> pageUtil = new PageUtil<>(pageInfo,
+                recommendationsByEvaluatorList);
 
-//        PageUtil<RecommendationsByEvaluator> pageUtil = new PageUtil<>(pageInfo,
-//                recommendationsByEvaluatorList);
-//
-//        return recommendationsByEvaluatorModelAssembler.toModel(RecommendationsByEvaluatorDto.convert(pageUtil.getPage()));
+        return recommendationsByEvaluatorModelAssembler.toModel(RecommendationsByEvaluatorDto.convert(pageUtil.getPage()));
     }
 
     @DeleteMapping("/{id}")
