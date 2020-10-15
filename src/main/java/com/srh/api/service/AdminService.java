@@ -1,6 +1,7 @@
 package com.srh.api.service;
 
 import com.srh.api.model.Admin;
+import com.srh.api.model.Project;
 import com.srh.api.repository.AdminRepository;
 import com.srh.api.utils.PasswordUtil;
 import lombok.SneakyThrows;
@@ -10,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -48,5 +50,20 @@ public class AdminService {
     public void delete(Integer id) {
         find(id);
         adminRepository.deleteById(id);
+    }
+
+    public Admin findByLogin(String login) {
+        Optional<Admin> admin = adminRepository.findByLogin(login);
+
+        if (admin.isPresent())
+            return admin.get();
+
+        throw new ObjectNotFoundException(login, Admin.class.getName());
+    }
+
+    public List<Project> listProjectsByAdmin(Integer adminId) {
+        Admin admin = find(adminId);
+        List<Project> projects = admin.getProjects();
+        return projects;
     }
 }

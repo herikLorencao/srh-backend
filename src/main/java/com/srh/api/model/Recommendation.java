@@ -16,6 +16,7 @@ public class Recommendation {
     private Double weight;
     private LocalDateTime date;
     private Integer runtimeInSeconds;
+    private Integer matrixId;
 
     @ManyToOne
     private Algorithm algorithm;

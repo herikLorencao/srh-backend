@@ -51,6 +51,7 @@ public class ProjectForm {
                 .withSituation(Situations.valueOf(situation))
                 .withDate(LocalDate.now())
                 .withVisible(visible)
+                .withLastMatrixId(0)
                 .build();
     }
 }

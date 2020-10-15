@@ -1,8 +1,7 @@
 package com.srh.api.service;
 
 import com.srh.api.error.exception.ChangeRootRelationException;
-import com.srh.api.model.Admin;
-import com.srh.api.model.Project;
+import com.srh.api.model.*;
 import com.srh.api.repository.ProjectRepository;
 import lombok.SneakyThrows;
 import org.hibernate.ObjectNotFoundException;
@@ -11,6 +10,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -37,6 +38,8 @@ public class ProjectService {
     public Project save(Project project) {
         Integer adminId = project.getAdmin().getId();
         Admin admin = adminService.find(adminId);
+
+
         project.setAdmin(admin);
         return projectRepository.save(project);
     }
@@ -56,5 +59,61 @@ public class ProjectService {
     public void delete(Integer id) {
         find(id);
         projectRepository.deleteById(id);
+    }
+
+    public List<Item> listItensByProject(Integer projectId) {
+        Project project = find(projectId);
+        return project.getItens();
+    }
+
+    public List<Recommendation> listRecommendationsByProject(Integer projectId) {
+        List<Item> itens = listItensByProject(projectId);
+        List<Recommendation> recommendations = new ArrayList<>();
+
+        for (Item item : itens) {
+            recommendations.addAll(item.getRecommendations());
+        }
+
+        return recommendations;
+    }
+
+    public List<ItemRating> listItemRatingsByProject(Integer projectId) {
+        List<Item> itens = listItensByProject(projectId);
+        List<ItemRating> itemRatings = new ArrayList<>();
+
+        for (Item item : itens) {
+            itemRatings.addAll(item.getItemRatings());
+        }
+
+        return itemRatings;
+    }
+
+    public List<Tag> listTagsByProject(Integer projectId) {
+        List<Item> itens = listItensByProject(projectId);
+        List<Tag> tags = new ArrayList<>();
+
+        for (Item item : itens) {
+            tags.addAll(item.getTags());
+        }
+
+        return tags;
+    }
+
+    public List<TypeItem> listTypeItensByProject(Integer projectId) {
+        List<Item> itens = listItensByProject(projectId);
+        List<TypeItem> typeItems = new ArrayList<>();
+
+        for (Item item : itens) {
+            if (item.getTypeItem() != null) {
+                typeItems.add(item.getTypeItem());
+            }
+        }
+
+        return typeItems;
+    }
+
+    public List<Evaluator> listEvaluatorsByProject(Integer projectId) {
+        Project project = find(projectId);
+        return project.getEvaluators();
     }
 }

@@ -1,19 +1,40 @@
 package com.srh.api.service;
 
-import com.srh.api.model.Recommendation;
+import com.srh.api.algorithms.resources.AlgorithmStrategy;
+import com.srh.api.algorithms.resources.RecommendationAlgorithm;
+import com.srh.api.algorithms.resources.RecommendationsByEvaluator;
+import com.srh.api.algorithms.strategies.Collaborative;
+import com.srh.api.dto.resource.RecommendationForm;
+import com.srh.api.model.*;
+import com.srh.api.repository.ItemRepository;
 import com.srh.api.repository.RecommendationRepository;
+import com.srh.api.utils.PageUtil;
 import org.hibernate.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
 public class RecommendationService {
     @Autowired
     private RecommendationRepository recommendationRepository;
+
+    @Autowired
+    private ItemRepository itemRepository;
+
+    @Autowired
+    private TagService tagService;
+
+    @Autowired
+    private AlgorithmService algorithmService;
+
+    @Autowired
+    private AlgorithmStrategy algorithmStrategy;
 
     public Recommendation find(Integer id) {
         Optional<Recommendation> recommendation = recommendationRepository.findById(id);
@@ -28,8 +49,9 @@ public class RecommendationService {
         return recommendationRepository.findAll(pageInfo);
     }
 
-    public Recommendation save(Recommendation recommendation) {
-        return recommendationRepository.save(recommendation);
+    public List<RecommendationsByEvaluator> generateRecommendations(RecommendationForm form) {
+        RecommendationAlgorithm algorithm = algorithmStrategy.getAlgorithm(form.getAlgorithmId());
+        return algorithm.calc(form);
     }
 
     public Recommendation update(Recommendation recommendation) {
@@ -40,5 +62,31 @@ public class RecommendationService {
     public void delete(Integer id) {
         find(id);
         recommendationRepository.deleteById(id);
+    }
+
+    public Page<Recommendation> listRecommendationsByAlgorithm(Integer algorithmId, Pageable pageInfo) {
+        Algorithm algorithm = algorithmService.find(algorithmId);
+        List<Recommendation> recommendations = recommendationRepository.findByAlgorithm(algorithm);
+        PageUtil<Recommendation> pageUtil = new PageUtil<>(pageInfo, recommendations);
+        return pageUtil.getPage();
+    }
+
+    public Page<Recommendation> listRecommendationsByMatrixId(Integer matrixId, Pageable pageInfo) {
+        List<Recommendation> recommendations = recommendationRepository.findByMatrixId(matrixId);
+        PageUtil<Recommendation> pageUtil = new PageUtil<>(pageInfo, recommendations);
+        return pageUtil.getPage();
+    }
+
+    public Page<Recommendation> listRecommendationsByTag(Integer tagId, Pageable pageInfo) {
+        Tag tag = tagService.find(tagId);
+        List<Item> itens = itemRepository.findByTags(tag);
+        List<Recommendation> recommendations = new ArrayList<>();
+
+        for (Item item : itens) {
+            recommendations.addAll(item.getRecommendations());
+        }
+
+        PageUtil<Recommendation> pageUtil = new PageUtil<>(pageInfo, recommendations);
+        return pageUtil.getPage();
     }
 }

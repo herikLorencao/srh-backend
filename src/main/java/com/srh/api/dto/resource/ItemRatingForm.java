@@ -3,9 +3,11 @@ package com.srh.api.dto.resource;
 import com.srh.api.builder.EvaluatorBuilder;
 import com.srh.api.builder.ItemBuilder;
 import com.srh.api.builder.ItemRatingBuilder;
+import com.srh.api.builder.ItemRatingPKBuilder;
 import com.srh.api.model.Evaluator;
 import com.srh.api.model.Item;
 import com.srh.api.model.ItemRating;
+import com.srh.api.model.ItemRatingPK;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -33,10 +35,14 @@ public class ItemRatingForm {
                 .withId(itemId)
                 .build();
 
+        ItemRatingPK itemRatingPK = ItemRatingPKBuilder.anItemRatingPK()
+                .withItem(item)
+                .withEvaluator(evaluator)
+                .build();
+
         return ItemRatingBuilder.anItemRating()
                 .withScore(score)
-                .withEvaluator(evaluator)
-                .withItem(item)
+                .withId(itemRatingPK)
                 .withDate(LocalDateTime.now())
                 .build();
     }

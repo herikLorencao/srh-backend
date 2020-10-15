@@ -1,6 +1,7 @@
 package com.srh.api.service;
 
 import com.srh.api.model.Evaluator;
+import com.srh.api.model.Project;
 import com.srh.api.repository.EvaluatorRepository;
 import com.srh.api.utils.PasswordUtil;
 import org.hibernate.ObjectNotFoundException;
@@ -9,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -51,5 +53,14 @@ public class EvaluatorService {
     public void delete(Integer id) {
         find(id);
         evaluatorRepository.deleteById(id);
+    }
+
+    public Evaluator findByLogin(String login) {
+        Optional<Evaluator> evaluator = evaluatorRepository.findByLogin(login);
+
+        if (evaluator.isPresent())
+            return evaluator.get();
+
+        throw new ObjectNotFoundException(login, Evaluator.class.getName());
     }
 }

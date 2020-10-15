@@ -7,19 +7,20 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import java.io.Serializable;
 import java.util.List;
 
 @Entity
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class Evaluator extends User {
+public class Evaluator extends User implements Serializable {
     @ManyToMany
     private List<Project> projects;
 
     @OneToMany(mappedBy = "evaluator", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Recommendation> recommendations;
 
-    @OneToMany(mappedBy = "evaluator", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "id.evaluator", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ItemRating> itemRatings;
 
     @OneToMany(mappedBy = "evaluator", cascade = CascadeType.ALL, orphanRemoval = true)

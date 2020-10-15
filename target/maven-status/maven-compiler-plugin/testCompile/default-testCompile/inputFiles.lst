@@ -1,0 +1,14 @@
+/home/herik/codigos/srh-backend/src/test/java/com/srh/api/ApplicationTests.java
+/home/herik/codigos/srh-backend/src/test/java/com/srh/api/controller/AuthControllerTest.java
+/home/herik/codigos/srh-backend/src/test/java/com/srh/api/utils/RequestTokenUtil.java
+/home/herik/codigos/srh-backend/src/test/java/com/srh/api/controller/RecommendationControllerTest.java
+/home/herik/codigos/srh-backend/src/test/java/com/srh/api/controller/RatingControllerTest.java
+/home/herik/codigos/srh-backend/src/test/java/com/srh/api/utils/JsonUtil.java
+/home/herik/codigos/srh-backend/src/test/java/com/srh/api/controller/AdminControllerTest.java
+/home/herik/codigos/srh-backend/src/test/java/com/srh/api/utils/UrlUtils.java
+/home/herik/codigos/srh-backend/src/test/java/com/srh/api/controller/RecommendersControllerTest.java
+/home/herik/codigos/srh-backend/src/test/java/com/srh/api/utils/TestConstants.java
+/home/herik/codigos/srh-backend/src/test/java/com/srh/api/controller/ItemControllerTest.java
+/home/herik/codigos/srh-backend/src/test/java/com/srh/api/controller/ProjectControllerTest.java
+/home/herik/codigos/srh-backend/src/test/java/com/srh/api/controller/TagControllerTest.java
+/home/herik/codigos/srh-backend/src/test/java/com/srh/api/utils/MockRequestBuilder.java

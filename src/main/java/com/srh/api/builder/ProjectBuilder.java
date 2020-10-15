@@ -11,6 +11,7 @@ public final class ProjectBuilder {
     private String description;
     private LocalDate date;
     private Boolean visible;
+    private Integer lastMatrixId;
     private Situations situation;
     private Admin admin;
     private List<Evaluator> evaluators;
@@ -48,6 +49,11 @@ public final class ProjectBuilder {
         return this;
     }
 
+    public ProjectBuilder withLastMatrixId(Integer lastMatrixId) {
+        this.lastMatrixId = lastMatrixId;
+        return this;
+    }
+
     public ProjectBuilder withSituation(Situations situation) {
         this.situation = situation;
         return this;
@@ -75,6 +81,7 @@ public final class ProjectBuilder {
         project.setDescription(description);
         project.setDate(date);
         project.setVisible(visible);
+        project.setLastMatrixId(lastMatrixId);
         project.setSituation(situation);
         project.setAdmin(admin);
         project.setEvaluators(evaluators);

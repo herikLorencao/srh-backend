@@ -13,6 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -37,7 +38,16 @@ public class ItemService {
         return itemRepository.findAll(pageInfo);
     }
 
+    public List<Item> listAll() {
+        return (List<Item>) itemRepository.findAll();
+    }
+
+    @SneakyThrows
     public Item save(Item item) {
+        if (!itemProjectIsOpenAndVisible(item)) {
+            throw new ProjectNotOpenedException("The project is closed or invisible");
+        }
+
         return itemRepository.save(item);
     }
 

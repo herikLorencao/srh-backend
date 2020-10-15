@@ -7,7 +7,6 @@ import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -46,15 +45,23 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
     @Override
     @SneakyThrows
     protected void configure(HttpSecurity http) {
+//        http.authorizeRequests()
+//                .antMatchers(HttpMethod.POST, "/auth").permitAll()
+//                .antMatchers("/h2-console/**").permitAll()
+//                .antMatchers("/itens").hasRole("ADMIN")
+//                .antMatchers("/projects").hasRole("ADMIN")
+//                .antMatchers("/users/admins").hasRole("ADMIN")
+//                .antMatchers("/users/apis").hasRole("ADMIN")
+//                .antMatchers("/recommendations/types").hasRole("ADMIN")
+//                .anyRequest().hasRole("USER")
+//                .and().cors()
+//                .and().csrf().disable()
+//                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+//                .and().addFilterBefore(new AuthenticationWithTokenFilter(jwtService, APIUserRepository),
+//                UsernamePasswordAuthenticationFilter.class);
+
         http.authorizeRequests()
-                .antMatchers(HttpMethod.POST, "/auth").permitAll()
-                .antMatchers("/h2-console/**").permitAll()
-                .antMatchers("/itens").hasRole("ADMIN")
-                .antMatchers("/projects").hasRole("ADMIN")
-                .antMatchers("/users/admins").hasRole("ADMIN")
-                .antMatchers("/users/apis").hasRole("ADMIN")
-                .antMatchers("/recommendations/types").hasRole("ADMIN")
-                .anyRequest().hasRole("USER")
+                .antMatchers("/**").permitAll()
                 .and().csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().addFilterBefore(new AuthenticationWithTokenFilter(jwtService, APIUserRepository),

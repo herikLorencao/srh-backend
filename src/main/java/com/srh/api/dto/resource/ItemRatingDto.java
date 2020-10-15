@@ -1,8 +1,5 @@
 package com.srh.api.dto.resource;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.srh.api.model.Evaluator;
-import com.srh.api.model.Item;
 import com.srh.api.model.ItemRating;
 import lombok.Getter;
 import org.springframework.data.domain.Page;
@@ -10,16 +7,15 @@ import org.springframework.hateoas.server.core.Relation;
 
 @Getter
 @Relation(collectionRelation = "itemRatings")
-public class ItemRatingDto extends RatingDto {
-    @JsonIgnore
-    private final Item item;
-    @JsonIgnore
-    private final Evaluator evaluator;
+public class ItemRatingDto {
+    private final Integer evaluatorId;
+    private final Integer itemId;
+    private final Double score;
 
     public ItemRatingDto(ItemRating itemRating) {
-        super(itemRating);
-        this.item = itemRating.getItem();
-        this.evaluator = itemRating.getEvaluator();
+        this.evaluatorId = itemRating.getId().getEvaluator().getId();
+        this.itemId = itemRating.getId().getItem().getId();
+        this.score = itemRating.getScore();
     }
 
     public static Page<ItemRatingDto> convert(Page<ItemRating> itemRatings) {

@@ -10,6 +10,7 @@ public final class RecommendationBuilder {
     private Double weight;
     private LocalDateTime date;
     private Integer runtimeInSeconds;
+    private Integer matrixId;
     private Algorithm algorithm;
     private Evaluator evaluator;
     private Item item;
@@ -42,6 +43,11 @@ public final class RecommendationBuilder {
         return this;
     }
 
+    public RecommendationBuilder withMatrixId(Integer matrixId) {
+        this.matrixId = matrixId;
+        return this;
+    }
+
     public RecommendationBuilder withAlgorithm(Algorithm algorithm) {
         this.algorithm = algorithm;
         return this;
@@ -68,6 +74,7 @@ public final class RecommendationBuilder {
         recommendation.setWeight(weight);
         recommendation.setDate(date);
         recommendation.setRuntimeInSeconds(runtimeInSeconds);
+        recommendation.setMatrixId(matrixId);
         recommendation.setAlgorithm(algorithm);
         recommendation.setEvaluator(evaluator);
         recommendation.setItem(item);
