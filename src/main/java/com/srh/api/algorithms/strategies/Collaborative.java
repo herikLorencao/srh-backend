@@ -1,11 +1,7 @@
 package com.srh.api.algorithms.strategies;
 
 import com.srh.api.algorithms.math.CellPosition;
-import com.srh.api.algorithms.resources.RecommendationAlgorithm;
-import com.srh.api.algorithms.resources.RecommendationUtils;
-import com.srh.api.algorithms.resources.RecommendationMatrix;
-import com.srh.api.algorithms.resources.RecommendationsByEvaluator;
-import com.srh.api.algorithms.resources.BasicPrimaryMatrix;
+import com.srh.api.algorithms.resources.*;
 import com.srh.api.builder.AlgorithmBuilder;
 import com.srh.api.builder.RecommendationBuilder;
 import com.srh.api.dto.resource.RecommendationForm;
@@ -23,7 +19,7 @@ import java.util.stream.Collectors;
 @Service
 public class Collaborative implements RecommendationAlgorithm {
     @Autowired
-    private BasicPrimaryMatrix primaryMatrix;
+    private BasicBaseMatrix primaryMatrix;
 
     @Autowired
     private RecommendationMatrix recommendationMatrix;
@@ -35,15 +31,20 @@ public class Collaborative implements RecommendationAlgorithm {
 
     @Override
     public List<RecommendationsByEvaluator> calc(RecommendationForm form) {
-        recommendationUtils.configureRecommendationAlgorithm(form);
+        recommendationUtils.defineDecimalPrecision(form.getDecimalPrecision());
+        buildBaseMatrix(form.getProjectId());
 
         for (Evaluator evaluator : primaryMatrix.getEvaluators()) {
-            recommendationUtils.calculateRecommendationByEvaluator(evaluator);
+            recommendationUtils.calculateRecommendationByEvaluator(evaluator, primaryMatrix);
             addRecommendationsToList(evaluator);
         }
 
         mountRecommendationMatrix(form.getProjectId());
         return recommendationsByEvaluators;
+    }
+
+    private void buildBaseMatrix(Integer projectId) {
+        primaryMatrix.build(projectId);
     }
 
     private void mountRecommendationMatrix(Integer projectId) {

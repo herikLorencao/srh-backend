@@ -5,7 +5,7 @@ import com.srh.api.model.Project;
 
 import java.util.List;
 
-public abstract class PrimaryMatrix {
+public abstract class BaseMatrix {
     protected Double[][] content;
 
     protected Project project;

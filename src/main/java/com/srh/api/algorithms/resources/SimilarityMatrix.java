@@ -16,12 +16,12 @@ public class SimilarityMatrix {
 
     EuclidianDistance euclidianDistance = new EuclidianDistance();
 
-    public SimilarityMatrix(PrimaryMatrix primaryMatrix, Evaluator evaluator) {
-        rowSize = primaryMatrix.getRowSize();
-        colSize = primaryMatrix.getColSize() + 2;
-        evaluatorRow = getEvaluatorRow(evaluator, primaryMatrix.getEvaluators());
+    public SimilarityMatrix(BaseMatrix baseMatrix, Evaluator evaluator) {
+        rowSize = baseMatrix.getRowSize();
+        colSize = baseMatrix.getColSize() + 2;
+        evaluatorRow = getEvaluatorRow(evaluator, baseMatrix.getEvaluators());
 
-        build(primaryMatrix.getContent());
+        build(baseMatrix.getContent());
     }
 
     private void build(Double[][] primaryMatrixContent) {

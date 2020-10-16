@@ -1,7 +1,6 @@
 package com.srh.api.algorithms.resources;
 
 import com.srh.api.algorithms.math.CellPosition;
-import com.srh.api.algorithms.math.Coordinate;
 import com.srh.api.dto.resource.RecommendationForm;
 import com.srh.api.model.Evaluator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,37 +13,25 @@ import java.util.List;
 
 @Component
 public class RecommendationUtils {
-    @Autowired
-    private PrimaryMatrix primaryMatrix;
-
     private Double[][] recommendationMatrixContent;
     private final List<CellPosition> recommendationPositions = new ArrayList<>();
     private Integer decimalPrecision;
 
-    public void calculateRecommendationByEvaluator(Evaluator evaluator) {
-        SimilarityMatrix similarityMatrix = new SimilarityMatrix(primaryMatrix, evaluator);
+    public void calculateRecommendationByEvaluator(Evaluator evaluator, BaseMatrix baseMatrix) {
+        SimilarityMatrix similarityMatrix = new SimilarityMatrix(baseMatrix, evaluator);
         SimilarityMatrixEvaluator similarityMatrixEvaluator = new SimilarityMatrixEvaluator(
                 similarityMatrix, evaluator);
 
-        for (int i = 0; i < primaryMatrix.getRowSize(); i++) {
-            for (int j = 0; j < primaryMatrix.getColSize(); j++) {
-                calculateRecommendationByCell(i, j, similarityMatrix, similarityMatrixEvaluator);
+        setRecommendationMatrixContent(baseMatrix.getContent());
+
+        for (int i = 0; i < baseMatrix.getRowSize(); i++) {
+            for (int j = 0; j < baseMatrix.getColSize(); j++) {
+                calculateRecommendationByCell(i, j, similarityMatrix, similarityMatrixEvaluator, baseMatrix);
             }
         }
     }
 
-    public void configureRecommendationAlgorithm(RecommendationForm form) {
-        mountPrimaryMatrices(form.getProjectId());
-        defineDecimalPrecision(form.getDecimalPrecision());
-        setPrimaryMatrix(primaryMatrix);
-        setRecommendationMatrixContent(primaryMatrix.getContent());
-    }
-
-    private void mountPrimaryMatrices(Integer projectId) {
-        primaryMatrix.build(projectId);
-    }
-
-    private void defineDecimalPrecision(Integer value) {
+    public void defineDecimalPrecision(Integer value) {
         if (value == null) {
             decimalPrecision = 2;
             return;
@@ -94,8 +81,9 @@ public class RecommendationUtils {
     }
 
     private void calculateRecommendationByCell(Integer row, Integer column, SimilarityMatrix similarityMatrix,
-                                               SimilarityMatrixEvaluator similarityMatrixEvaluator) {
-        if (primaryMatrix.getContent()[row][column] != null)
+                                               SimilarityMatrixEvaluator similarityMatrixEvaluator,
+                                               BaseMatrix baseMatrix) {
+        if (baseMatrix.getContent()[row][column] != null)
             return;
 
         registerRecommendationCoordinate(row, column);
@@ -114,10 +102,6 @@ public class RecommendationUtils {
         }
 
         return roundValue(result, decimalPrecision);
-    }
-
-    public void setPrimaryMatrix(PrimaryMatrix primaryMatrix) {
-        this.primaryMatrix = primaryMatrix;
     }
 
     public Double[][] getRecommendationMatrixContent() {

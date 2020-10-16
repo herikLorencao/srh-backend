@@ -1,6 +1,5 @@
 package com.srh.api.algorithms.resources;
 
-import com.srh.api.algorithms.resources.PrimaryMatrix;
 import com.srh.api.model.*;
 import com.srh.api.service.ItemRatingService;
 import com.srh.api.service.ProjectService;
@@ -10,7 +9,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public class BasicPrimaryMatrix extends PrimaryMatrix {
+public class BasicBaseMatrix extends BaseMatrix {
     @Autowired
     private ProjectService projectService;
 

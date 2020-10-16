@@ -66,6 +66,7 @@ public class ItemService {
 
         item.setItemRatings(oldItem.getItemRatings());
         item.setRecommendations(oldItem.getRecommendations());
+        item.setTags(oldItem.getTags());
 
         return itemRepository.save(item);
     }

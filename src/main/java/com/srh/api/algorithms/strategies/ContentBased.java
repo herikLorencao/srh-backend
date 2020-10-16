@@ -11,7 +11,7 @@ import java.util.List;
 @Service
 public class ContentBased implements RecommendationAlgorithm {
     @Autowired
-    private BasicPrimaryMatrix primaryMatrix;
+    private BasicBaseMatrix primaryMatrix;
 
     @Autowired
     private RecommendationUtils recommendationUtils;
@@ -22,8 +22,13 @@ public class ContentBased implements RecommendationAlgorithm {
     private final List<RecommendationsByEvaluator> recommendationsByEvaluators = new ArrayList<>();
 
     @Override
-    public List<RecommendationsByEvaluator> calc(RecommendationForm form) {
-        recommendationUtils.configureRecommendationAlgorithm(form);
-        return null;
+//    public List<RecommendationsByEvaluator> calc(RecommendationForm form) {
+    public Object calc(RecommendationForm form) {
+//        recommendationUtils.configureRecommendationAlgorithm(form);
+//        primaryMatrix = (BasicBaseMatrix) recommendationUtils.getPrimaryMatrix();
+
+
+
+        return 2;
     }
 }
