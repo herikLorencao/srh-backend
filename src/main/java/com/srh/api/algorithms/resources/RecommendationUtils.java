@@ -2,6 +2,7 @@ package com.srh.api.algorithms.resources;
 
 import com.srh.api.algorithms.math.CellPosition;
 import com.srh.api.algorithms.math.Coordinate;
+import com.srh.api.dto.resource.RecommendationForm;
 import com.srh.api.model.Evaluator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -32,7 +33,18 @@ public class RecommendationUtils {
         }
     }
 
-    public void defineDecimalPrecision(Integer value) {
+    public void configureRecommendationAlgorithm(RecommendationForm form) {
+        mountPrimaryMatrices(form.getProjectId());
+        defineDecimalPrecision(form.getDecimalPrecision());
+        setPrimaryMatrix(primaryMatrix);
+        setRecommendationMatrixContent(primaryMatrix.getContent());
+    }
+
+    private void mountPrimaryMatrices(Integer projectId) {
+        primaryMatrix.build(projectId);
+    }
+
+    private void defineDecimalPrecision(Integer value) {
         if (value == null) {
             decimalPrecision = 2;
             return;

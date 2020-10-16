@@ -5,7 +5,7 @@ import com.srh.api.algorithms.resources.RecommendationAlgorithm;
 import com.srh.api.algorithms.resources.RecommendationUtils;
 import com.srh.api.algorithms.resources.RecommendationMatrix;
 import com.srh.api.algorithms.resources.RecommendationsByEvaluator;
-import com.srh.api.algorithms.resources.collaborative.CollaborativePrimaryMatrix;
+import com.srh.api.algorithms.resources.BasicPrimaryMatrix;
 import com.srh.api.builder.AlgorithmBuilder;
 import com.srh.api.builder.RecommendationBuilder;
 import com.srh.api.dto.resource.RecommendationForm;
@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 @Service
 public class Collaborative implements RecommendationAlgorithm {
     @Autowired
-    private CollaborativePrimaryMatrix primaryMatrix;
+    private BasicPrimaryMatrix primaryMatrix;
 
     @Autowired
     private RecommendationMatrix recommendationMatrix;
@@ -35,8 +35,7 @@ public class Collaborative implements RecommendationAlgorithm {
 
     @Override
     public List<RecommendationsByEvaluator> calc(RecommendationForm form) {
-        mountPrimaryMatrices(form.getProjectId());
-        configureRecommendationAlgorithm(form);
+        recommendationUtils.configureRecommendationAlgorithm(form);
 
         for (Evaluator evaluator : primaryMatrix.getEvaluators()) {
             recommendationUtils.calculateRecommendationByEvaluator(evaluator);
@@ -47,20 +46,8 @@ public class Collaborative implements RecommendationAlgorithm {
         return recommendationsByEvaluators;
     }
 
-    private void mountPrimaryMatrices(Integer projectId) {
-        primaryMatrix.build(projectId);
-        recommendationMatrix.setMatrixIdByProjectId(projectId);
-    }
-
-    private void configureRecommendationAlgorithm(RecommendationForm form) {
-        recommendationUtils.defineDecimalPrecision(form.getDecimalPrecision());
-        recommendationUtils.setPrimaryMatrix(primaryMatrix);
-        recommendationUtils.setRecommendationMatrixContent(primaryMatrix.getContent());
-    }
-
     private void mountRecommendationMatrix(Integer projectId) {
         recommendationMatrix.setContent(recommendationUtils.getRecommendationMatrixContent());
-        recommendationMatrix.setMatrixIdByProjectId(projectId);
     }
 
     private void addRecommendationsToList(Evaluator evaluator) {

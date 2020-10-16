@@ -60,8 +60,10 @@ public class RecommendationController {
 
     @PostMapping
     PagedModel<EntityModel<RecommendationsByEvaluatorDto>> create(
+//    ResponseEntity<?> create(
             @RequestBody @Valid RecommendationForm recommendationForm,
             @PageableDefault(page = 0, size = 5) Pageable pageInfo) {
+//        return ResponseEntity.ok(recommendationService.generateRecommendations(recommendationForm));
         List<RecommendationsByEvaluator> recommendationsByEvaluatorList = recommendationService.
                 generateRecommendations(recommendationForm);
 

@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface RecommendationAlgorithm {
     public List<RecommendationsByEvaluator> calc(RecommendationForm form);
+//    public Object calc(RecommendationForm form);
 }

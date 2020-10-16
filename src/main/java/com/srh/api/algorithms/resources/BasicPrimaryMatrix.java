@@ -1,4 +1,4 @@
-package com.srh.api.algorithms.resources.collaborative;
+package com.srh.api.algorithms.resources;
 
 import com.srh.api.algorithms.resources.PrimaryMatrix;
 import com.srh.api.model.*;
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public class CollaborativePrimaryMatrix extends PrimaryMatrix {
+public class BasicPrimaryMatrix extends PrimaryMatrix {
     @Autowired
     private ProjectService projectService;
 
