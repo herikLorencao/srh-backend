@@ -1,9 +1,8 @@
 package com.srh.api.algorithms.resources;
 
 import com.srh.api.algorithms.math.CellPosition;
-import com.srh.api.dto.resource.RecommendationForm;
+import com.srh.api.algorithms.math.Coordinate;
 import com.srh.api.model.Evaluator;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
@@ -17,7 +16,7 @@ public class RecommendationUtils {
     private final List<CellPosition> recommendationPositions = new ArrayList<>();
     private Integer decimalPrecision;
 
-    public void calculateRecommendationByEvaluator(Evaluator evaluator, BaseMatrix baseMatrix) {
+    public void calculateRecommendationContentByEvaluator(Evaluator evaluator, BaseMatrix baseMatrix) {
         SimilarityMatrix similarityMatrix = new SimilarityMatrix(baseMatrix, evaluator);
         SimilarityMatrixEvaluator similarityMatrixEvaluator = new SimilarityMatrixEvaluator(
                 similarityMatrix, evaluator);
@@ -114,5 +113,14 @@ public class RecommendationUtils {
 
     public List<CellPosition> getRecommendationPositions() {
         return recommendationPositions;
+    }
+
+    public static Coordinate buildCoordinate(Double x, Double y) {
+        Coordinate coordinate = new Coordinate();
+
+        coordinate.setX(x);
+        coordinate.setY(y);
+
+        return coordinate;
     }
 }

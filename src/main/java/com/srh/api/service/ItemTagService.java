@@ -32,12 +32,24 @@ public class ItemTagService {
         throw new ObjectNotFoundException(tagId, Tag.class.getName());
     }
 
+    public Integer findTagByItemRecommendation(Item item, Tag tag) {
+        if (item.getTags().contains(tag)) {
+            return 1;
+        }
+        return 0;
+    }
+
     public Page<Tag> listTagsByItem(Integer itemId, Pageable pageInfo) {
         Item item = itemService.find(itemId);
         List<Tag> tags = item.getTags();
 
         PageUtil<Tag> pageUtil = new PageUtil<>(pageInfo, tags);
         return pageUtil.getPage();
+    }
+
+    public List<Tag> listTagsByItem(Integer itemId) {
+        Item item = itemService.find(itemId);
+        return item.getTags();
     }
 
     @SneakyThrows

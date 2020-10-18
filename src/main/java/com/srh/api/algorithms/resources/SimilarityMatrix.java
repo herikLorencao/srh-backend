@@ -14,7 +14,7 @@ public class SimilarityMatrix {
     private Integer colSize;
     private Integer evaluatorRow;
 
-    EuclidianDistance euclidianDistance = new EuclidianDistance();
+    private EuclidianDistance euclidianDistance = new EuclidianDistance();
 
     public SimilarityMatrix(BaseMatrix baseMatrix, Evaluator evaluator) {
         rowSize = baseMatrix.getRowSize();
@@ -46,25 +46,16 @@ public class SimilarityMatrix {
 
         if (col.equals(distanceColIndex)) {
             content[row][col] = euclidianDistance.calc(coordinates);
-            return buildCoordinate(null, null);
+            return RecommendationUtils.buildCoordinate(null, null);
         }
 
         if (col.equals(similarityColIndex)) {
             content[row][col] = MathUtil.calculateSimilarity(euclidianDistance.calc(coordinates));
-            return buildCoordinate(null, null);
+            return RecommendationUtils.buildCoordinate(null, null);
         }
 
         content[row][col] = primaryMatrix[row][col];
-        return buildCoordinate(primaryMatrix[evaluatorRow][col], content[row][col]);
-    }
-
-    private Coordinate buildCoordinate(Double x, Double y) {
-        Coordinate coordinate = new Coordinate();
-
-        coordinate.setX(x);
-        coordinate.setY(y);
-
-        return coordinate;
+        return RecommendationUtils.buildCoordinate(primaryMatrix[evaluatorRow][col], content[row][col]);
     }
 
     private Integer getEvaluatorRow(Evaluator evaluator, List<Evaluator> evaluators) {

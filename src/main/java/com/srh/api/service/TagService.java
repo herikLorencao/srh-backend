@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -26,6 +27,10 @@ public class TagService {
 
     public Page<Tag> findAll(Pageable pageInfo) {
         return tagRepository.findAll(pageInfo);
+    }
+
+    public List<Tag> findAll() {
+        return (List<Tag>) tagRepository.findAll();
     }
 
     public Tag save(Tag tag) {

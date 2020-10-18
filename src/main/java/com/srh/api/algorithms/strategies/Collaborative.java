@@ -35,7 +35,7 @@ public class Collaborative implements RecommendationAlgorithm {
         buildBaseMatrix(form.getProjectId());
 
         for (Evaluator evaluator : primaryMatrix.getEvaluators()) {
-            recommendationUtils.calculateRecommendationByEvaluator(evaluator, primaryMatrix);
+            recommendationUtils.calculateRecommendationContentByEvaluator(evaluator, primaryMatrix);
             addRecommendationsToList(evaluator);
         }
 

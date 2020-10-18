@@ -19,7 +19,6 @@ public class BasicBaseMatrix extends BaseMatrix {
     private List<Item> items;
     private List<ItemRating> itemRatings;
 
-
     public void build(Integer projectId) {
         project = projectService.find(projectId);
         evaluators = project.getEvaluators();
