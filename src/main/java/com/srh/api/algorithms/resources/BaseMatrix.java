@@ -2,6 +2,7 @@ package com.srh.api.algorithms.resources;
 
 import com.srh.api.model.Evaluator;
 import com.srh.api.model.Project;
+import com.srh.api.model.Tag;
 
 import java.util.List;
 
@@ -10,6 +11,7 @@ public abstract class BaseMatrix {
 
     protected Project project;
     protected List<Evaluator> evaluators;
+    protected List<Tag> tags;
     protected Integer rowSize;
     protected Integer colSize;
 
@@ -25,6 +27,10 @@ public abstract class BaseMatrix {
 
     public List<Evaluator> getEvaluators() {
         return evaluators;
+    }
+
+    public List<Tag> getTags() {
+        return tags;
     }
 
     public Integer getRowSize() {

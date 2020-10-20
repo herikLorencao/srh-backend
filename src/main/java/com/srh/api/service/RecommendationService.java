@@ -49,8 +49,7 @@ public class RecommendationService {
         return recommendationRepository.findAll(pageInfo);
     }
 
-//    public List<RecommendationsByEvaluator> generateRecommendations(RecommendationForm form) {
-    public Object generateRecommendations(RecommendationForm form) {
+    public List<RecommendationsByEvaluator> generateRecommendations(RecommendationForm form) {
         RecommendationAlgorithm algorithm = algorithmStrategy.getAlgorithm(form.getAlgorithmId());
         return algorithm.calc(form);
     }

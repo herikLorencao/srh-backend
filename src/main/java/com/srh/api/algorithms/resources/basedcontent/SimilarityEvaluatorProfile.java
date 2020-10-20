@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class SimilarityContent {
+public class SimilarityEvaluatorProfile {
     private Double[][] content;
     private Integer rowSize;
     private Integer colSize;
@@ -17,7 +17,7 @@ public class SimilarityContent {
     private EuclidianDistance euclidianDistance = new EuclidianDistance();
     private EvaluatorProfileMatrix evaluatorProfileMatrix;
 
-    public SimilarityContent(EvaluatorProfileMatrix evaluatorProfileMatrixContent) {
+    public SimilarityEvaluatorProfile(EvaluatorProfileMatrix evaluatorProfileMatrixContent) {
         rowSize = evaluatorProfileMatrixContent.getRowSize() - 2;
         colSize = evaluatorProfileMatrixContent.getColSize() + 2;
         evaluatorProfileMatrix = evaluatorProfileMatrixContent;
