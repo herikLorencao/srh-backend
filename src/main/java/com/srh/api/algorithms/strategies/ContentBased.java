@@ -1,5 +1,6 @@
 package com.srh.api.algorithms.strategies;
 
+import com.srh.api.algorithms.math.CellPosition;
 import com.srh.api.algorithms.resources.*;
 import com.srh.api.algorithms.resources.basedcontent.SimilarityEvaluatorContent;
 import com.srh.api.algorithms.resources.basedcontent.EvaluatorProfileMatrix;
@@ -35,6 +36,7 @@ public class ContentBased implements RecommendationAlgorithm {
     private ItemTagMatrix itemTagMatrix;
 
     private final List<RecommendationsByEvaluator> recommendationsByEvaluators = new ArrayList<>();
+    private List<CellPosition> recommendationsPositions = new ArrayList<>();
     private Double passingScore;
     private Integer decimalPrecision;
 
@@ -86,6 +88,7 @@ public class ContentBased implements RecommendationAlgorithm {
 
         for(int j = 0; j < primaryMatrix.getColSize(); j++) {
             if (primaryMatrix.getContent()[evaluatorRow][j] == null) {
+                recommendationsPositions.add(registerRecommendationPosition(evaluatorRow, j));
                 Double recommendationScore = roundValue(similarityEvaluatorContent.getRecommendationForItemIdx(j), decimalPrecision);
                 recommendations.add(buildRecommendation(recommendationScore, evaluator, evaluatorRow, similarityEvaluatorContent));
             }
@@ -94,6 +97,15 @@ public class ContentBased implements RecommendationAlgorithm {
         recommendationsByEvaluator.setRecommendations(recommendations);
 
         return recommendationsByEvaluator;
+    }
+
+    private CellPosition registerRecommendationPosition(Integer row, Integer column) {
+        CellPosition recommendationPosition = new CellPosition();
+
+        recommendationPosition.setRow(row);
+        recommendationPosition.setColumn(column);
+
+        return recommendationPosition;
     }
 
     private Recommendation buildRecommendation(Double score, Evaluator evaluator, Integer itemColumnIdx,
@@ -118,5 +130,10 @@ public class ContentBased implements RecommendationAlgorithm {
         return BigDecimal.valueOf(value)
                 .setScale(decimalPrecision, RoundingMode.HALF_UP)
                 .doubleValue();
+    }
+
+    @Override
+    public List<CellPosition> getRecommendationsPositions() {
+        return recommendationsPositions;
     }
 }

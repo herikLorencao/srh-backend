@@ -90,4 +90,9 @@ public class Collaborative implements RecommendationAlgorithm {
                 .withRuntimeInSeconds(1)
                 .build();
     }
+
+    @Override
+    public List<CellPosition> getRecommendationsPositions() {
+        return recommendationUtils.getRecommendationPositions();
+    }
 }
