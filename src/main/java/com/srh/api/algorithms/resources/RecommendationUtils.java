@@ -2,6 +2,8 @@ package com.srh.api.algorithms.resources;
 
 import com.srh.api.algorithms.math.CellPosition;
 import com.srh.api.algorithms.math.Coordinate;
+import com.srh.api.algorithms.resources.collaborative.SimilarityMatrix;
+import com.srh.api.algorithms.resources.collaborative.SimilarityMatrixEvaluator;
 import com.srh.api.model.Evaluator;
 import org.springframework.stereotype.Component;
 

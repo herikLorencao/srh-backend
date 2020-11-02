@@ -27,12 +27,6 @@ public class ContentBased implements RecommendationAlgorithm {
     private BasicBaseMatrix primaryMatrix;
 
     @Autowired
-    private RecommendationUtils recommendationUtils;
-
-    @Autowired
-    private RecommendationMatrix recommendationMatrix;
-
-    @Autowired
     private ItemTagMatrix itemTagMatrix;
 
     private final List<RecommendationsByEvaluator> recommendationsByEvaluators = new ArrayList<>();

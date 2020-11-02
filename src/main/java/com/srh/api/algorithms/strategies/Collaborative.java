@@ -22,9 +22,6 @@ public class Collaborative implements RecommendationAlgorithm {
     private BasicBaseMatrix primaryMatrix;
 
     @Autowired
-    private RecommendationMatrix recommendationMatrix;
-
-    @Autowired
     private RecommendationUtils recommendationUtils;
 
     private final List<RecommendationsByEvaluator> recommendationsByEvaluators = new ArrayList<>();
@@ -39,16 +36,11 @@ public class Collaborative implements RecommendationAlgorithm {
             addRecommendationsToList(evaluator);
         }
 
-        mountRecommendationMatrix(form.getProjectId());
         return recommendationsByEvaluators;
     }
 
     private void buildBaseMatrix(Integer projectId) {
         primaryMatrix.build(projectId);
-    }
-
-    private void mountRecommendationMatrix(Integer projectId) {
-        recommendationMatrix.setContent(recommendationUtils.getRecommendationMatrixContent());
     }
 
     private void addRecommendationsToList(Evaluator evaluator) {

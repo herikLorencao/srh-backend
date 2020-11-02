@@ -43,6 +43,7 @@ public class WeightedHybrid implements RecommendationAlgorithm {
 
             recommendationsByEvaluatorCollaborative.setEvaluator(recommendationsByEvaluator.getEvaluator());
 
+
             results.add(recommendationsByEvaluator);
         }
 
