@@ -3,7 +3,7 @@ package com.srh.api.algorithms.resources.basedcontent;
 import com.srh.api.algorithms.math.Coordinate;
 import com.srh.api.algorithms.math.EuclidianDistance;
 import com.srh.api.algorithms.math.MathUtil;
-import com.srh.api.algorithms.resources.RecommendationUtils;
+import com.srh.api.algorithms.resources.utils.RecommendationUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;

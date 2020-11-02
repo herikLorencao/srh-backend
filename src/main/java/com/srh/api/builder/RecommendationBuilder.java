@@ -73,7 +73,7 @@ public final class RecommendationBuilder {
         recommendation.setId(id);
         recommendation.setWeight(weight);
         recommendation.setDate(date);
-        recommendation.setRuntimeInSeconds(runtimeInSeconds);
+        recommendation.setRuntimeInMiliSeconds(runtimeInSeconds);
         recommendation.setMatrixId(matrixId);
         recommendation.setAlgorithm(algorithm);
         recommendation.setEvaluator(evaluator);
