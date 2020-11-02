@@ -87,7 +87,7 @@ public class RecommendationUtils {
                 .doubleValue();
     }
 
-    private Integer calculateDifferenceTime(LocalDateTime startTime, LocalDateTime endTime) {
+    public Integer calculateDifferenceTime(LocalDateTime startTime, LocalDateTime endTime) {
         return Math.toIntExact(ChronoUnit.MILLIS.between(startTime, endTime));
     }
 
