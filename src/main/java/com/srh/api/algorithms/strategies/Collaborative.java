@@ -64,8 +64,8 @@ public class Collaborative implements RecommendationAlgorithm {
                 Recommendation recommendation = generateRecommendation(cellPosition, similarityMatrix, similarityMatrixEvaluator);
 
                 if (recommendation.getWeight() >= passingScore) {
-                    recommendations.add(recommendation);
                     recommendationsPositions.add(cellPosition);
+                    recommendations.add(recommendation);
                 }
             }
         }

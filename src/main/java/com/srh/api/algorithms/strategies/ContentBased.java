@@ -90,10 +90,10 @@ public class ContentBased implements RecommendationAlgorithm {
 
         for(int j = 0; j < primaryMatrix.getColSize(); j++) {
             if (primaryMatrix.getContent()[evaluatorRow][j] == null) {
-                recommendationsPositions.add(registerRecommendationPosition(evaluatorRow, j));
                 Double recommendationScore = RecommendationUtils.roundValue(similarityEvaluatorContent.getRecommendationForItemIdx(j), decimalPrecision);
 
                 if (recommendationScore >= passingScore) {
+                    recommendationsPositions.add(registerRecommendationPosition(evaluatorRow, j));
                     recommendations.add(buildRecommendation(recommendationScore, evaluator, evaluatorRow, similarityEvaluatorContent));
                 }
             }

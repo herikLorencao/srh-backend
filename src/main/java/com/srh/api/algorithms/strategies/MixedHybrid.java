@@ -23,11 +23,10 @@ public class MixedHybrid implements RecommendationAlgorithm {
 
     @Override
     public List<RecommendationsByEvaluator> calc(RecommendationForm form) {
-//        List<RecommendationsByEvaluator> colllaborativeRecommendations = collaborative.calc(form);
-//        List<RecommendationsByEvaluator> contentBaseRecommendations = contentBased.calc(form);
-//        recommendationsPositions = collaborative.getRecommendationsPositions();
-//
-//        recommendationsByEvaluators = joinResults(colllaborativeRecommendations, contentBaseRecommendations);
+        List<RecommendationsByEvaluator> colllaborativeRecommendations = collaborative.calc(form);
+        List<RecommendationsByEvaluator> contentBaseRecommendations = contentBased.calc(form);
+
+        recommendationsByEvaluators = joinResults(colllaborativeRecommendations, contentBaseRecommendations);
 
         return recommendationsByEvaluators;
     }
