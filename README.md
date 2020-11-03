@@ -1,3 +1,7 @@
+<h1 align="center">
+    <img src="https://i.ibb.co/kxGkFrW/primary-Logo.png" alt="primary-Logo" border="0">
+</h1>
+
 # Sistema de Recomendação Híbrido
 
 Sistema de recomendação híbrido implementado utilizando a estrutura de **WebService RESTful**. Esse sistema é o resultado do trabalho de conclusão de curso de Sistemas de Informação do IFES - Campus Cachoeiro de Itapemirim no ano de 2020/2021.
