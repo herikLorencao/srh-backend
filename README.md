@@ -1,5 +1,5 @@
 <h1 align="center">
-    <img src="https://i.ibb.co/kxGkFrW/primary-Logo.png" alt="primary-Logo" border="0">
+    <img src="https://i.ibb.co/tzbzzs9/primary-Logo.png" alt="primary-Logo" border="0">
 </h1>
 
 # Sistema de Recomendação Híbrido
