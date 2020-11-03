@@ -10,8 +10,12 @@ O sistema foi desenvolvido no formato de API RESTful, onde os dados são transmi
 
 Os outros componentes da arquitetura podem ser acessados pelos seguintes repositórios:
 
-- [Cliente de Recomendação](http://www.google.com)
-- [Cliente Administrativo](http://www.google.com)
+- [Cliente de Recomendação](https://github.com/herikLorencao/srh-client-repository)
+- [Cliente Administrativo](https://github.com/herikLorencao/srh-client-admin)
+
+Além disso, existe também alguns clientes de recomendação específicos:
+
+- [Cliente de Recomendação de Músicas](https://github.com/herikLorencao/srh-findbymusic)
 
 ## Funcionalidades
 
