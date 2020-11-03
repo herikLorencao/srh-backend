@@ -1,7 +1,7 @@
 package com.srh.api.algorithms.resources.basedcontent;
 
-import com.srh.api.algorithms.resources.BaseMatrix;
-import com.srh.api.algorithms.resources.BasicBaseMatrix;
+import com.srh.api.algorithms.resources.utils.BaseMatrix;
+import com.srh.api.algorithms.resources.utils.BasicBaseMatrix;
 import com.srh.api.model.Evaluator;
 
 public class EvaluatorProfileMatrix extends BaseMatrix {

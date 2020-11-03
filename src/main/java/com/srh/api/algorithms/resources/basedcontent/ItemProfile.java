@@ -1,6 +1,6 @@
 package com.srh.api.algorithms.resources.basedcontent;
 
-import com.srh.api.algorithms.resources.BaseMatrix;
+import com.srh.api.algorithms.resources.utils.BaseMatrix;
 import com.srh.api.model.Item;
 import com.srh.api.model.Tag;
 import com.srh.api.service.ProjectService;

@@ -1,8 +1,10 @@
-package com.srh.api.algorithms.resources;
+package com.srh.api.algorithms.resources.collaborative;
 
 import com.srh.api.algorithms.math.Coordinate;
 import com.srh.api.algorithms.math.EuclidianDistance;
 import com.srh.api.algorithms.math.MathUtil;
+import com.srh.api.algorithms.resources.utils.BaseMatrix;
+import com.srh.api.algorithms.resources.utils.RecommendationUtils;
 import com.srh.api.model.Evaluator;
 
 import java.util.ArrayList;

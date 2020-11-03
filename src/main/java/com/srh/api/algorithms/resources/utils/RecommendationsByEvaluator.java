@@ -1,4 +1,4 @@
-package com.srh.api.algorithms.resources;
+package com.srh.api.algorithms.resources.utils;
 
 import com.srh.api.model.Evaluator;
 import com.srh.api.model.Recommendation;

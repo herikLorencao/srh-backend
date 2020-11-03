@@ -116,4 +116,10 @@ public class ProjectService {
         Project project = find(projectId);
         return project.getEvaluators();
     }
+
+    public Project updateMatrixId(Integer projectId) {
+        Project oldProject = find(projectId);
+        oldProject.setLastMatrixId(oldProject.getLastMatrixId() + 1);
+        return projectRepository.save(oldProject);
+    }
 }

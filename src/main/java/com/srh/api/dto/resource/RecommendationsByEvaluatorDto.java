@@ -1,6 +1,6 @@
 package com.srh.api.dto.resource;
 
-import com.srh.api.algorithms.resources.RecommendationsByEvaluator;
+import com.srh.api.algorithms.resources.utils.RecommendationsByEvaluator;
 import com.srh.api.model.Recommendation;
 import lombok.Getter;
 import org.springframework.data.domain.Page;

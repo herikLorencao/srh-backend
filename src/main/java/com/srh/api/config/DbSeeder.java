@@ -236,7 +236,7 @@ public class DbSeeder {
                 .withId(1)
                 .withMatrixId(1)
                 .withWeight(0.5)
-                .withRuntimeInSeconds(30)
+                .withRuntimeInSeconds(1)
                 .withEvaluator(evaluator)
                 .withDate(LocalDateTime.now())
                 .withItem(item)

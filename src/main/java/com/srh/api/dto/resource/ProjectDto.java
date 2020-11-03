@@ -19,6 +19,8 @@ public class ProjectDto {
     private final Situations situation;
     private final LocalDate date;
     private final Boolean visible;
+    private final Integer lastMatrixId;
+
     @JsonIgnore
     private final Admin admin;
 
@@ -30,6 +32,7 @@ public class ProjectDto {
         this.situation = project.getSituation();
         this.visible = project.getVisible();
         this.admin = project.getAdmin();
+        this.lastMatrixId = project.getLastMatrixId();
     }
 
     public static Page<ProjectDto> convert(Page<Project> projects) {

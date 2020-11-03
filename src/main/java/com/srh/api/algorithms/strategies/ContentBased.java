@@ -1,21 +1,24 @@
 package com.srh.api.algorithms.strategies;
 
+import com.srh.api.algorithms.math.CellPosition;
 import com.srh.api.algorithms.resources.*;
 import com.srh.api.algorithms.resources.basedcontent.SimilarityEvaluatorContent;
 import com.srh.api.algorithms.resources.basedcontent.EvaluatorProfileMatrix;
 import com.srh.api.algorithms.resources.basedcontent.ItemTagMatrix;
 import com.srh.api.algorithms.resources.basedcontent.SimilarityEvaluatorProfile;
+import com.srh.api.algorithms.resources.utils.BasicBaseMatrix;
+import com.srh.api.algorithms.resources.utils.RecommendationUtils;
+import com.srh.api.algorithms.resources.utils.RecommendationsByEvaluator;
 import com.srh.api.builder.AlgorithmBuilder;
 import com.srh.api.builder.RecommendationBuilder;
 import com.srh.api.dto.resource.RecommendationForm;
 import com.srh.api.model.Algorithm;
 import com.srh.api.model.Evaluator;
+import com.srh.api.model.Item;
 import com.srh.api.model.Recommendation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,17 +29,16 @@ public class ContentBased implements RecommendationAlgorithm {
     private BasicBaseMatrix primaryMatrix;
 
     @Autowired
-    private RecommendationUtils recommendationUtils;
-
-    @Autowired
-    private RecommendationMatrix recommendationMatrix;
-
-    @Autowired
     private ItemTagMatrix itemTagMatrix;
 
+    @Autowired
+    private RecommendationUtils recommendationUtils;
+
     private final List<RecommendationsByEvaluator> recommendationsByEvaluators = new ArrayList<>();
+    private List<CellPosition> recommendationsPositions = new ArrayList<>();
     private Double passingScore;
     private Integer decimalPrecision;
+    private LocalDateTime startRecommendation;
 
     @Override
     public List<RecommendationsByEvaluator> calc(RecommendationForm form) {
@@ -53,6 +55,7 @@ public class ContentBased implements RecommendationAlgorithm {
             recommendationsByEvaluators.add(recommendationsByEvaluator);
         }
 
+        recommendationUtils.defineNewMatrixId(form.getProjectId());
         return recommendationsByEvaluators;
     }
 
@@ -75,6 +78,7 @@ public class ContentBased implements RecommendationAlgorithm {
                 primaryMatrix.getTags()
         );
 
+        startRecommendation = LocalDateTime.now();
         return getRecommendations(evaluator, similarityEvaluatorContent);
     }
 
@@ -86,37 +90,39 @@ public class ContentBased implements RecommendationAlgorithm {
 
         for(int j = 0; j < primaryMatrix.getColSize(); j++) {
             if (primaryMatrix.getContent()[evaluatorRow][j] == null) {
-                Double recommendationScore = roundValue(similarityEvaluatorContent.getRecommendationForItemIdx(j), decimalPrecision);
-                recommendations.add(buildRecommendation(recommendationScore, evaluator, evaluatorRow, similarityEvaluatorContent));
+                Double recommendationScore = RecommendationUtils.roundValue(similarityEvaluatorContent.getRecommendationForItemIdx(j), decimalPrecision);
+
+                if (recommendationScore >= passingScore) {
+                    recommendationsPositions.add(registerRecommendationPosition(evaluatorRow, j));
+                    recommendations.add(buildRecommendation(recommendationScore, evaluator, evaluatorRow, similarityEvaluatorContent));
+                }
             }
         }
 
         recommendationsByEvaluator.setRecommendations(recommendations);
+        recommendationsByEvaluator.setMatrixId(recommendationUtils.getNewMatrixIndex(primaryMatrix.getProject()));
 
         return recommendationsByEvaluator;
     }
 
-    private Recommendation buildRecommendation(Double score, Evaluator evaluator, Integer itemColumnIdx,
-        SimilarityEvaluatorContent similarityEvaluatorContent) {
-        Algorithm algorithm = AlgorithmBuilder.anAlgorithm()
-                .withId(2)
-                .build();
+    private CellPosition registerRecommendationPosition(Integer row, Integer column) {
+        CellPosition recommendationPosition = new CellPosition();
 
-        return RecommendationBuilder.aRecommendation()
-                .withId(1)
-                .withAlgorithm(algorithm)
-                .withRuntimeInSeconds(1)
-                .withWeight(score)
-                .withEvaluator(evaluator)
-                .withMatrixId(1)
-                .withDate(LocalDateTime.now())
-                .withItem(similarityEvaluatorContent.getItemByIdx(itemColumnIdx))
-                .build();
+        recommendationPosition.setRow(row);
+        recommendationPosition.setColumn(column);
+
+        return recommendationPosition;
     }
 
-    private Double roundValue(Double value, Integer decimalPrecision) {
-        return BigDecimal.valueOf(value)
-                .setScale(decimalPrecision, RoundingMode.HALF_UP)
-                .doubleValue();
+    private Recommendation buildRecommendation(Double score, Evaluator evaluator, Integer itemColumnIdx,
+        SimilarityEvaluatorContent similarityEvaluatorContent) {
+        Item item = similarityEvaluatorContent.getItemByIdx(itemColumnIdx);
+        return recommendationUtils.buildRecommendation(score, startRecommendation, 2, item, evaluator,
+                primaryMatrix.getProject());
+    }
+
+    @Override
+    public List<CellPosition> getRecommendationsPositions() {
+        return recommendationsPositions;
     }
 }
