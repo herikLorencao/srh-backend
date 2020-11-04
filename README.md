@@ -75,6 +75,10 @@ Além disso, é necessário a criação de um base de dados no banco com o nome 
 
 Após esses passos, basta executar a aplicação usando uma IDE de preferência ou o próprio Maven.
 
+**OBS:** Na primeira execução do projeto no arquivo **resources/application-dev.properties** deixe a opção **spring.jpa.hibernate.ddl-auto**
+com o valor **create** para cadastro dos itens iniciais para uso da API. Para as outras execuções deixe a opção como **update** para que a
+base de dados não seja perdida. 
+
 ### Configuração e cadastro dos dados
 
 Para a realização da recomendação é necessário o cadastro de alguns dados, em um fluxo simplificado, o cadastro pode ser feito seguindo a seguinte ordem:
@@ -85,3 +89,26 @@ Para a realização da recomendação é necessário o cadastro de alguns dados,
 - Vínculo dos usuários ao projeto
 - Avaliação de itens por parte dos usuários
 - Processo de recomendação
+
+#### Dados de acesso a API
+
+Para conexão básica na API e obtenção dos tokens JWT já estão disponíveis dois usuários por padrão na plataforma. Os dados
+abaixo pode ser usados para geração do token:
+
+- Perfil administrador:
+
+```json
+{
+  "login": "admin",
+  "password": "123456"
+}
+```
+
+- Perfil de recomendação
+
+```json
+{
+  "login": "client",
+  "password": "123456"
+}
+```
