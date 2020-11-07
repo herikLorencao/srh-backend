@@ -110,31 +110,31 @@ public class DbSeeder {
         Algorithm algorithm2 = AlgorithmBuilder.anAlgorithm()
                 .withId(2)
                 .withName("Filtragem Baseada em Conteúdo")
-                .withTypeRecommendation(TypeRecommendation.COLLABORATIVE)
+                .withTypeRecommendation(TypeRecommendation.CONTENT)
                 .build();
 
         Algorithm algorithm3 = AlgorithmBuilder.anAlgorithm()
                 .withId(3)
                 .withName("Filtragem Híbrida Ponderada - Single Thread")
-                .withTypeRecommendation(TypeRecommendation.COLLABORATIVE)
+                .withTypeRecommendation(TypeRecommendation.HYBRID)
                 .build();
 
         Algorithm algorithm4 = AlgorithmBuilder.anAlgorithm()
                 .withId(4)
                 .withName("Filtragem Híbrida Mista - Single Thread")
-                .withTypeRecommendation(TypeRecommendation.COLLABORATIVE)
+                .withTypeRecommendation(TypeRecommendation.HYBRID)
                 .build();
 
         Algorithm algorithm5 = AlgorithmBuilder.anAlgorithm()
-                .withId(1)
-                .withName("Filtragem Híbrida Pondera - Multi Thread")
-                .withTypeRecommendation(TypeRecommendation.COLLABORATIVE)
+                .withId(5)
+                .withName("Filtragem Híbrida Ponderada - Multi Thread")
+                .withTypeRecommendation(TypeRecommendation.HYBRID)
                 .build();
 
         Algorithm algorithm6 = AlgorithmBuilder.anAlgorithm()
-                .withId(1)
+                .withId(6)
                 .withName("Filtragem Híbrida Mista - Multi Thread")
-                .withTypeRecommendation(TypeRecommendation.COLLABORATIVE)
+                .withTypeRecommendation(TypeRecommendation.HYBRID)
                 .build();
 
         algorithmRepository.saveAll(Arrays.asList(
