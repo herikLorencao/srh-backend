@@ -94,7 +94,7 @@ public class ContentBased implements RecommendationAlgorithm {
 
                 if (recommendationScore >= passingScore) {
                     recommendationsPositions.add(registerRecommendationPosition(evaluatorRow, j));
-                    recommendations.add(buildRecommendation(recommendationScore, evaluator, evaluatorRow, similarityEvaluatorContent));
+                    recommendations.add(buildRecommendation(recommendationScore, evaluator, j, similarityEvaluatorContent));
                 }
             }
         }
