@@ -30,14 +30,20 @@ public class WeightedHybrid implements RecommendationAlgorithm {
     @Autowired
     private RecommendationUtils recommendationUtils;
 
+    private LocalDateTime startRecommendationTime;
     private List<RecommendationsByEvaluator> recommendationsByEvaluators = new ArrayList<>();
     private Double passingScore;
     private LocalDateTime startTime;
+    private Integer projectId;
+    private Integer decimalPrecision;
 
     @Override
     public List<RecommendationsByEvaluator> calc(RecommendationForm form) {
         startTime = LocalDateTime.now();
         passingScore = form.getPassingScore();
+        projectId = form.getProjectId();
+        decimalPrecision = form.getDecimalPrecision();
+        startRecommendationTime = LocalDateTime.now();
         form.setPassingScore(0.0);
 
         List<RecommendationsByEvaluator> colllaborativeRecommendations = collaborative.calc(form);
@@ -63,14 +69,20 @@ public class WeightedHybrid implements RecommendationAlgorithm {
                     collaborativeRecommendationEvaluator.getEvaluator(), contentBaseRecommendations
             );
 
-            recommendationsByEvaluator.setRecommendations(
-                    buildWeightedRecommendation(collaborativeRecommendations, contentRecommendations));
-            recommendationsByEvaluator.setMatrixId(0);
+            List<Recommendation> weightedRecommendations = buildWeightedRecommendation(collaborativeRecommendations, contentRecommendations);
+
+            recommendationsByEvaluator.setRecommendations(registerRecommendations(weightedRecommendations));
+            recommendationsByEvaluator.setMatrixId(recommendationUtils.getNewMatrixIndexByProjectId(projectId));
 
             results.add(recommendationsByEvaluator);
         }
 
+        recommendationUtils.defineNewMatrixId(projectId);
         return results;
+    }
+
+    private List<Recommendation> registerRecommendations(List<Recommendation> recommendations) {
+        return recommendationUtils.saveRecommendationList(recommendations, startRecommendationTime, 3);
     }
 
     private List<Recommendation> buildWeightedRecommendation(List<Recommendation> collaborativeRecommendations,
@@ -104,9 +116,9 @@ public class WeightedHybrid implements RecommendationAlgorithm {
                 .withItem(baseRecommendation.getItem())
                 .withRecommendationRatings(baseRecommendation.getRecommendationRatings())
                 .withRuntimeInSeconds(recommendationUtils.calculateDifferenceTime(startTime, LocalDateTime.now()))
-                .withWeight(score)
+                .withWeight(RecommendationUtils.roundValue(score, decimalPrecision))
                 .withDate(LocalDateTime.now())
-                .withMatrixId(0)
+                .withMatrixId(recommendationUtils.getNewMatrixIndexByProjectId(projectId))
                 .withAlgorithm(getAlgorithm())
                 .build();
     }

@@ -15,6 +15,7 @@ import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.List;
 
 @Component
 public class RecommendationUtils {
@@ -46,12 +47,31 @@ public class RecommendationUtils {
         return recommendation;
     }
 
+    public List<Recommendation> saveRecommendationList(List<Recommendation> recommendations, LocalDateTime startRecommendationTime,
+                                                       Integer algorithmId) {
+        List<Recommendation> savedRecommendations = new ArrayList<>();
+
+        for(Recommendation recommendation: recommendations) {
+            savedRecommendations.add(buildRecommendation(
+                    recommendation.getWeight(), startRecommendationTime, algorithmId, recommendation.getItem(),
+                    recommendation.getEvaluator(), recommendation.getItem().getProject()
+            ));
+        }
+
+        return savedRecommendations;
+    }
+
     public void defineNewMatrixId(Integer projectId) {
         projectService.updateMatrixId(projectId);
     }
 
     public Integer getNewMatrixIndex(Project projectMatrix) {
         Project project = projectService.find(projectMatrix.getId());
+        return project.getLastMatrixId() + 1;
+    }
+
+    public Integer getNewMatrixIndexByProjectId(Integer projectId) {
+        Project project = projectService.find(projectId);
         return project.getLastMatrixId() + 1;
     }
 

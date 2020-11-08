@@ -53,6 +53,10 @@ public class RecommendationService {
         return algorithm.calc(form);
     }
 
+    public List<Recommendation> saveList(List<Recommendation> recommendations) {
+        return (List<Recommendation>) recommendationRepository.saveAll(recommendations);
+    }
+
     public Recommendation save(Recommendation recommendation) {
         return recommendationRepository.save(recommendation);
     }
