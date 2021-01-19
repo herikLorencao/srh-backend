@@ -99,4 +99,11 @@ public class ItemRatingService {
         PageUtil<ItemRating> pageUtil = new PageUtil<>(pageInfo, itensRatings);
         return pageUtil.getPage();
     }
+
+    public Page<ItemRating> listItensRatingsByEvaluator(Integer evaluatorId, Pageable pageInfo) {
+        Evaluator evaluator = evaluatorService.find(evaluatorId);
+        List<ItemRating> itensRatings = evaluator.getItemRatings();
+        PageUtil<ItemRating> pageUtil = new PageUtil<>(pageInfo, itensRatings);
+        return pageUtil.getPage();
+    }
 }

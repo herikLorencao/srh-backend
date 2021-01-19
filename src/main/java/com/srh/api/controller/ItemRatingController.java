@@ -94,4 +94,11 @@ public class ItemRatingController {
         Page<ItemRating> itensRatings = itemRatingService.listItensRAtingsByTag(tagId, pageInfo);
         return ResponseEntity.ok(ItemRatingDto.convert(itensRatings));
     }
+
+    @GetMapping("/evaluators/{evaluatorId}")
+    public ResponseEntity<Page<ItemRatingDto>> listItensRatingsByEvaluator(@PathVariable Integer evaluatorId,
+                                                                           Pageable pageInfo) {
+        Page<ItemRating> itensRatings = itemRatingService.listItensRatingsByEvaluator(evaluatorId, pageInfo);
+        return ResponseEntity.ok(ItemRatingDto.convert(itensRatings));
+    }
 }
