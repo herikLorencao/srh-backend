@@ -2,6 +2,7 @@ package com.srh.api.service;
 
 import com.srh.api.model.Evaluator;
 import com.srh.api.model.Project;
+import com.srh.api.model.Recommendation;
 import com.srh.api.repository.EvaluatorRepository;
 import com.srh.api.utils.PasswordUtil;
 import org.hibernate.ObjectNotFoundException;
@@ -62,5 +63,10 @@ public class EvaluatorService {
             return evaluator.get();
 
         throw new ObjectNotFoundException(login, Evaluator.class.getName());
+    }
+
+    public List<Recommendation> listRecommendationsByEvaluator(Integer evaluatorId) {
+        Evaluator evaluator = find(evaluatorId);
+        return evaluator.getRecommendations();
     }
 }

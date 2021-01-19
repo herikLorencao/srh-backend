@@ -2,9 +2,13 @@ package com.srh.api.controller;
 
 import com.srh.api.dto.resource.EvaluatorDto;
 import com.srh.api.dto.resource.EvaluatorForm;
+import com.srh.api.dto.resource.RecommendationDto;
 import com.srh.api.hypermedia.EvaluatorModelAssembler;
 import com.srh.api.model.Evaluator;
+import com.srh.api.model.Recommendation;
+import com.srh.api.model.TypeItem;
 import com.srh.api.service.EvaluatorService;
+import com.srh.api.utils.PageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -33,6 +37,9 @@ public class EvaluatorController {
 
     @Autowired
     private PagedResourcesAssembler<EvaluatorDto> pagedResourcesAssembler;
+
+    @Autowired
+    private PagedResourcesAssembler<RecommendationDto> recommendationDtoPagedResourcesAssembler;
 
     @GetMapping
     public PagedModel<EntityModel<EvaluatorDto>> listAll(@PageableDefault(page = 0, size = 5)
@@ -71,5 +78,18 @@ public class EvaluatorController {
     public ResponseEntity<Void> delete(@PathVariable Integer id) {
         evaluatorService.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/{evaluatorId}/recommendations")
+    public PagedModel<EntityModel<RecommendationDto>> listRecommendationsByEvaluator(
+            @PathVariable Integer evaluatorId,
+            @PageableDefault(page = 0, size = 5) Pageable pageInfo
+                                                                                ) {
+        PageUtil<Recommendation> pageUtil = new PageUtil<>(pageInfo, evaluatorService.
+                listRecommendationsByEvaluator(evaluatorId));
+
+        return recommendationDtoPagedResourcesAssembler.toModel(RecommendationDto.convert(
+                pageUtil.getPage()
+        ));
     }
 }
