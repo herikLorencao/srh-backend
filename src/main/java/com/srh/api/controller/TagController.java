@@ -2,6 +2,7 @@ package com.srh.api.controller;
 
 import com.srh.api.dto.resource.TagDto;
 import com.srh.api.dto.resource.TagForm;
+import com.srh.api.dto.resource.TypeItemDto;
 import com.srh.api.hypermedia.TagModelAssembler;
 import com.srh.api.model.Tag;
 import com.srh.api.service.TagService;
@@ -70,5 +71,14 @@ public class TagController {
     public ResponseEntity<Void> delete(@PathVariable Integer id) {
         tagService.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/projects/{projectId}")
+    public PagedModel<EntityModel<TagDto>> listByProject(
+            @PathVariable Integer projectId,
+            @PageableDefault(page = 0, size = 5) Pageable pageInfo
+    ) {
+        Page<Tag> tags = tagService.listTagsByProject(projectId, pageInfo);
+        return pagedResourcesAssembler.toModel(TagDto.convert(tags));
     }
 }
