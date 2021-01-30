@@ -16,6 +16,8 @@ public class ApiUser extends User implements UserDetails {
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Profile> profiles;
 
+    private Boolean isAdmin;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return this.profiles;
@@ -49,5 +51,9 @@ public class ApiUser extends User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public Boolean getAdmin() {
+        return isAdmin;
     }
 }

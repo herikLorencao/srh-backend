@@ -34,7 +34,6 @@ public class CollaborativeAsync implements RecommendationAlgorithm {
     private LocalDateTime startTime;
 
     @Override
-    @Async
     public List<RecommendationsByEvaluator> calc(RecommendationForm form) {
         passingScore = form.getPassingScore();
         decimalPrecision = form.getDecimalPrecision();
