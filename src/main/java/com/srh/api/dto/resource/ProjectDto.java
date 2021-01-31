@@ -20,6 +20,7 @@ public class ProjectDto {
     private final LocalDate date;
     private final Boolean visible;
     private final Integer lastMatrixId;
+    private final Integer adminId;
 
     @JsonIgnore
     private final Admin admin;
@@ -33,6 +34,7 @@ public class ProjectDto {
         this.visible = project.getVisible();
         this.admin = project.getAdmin();
         this.lastMatrixId = project.getLastMatrixId();
+        this.adminId = project.getAdmin().getId();
     }
 
     public static Page<ProjectDto> convert(Page<Project> projects) {
