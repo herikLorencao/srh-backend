@@ -73,7 +73,7 @@ public class RecommendationController {
 
     @GetMapping("/performances/{algorithmId}")
     public ResponseEntity<Page<RecommendationDto>> listRecommendationsPerformance(
-            @PathVariable Integer algorithmId, Pageable pageInfo) {
+            @PathVariable Integer algorithmId, @PageableDefault(page = 0, size = 5) Pageable pageInfo) {
         Page<Recommendation> recommendations = recommendationService.listRecommendationsByAlgorithm(
                 algorithmId, pageInfo
         );
@@ -82,7 +82,7 @@ public class RecommendationController {
 
     @GetMapping("/matrices/{matrixId}")
     public ResponseEntity<Page<RecommendationDto>> listRecommendationsMatrix(
-            @PathVariable Integer matrixId, Pageable pageInfo) {
+            @PathVariable Integer matrixId, @PageableDefault(page = 0, size = 5) Pageable pageInfo) {
         Page<Recommendation> recommendations = recommendationService.listRecommendationsByMatrixId(
                 matrixId, pageInfo);
         return ResponseEntity.ok(RecommendationDto.convert(recommendations));
@@ -90,7 +90,7 @@ public class RecommendationController {
 
     @GetMapping("/tags/{tagId}")
     public ResponseEntity<Page<RecommendationDto>> listRecommendationsByTag(
-            @PathVariable Integer tagId, Pageable pageInfo
+            @PathVariable Integer tagId, @PageableDefault(page = 0, size = 5) Pageable pageInfo
     ) {
         Page<Recommendation> recommendations = recommendationService.listRecommendationsByTag(tagId, pageInfo);
         return ResponseEntity.ok(RecommendationDto.convert(recommendations));
