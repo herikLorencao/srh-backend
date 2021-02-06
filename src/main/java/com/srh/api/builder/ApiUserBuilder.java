@@ -13,6 +13,7 @@ public final class ApiUserBuilder {
     private String oldPassword;
     private String name;
     private String email;
+    private Boolean isAdmin;
 
     private ApiUserBuilder() {
     }
@@ -56,6 +57,11 @@ public final class ApiUserBuilder {
         return this;
     }
 
+    public ApiUserBuilder withIsAdmin(Boolean isAdmin) {
+        this.isAdmin = isAdmin;
+        return this;
+    }
+
     public ApiUser build() {
         ApiUser apiUser = new ApiUser();
         apiUser.setProfiles(profiles);
@@ -65,6 +71,7 @@ public final class ApiUserBuilder {
         apiUser.setName(name);
         apiUser.setEmail(email);
         apiUser.setPassword(password);
+        apiUser.setIsAdmin(isAdmin);
         return apiUser;
     }
 }

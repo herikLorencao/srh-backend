@@ -34,6 +34,9 @@ public class ItemRatingService {
     @Autowired
     private TagService tagService;
 
+    @Autowired
+    private ProjectService projectService;
+
     @Setter
     private String authorizationHeaderValue;
 
@@ -104,6 +107,19 @@ public class ItemRatingService {
         Evaluator evaluator = evaluatorService.find(evaluatorId);
         List<ItemRating> itensRatings = evaluator.getItemRatings();
         PageUtil<ItemRating> pageUtil = new PageUtil<>(pageInfo, itensRatings);
+        return pageUtil.getPage();
+    }
+
+    public Page<ItemRating> listItensRatingsByProject(Integer projectId, Pageable pageInfo) {
+        Project project = projectService.find(projectId);
+        List<Item> items = project.getItens();
+        List<ItemRating> itemRatings = new ArrayList<>();
+
+        for (Item item: items) {
+            itemRatings.addAll(item.getItemRatings());
+        }
+
+        PageUtil<ItemRating> pageUtil = new PageUtil<>(pageInfo, itemRatings);
         return pageUtil.getPage();
     }
 }

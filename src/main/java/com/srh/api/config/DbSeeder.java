@@ -59,6 +59,7 @@ public class DbSeeder {
                 .withLogin("admin")
                 .withPassword(BcriptyUtil.encripty("123456"))
                 .withProfiles(profiles)
+                .withIsAdmin(true)
                 .build();
 
         apiUserRepository.save(apiUser);
@@ -75,6 +76,7 @@ public class DbSeeder {
                 .withLogin("client")
                 .withPassword(BcriptyUtil.encripty("123456"))
                 .withProfiles(profiles)
+                .withIsAdmin(true)
                 .build();
 
         apiUserRepository.save(apiUser);

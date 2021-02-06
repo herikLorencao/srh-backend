@@ -16,6 +16,7 @@ public class ApiUsersDto {
     private final String name;
     private final String login;
     private final String email;
+    private final Boolean isAdmin;
 
     @JsonIgnore
     private final List<Profile> profiles;
@@ -26,6 +27,7 @@ public class ApiUsersDto {
         this.login = apiUser.getLogin();
         this.profiles = apiUser.getProfiles();
         this.email = apiUser.getEmail();
+        this.isAdmin = apiUser.getIsAdmin();
     }
 
     public static Page<ApiUsersDto> convert(Page<ApiUser> users) {

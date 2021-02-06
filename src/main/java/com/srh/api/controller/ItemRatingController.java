@@ -83,22 +83,36 @@ public class ItemRatingController {
     }
 
     @GetMapping("/itens/{itemId}")
-    public ResponseEntity<Page<ItemRatingDto>> listItensRatingsByItem(@PathVariable Integer itemId, Pageable pageInfo) {
+    public ResponseEntity<Page<ItemRatingDto>> listItensRatingsByItem(
+            @PathVariable Integer itemId,
+            @PageableDefault(page = 0, size = 5) Pageable pageInfo
+    ) {
         Page<ItemRating> itensRatings = itemRatingService.listItensRatingsByItem(itemId, pageInfo);
         return ResponseEntity.ok(ItemRatingDto.convert(itensRatings));
     }
 
     @GetMapping("/tags/{tagId}")
-    public ResponseEntity<Page<ItemRatingDto>> listItensRatingsByTag(@PathVariable Integer tagId,
-                                                                     Pageable pageInfo) {
+    public ResponseEntity<Page<ItemRatingDto>> listItensRatingsByTag(
+            @PathVariable Integer tagId,
+            @PageableDefault(page = 0, size = 5) Pageable pageInfo
+    ) {
         Page<ItemRating> itensRatings = itemRatingService.listItensRAtingsByTag(tagId, pageInfo);
         return ResponseEntity.ok(ItemRatingDto.convert(itensRatings));
     }
 
     @GetMapping("/evaluators/{evaluatorId}")
-    public ResponseEntity<Page<ItemRatingDto>> listItensRatingsByEvaluator(@PathVariable Integer evaluatorId,
-                                                                           Pageable pageInfo) {
+    public ResponseEntity<Page<ItemRatingDto>> listItensRatingsByEvaluator(
+            @PathVariable Integer evaluatorId,
+            @PageableDefault(page = 0, size = 5) Pageable pageInfo) {
         Page<ItemRating> itensRatings = itemRatingService.listItensRatingsByEvaluator(evaluatorId, pageInfo);
+        return ResponseEntity.ok(ItemRatingDto.convert(itensRatings));
+    }
+
+    @GetMapping("/projects/{projectId}")
+    public ResponseEntity<Page<ItemRatingDto>> listItensRatingsByProject(
+            @PathVariable Integer projectId,
+            @PageableDefault(page = 0, size = 5) Pageable pageInfo) {
+        Page<ItemRating> itensRatings = itemRatingService.listItensRatingsByProject(projectId, pageInfo);
         return ResponseEntity.ok(ItemRatingDto.convert(itensRatings));
     }
 }

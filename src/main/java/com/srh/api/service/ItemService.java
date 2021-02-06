@@ -56,8 +56,16 @@ public class ItemService {
         Item oldItem = find(item.getId());
         Integer oldProjectId = oldItem.getProject().getId();
 
-        if (oldProjectId != item.getId()) {
+        if (!oldProjectId.equals(item.getProject().getId())) {
             throw new ChangeRootRelationException("Não é possível alterar o projeto do item");
+        }
+
+        if (oldItem.getTypeItem() == null && oldItem.getTypeItem() != null) {
+            throw new ChangeRootRelationException("Não é possível alterar o tipo do item");
+        }
+
+        if (oldItem.getTypeItem() != null && !oldItem.getTypeItem().getId().equals(item.getTypeItem().getId())) {
+            throw new ChangeRootRelationException("Não é possível alterar o tipo do item");
         }
 
         if (!itemProjectIsOpenAndVisible(item)) {

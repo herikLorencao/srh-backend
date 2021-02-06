@@ -13,7 +13,7 @@ public class NotEqualsPasswordHandler {
     @ExceptionHandler(NotEqualsPasswordException.class)
     public DefaultErrorDto handle(Exception exception) {
         return new DefaultErrorDto(
-                "As senha informada não confere com a registrada no sistema",
+                "A senha informada não confere com a registrada no sistema",
                 exception.getMessage()
         );
     }

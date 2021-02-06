@@ -14,6 +14,8 @@ public class ItemDto {
     private final Integer id;
     private final String name;
     private final String description;
+    private Integer typeItemId;
+
     @JsonIgnore
     private final Project project;
     @JsonIgnore
@@ -25,6 +27,10 @@ public class ItemDto {
         this.description = item.getDescription();
         this.project = item.getProject();
         this.typeItem = item.getTypeItem();
+
+        if (item.getTypeItem() != null) {
+            this.typeItemId = item.getTypeItem().getId();
+        }
     }
 
     public static Page<ItemDto> convert(Page<Item> items) {

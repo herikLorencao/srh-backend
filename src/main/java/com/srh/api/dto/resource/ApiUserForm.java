@@ -47,6 +47,7 @@ public class ApiUserForm {
                 .withEmail(email)
                 .withPassword(password)
                 .withOldPassword(oldPassword)
+                .withIsAdmin(isAdmin)
                 .build();
     }
 }

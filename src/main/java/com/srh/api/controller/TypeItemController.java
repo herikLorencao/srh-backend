@@ -23,6 +23,7 @@ import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import java.net.URI;
+import java.util.List;
 
 import static com.srh.api.dto.resource.TypeItemDto.*;
 
@@ -88,4 +89,13 @@ public class TypeItemController {
         return itemDtoPagedResourcesAssembler.toModel(ItemDto.convert(pageUtil.getPage()));
     }
 
+    @GetMapping("/projects/{projectId}")
+    public PagedModel<EntityModel<TypeItemDto>> listTypeItensByProject(
+            @PathVariable Integer projectId,
+            @PageableDefault(page = 0, size = 5) Pageable pageInfo)
+    {
+        List<TypeItem> typeItems = typeItemService.listByProject(projectId);
+        PageUtil<TypeItem> pageUtil = new PageUtil<>(pageInfo, typeItems);
+        return pagedResourcesAssembler.toModel(TypeItemDto.convert(pageUtil.getPage()));
+    }
 }
