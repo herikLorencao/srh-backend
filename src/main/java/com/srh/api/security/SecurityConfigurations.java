@@ -60,6 +60,10 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
 //                .and().addFilterBefore(new AuthenticationWithTokenFilter(jwtService, APIUserRepository),
 //                UsernamePasswordAuthenticationFilter.class);
 
+        http.requiresChannel()
+                .requestMatchers(r -> r.getHeader("X-Forwarded-Proto") != null)
+                .requiresSecure();
+
         http.authorizeRequests()
                 .antMatchers("/**").permitAll()
                 .and().csrf().disable()
