@@ -117,31 +117,19 @@ public class DbSeeder {
 
         Algorithm algorithm3 = AlgorithmBuilder.anAlgorithm()
                 .withId(3)
-                .withName("Filtragem Híbrida Ponderada - Single Thread")
+                .withName("Filtragem Híbrida Ponderada")
                 .withTypeRecommendation(TypeRecommendation.HYBRID)
                 .build();
 
         Algorithm algorithm4 = AlgorithmBuilder.anAlgorithm()
                 .withId(4)
-                .withName("Filtragem Híbrida Mista - Single Thread")
-                .withTypeRecommendation(TypeRecommendation.HYBRID)
-                .build();
-
-        Algorithm algorithm5 = AlgorithmBuilder.anAlgorithm()
-                .withId(5)
-                .withName("Filtragem Híbrida Ponderada - Multi Thread")
-                .withTypeRecommendation(TypeRecommendation.HYBRID)
-                .build();
-
-        Algorithm algorithm6 = AlgorithmBuilder.anAlgorithm()
-                .withId(6)
-                .withName("Filtragem Híbrida Mista - Multi Thread")
+                .withName("Filtragem Híbrida Mista")
                 .withTypeRecommendation(TypeRecommendation.HYBRID)
                 .build();
 
         algorithmRepository.saveAll(Arrays.asList(
-                algorithm1, algorithm2, algorithm3,
-                algorithm4, algorithm5, algorithm6
+                algorithm1, algorithm2,
+                algorithm3, algorithm4
         ));
     }
 }

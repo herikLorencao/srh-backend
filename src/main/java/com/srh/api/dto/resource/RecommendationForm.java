@@ -23,9 +23,6 @@ public class RecommendationForm {
     private Integer algorithmId;
 
     @NotNull
-    private Boolean offline;
-
-    @NotNull
     private Integer projectId;
 
     @Min(value = 0)
