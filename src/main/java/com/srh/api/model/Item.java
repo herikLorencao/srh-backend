@@ -1,6 +1,8 @@
 package com.srh.api.model;
 
 import lombok.Data;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -17,6 +19,7 @@ public class Item implements Serializable {
     private String description;
 
     @OneToMany(mappedBy = "id.item", cascade = CascadeType.ALL, orphanRemoval = true)
+    @LazyCollection(LazyCollectionOption.FALSE)
     private List<ItemRating> itemRatings;
 
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -29,6 +32,7 @@ public class Item implements Serializable {
     private TypeItem typeItem;
 
     @ManyToMany(mappedBy = "itens")
+    @LazyCollection(LazyCollectionOption.FALSE)
     private List<Tag> tags;
 
     @ManyToMany(mappedBy = "itens")

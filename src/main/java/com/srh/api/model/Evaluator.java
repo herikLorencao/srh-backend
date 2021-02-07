@@ -2,6 +2,8 @@ package com.srh.api.model;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -15,6 +17,7 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 public class Evaluator extends User implements Serializable {
     @ManyToMany
+    @LazyCollection(LazyCollectionOption.FALSE)
     private List<Project> projects;
 
     @OneToMany(mappedBy = "evaluator", cascade = CascadeType.ALL, orphanRemoval = true)

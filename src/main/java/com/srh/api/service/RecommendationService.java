@@ -1,6 +1,7 @@
 package com.srh.api.service;
 
 import com.srh.api.algorithms.resources.AlgorithmStrategy;
+import com.srh.api.algorithms.resources.AlgorithmStrategyAsync;
 import com.srh.api.algorithms.resources.RecommendationAlgorithm;
 import com.srh.api.algorithms.resources.utils.RecommendationsByEvaluator;
 import com.srh.api.dto.resource.RecommendationForm;
@@ -12,11 +13,13 @@ import org.hibernate.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
 
 @Service
 public class RecommendationService {
@@ -35,6 +38,9 @@ public class RecommendationService {
     @Autowired
     private AlgorithmStrategy algorithmStrategy;
 
+    @Autowired
+    private AlgorithmStrategyAsync algorithmStrategyAsync;
+
     public Recommendation find(Integer id) {
         Optional<Recommendation> recommendation = recommendationRepository.findById(id);
 
@@ -51,6 +57,13 @@ public class RecommendationService {
     public List<RecommendationsByEvaluator> generateRecommendations(RecommendationForm form) {
         RecommendationAlgorithm algorithm = algorithmStrategy.getAlgorithm(form.getAlgorithmId());
         return algorithm.calc(form);
+    }
+
+    @Async
+    public CompletableFuture<List<RecommendationsByEvaluator>> generateAsyncRecommendations(RecommendationForm form) {
+        RecommendationAlgorithm algorithm = algorithmStrategyAsync.getAlgorithm(form.getAlgorithmId());
+        List<RecommendationsByEvaluator> results = algorithm.calc(form);
+        return CompletableFuture.completedFuture(results);
     }
 
     public List<Recommendation> saveList(List<Recommendation> recommendations) {

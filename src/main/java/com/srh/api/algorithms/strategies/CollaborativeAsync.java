@@ -12,7 +12,6 @@ import com.srh.api.model.Evaluator;
 import com.srh.api.model.Item;
 import com.srh.api.model.Recommendation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -45,6 +44,7 @@ public class CollaborativeAsync implements RecommendationAlgorithm {
         }
 
         recommendationUtils.defineNewMatrixId(form.getProjectId());
+
         return recommendationsByEvaluators;
     }
 

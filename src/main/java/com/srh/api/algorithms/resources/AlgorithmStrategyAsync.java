@@ -9,10 +9,16 @@ import org.springframework.stereotype.Component;
 @Component
 public class AlgorithmStrategyAsync {
     @Autowired
-    private CollaborativeAsync collaborative;
+    private CollaborativeAsync collaborativeAsync;
 
     @Autowired
-    private ContentBasedAsync contentBased;
+    private ContentBasedAsync contentBasedAsync;
+
+    @Autowired
+    private WeightedHybridAsync weightedHybridAsync;
+
+    @Autowired
+    private MixedHybridAsync mixedHybridAsync;
 
     @SneakyThrows
     public RecommendationAlgorithm getAlgorithm(Integer algorithmId) {
@@ -20,9 +26,13 @@ public class AlgorithmStrategyAsync {
 
         switch (algorithmValue) {
             case "1":
-                return collaborative;
+                return collaborativeAsync;
             case "2":
-                return contentBased;
+                return contentBasedAsync;
+            case "3":
+                return weightedHybridAsync;
+            case "4":
+                return mixedHybridAsync;
             default:
                 throw new InvalidAlgorithmRecommendationException("Invalid algorithm");
         }

@@ -1,6 +1,8 @@
 package com.srh.api.model;
 
 import lombok.Data;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -26,8 +28,10 @@ public class Project {
     private Admin admin;
 
     @ManyToMany(mappedBy = "projects")
+    @LazyCollection(LazyCollectionOption.FALSE)
     private List<Evaluator> evaluators;
 
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
+    @LazyCollection(LazyCollectionOption.FALSE)
     private List<Item> itens;
 }

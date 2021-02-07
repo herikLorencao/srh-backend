@@ -16,12 +16,15 @@ import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.PagedModel;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 import static com.srh.api.dto.resource.RecommendationDto.convert;
 
@@ -94,5 +97,21 @@ public class RecommendationController {
     ) {
         Page<Recommendation> recommendations = recommendationService.listRecommendationsByTag(tagId, pageInfo);
         return ResponseEntity.ok(RecommendationDto.convert(recommendations));
+    }
+
+    @PostMapping("/async")
+    public PagedModel<EntityModel<RecommendationsByEvaluatorDto>>
+        createAsyncRecommendations(
+            @RequestBody @Valid RecommendationForm recommendationForm,
+            @PageableDefault(page = 0, size = 5) Pageable pageInfo
+    ) throws ExecutionException, InterruptedException {
+        CompletableFuture<List<RecommendationsByEvaluator>> listCompletableFuture = recommendationService
+                .generateAsyncRecommendations(recommendationForm);
+
+        PageUtil<RecommendationsByEvaluator> pageUtil = new PageUtil<>(pageInfo,
+                listCompletableFuture.get());
+
+        return recommendationsByEvaluatorModelAssembler
+                .toModel(RecommendationsByEvaluatorDto.convert(pageUtil.getPage()));
     }
 }
