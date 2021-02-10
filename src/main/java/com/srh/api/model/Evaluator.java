@@ -15,7 +15,7 @@ import java.util.List;
 @Entity
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class Evaluator extends User implements Serializable {
+public class Evaluator extends User {
     @ManyToMany
     @LazyCollection(LazyCollectionOption.FALSE)
     private List<Project> projects;
