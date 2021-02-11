@@ -5,10 +5,15 @@ import com.srh.api.error.exception.OldPasswordNotFoundException;
 import com.srh.api.model.User;
 import lombok.SneakyThrows;
 
+import java.util.regex.Pattern;
+
 public class PasswordUtil<T extends User> {
     public T encodedPasswordForUser(T user) {
-        String encodedPassword = BcriptyUtil.encripty(user.getPassword());
-        user.setPassword(encodedPassword);
+        if (!user.getPassword().startsWith("$2a$")) {
+            String encodedPassword = BcriptyUtil.encripty(user.getPassword());
+            user.setPassword(encodedPassword);
+        }
+
         return user;
     }
 
