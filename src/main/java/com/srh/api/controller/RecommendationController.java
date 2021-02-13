@@ -114,4 +114,15 @@ public class RecommendationController {
         return recommendationsByEvaluatorModelAssembler
                 .toModel(RecommendationsByEvaluatorDto.convert(pageUtil.getPage()));
     }
+
+    @PostMapping("/offline")
+    PagedModel<EntityModel<RecommendationsByEvaluatorDto>> createOffline(
+            @RequestBody @Valid RecommendationForm recommendationForm,
+            @PageableDefault(page = 0, size = 5) Pageable pageInfo) {
+        List<RecommendationsByEvaluator> recommendationsByEvaluatorList = recommendationService.
+                generateOfflineRecommendations(recommendationForm);
+        PageUtil<RecommendationsByEvaluator> pageUtil = new PageUtil<>(pageInfo,
+                recommendationsByEvaluatorList);
+        return recommendationsByEvaluatorModelAssembler.toModel(RecommendationsByEvaluatorDto.convert(pageUtil.getPage()));
+    }
 }

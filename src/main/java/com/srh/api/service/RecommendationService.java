@@ -33,6 +33,9 @@ public class RecommendationService {
     private TagService tagService;
 
     @Autowired
+    private EvaluatorService evaluatorService;
+
+    @Autowired
     private AlgorithmService algorithmService;
 
     @Autowired
@@ -64,6 +67,21 @@ public class RecommendationService {
         RecommendationAlgorithm algorithm = algorithmStrategyAsync.getAlgorithm(form.getAlgorithmId());
         List<RecommendationsByEvaluator> results = algorithm.calc(form);
         return CompletableFuture.completedFuture(results);
+    }
+
+    public List<RecommendationsByEvaluator> generateOfflineRecommendations(RecommendationForm form) {
+        List<RecommendationsByEvaluator> recommendationsByEvaluators = new ArrayList<>();
+        List<Evaluator> evaluators = evaluatorService.findAll(Pageable.unpaged()).getContent();
+
+        for (Evaluator evaluator : evaluators) {
+            RecommendationsByEvaluator recommendationsByEvaluator = new RecommendationsByEvaluator();
+            recommendationsByEvaluator.setEvaluator(evaluator);
+            List<Recommendation> recommendations = recommendationRepository
+                    .listLastRecommendationsByAlgorithmId(form.getAlgorithmId(), form.getProjectId(), evaluator.getId());
+            recommendationsByEvaluator.setRecommendations(recommendations);
+            recommendationsByEvaluators.add(recommendationsByEvaluator);
+        }
+        return recommendationsByEvaluators;
     }
 
     public List<Recommendation> saveList(List<Recommendation> recommendations) {
