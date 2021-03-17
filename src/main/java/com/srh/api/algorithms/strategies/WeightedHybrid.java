@@ -90,12 +90,16 @@ public class WeightedHybrid implements RecommendationAlgorithm {
         List<Recommendation> results = new ArrayList<>();
 
         for (int i = 0; i < collaborativeRecommendations.size(); i++) {
-            Recommendation averageRecommendation = calculateRecommendation(
-                    collaborativeRecommendations.get(i), contentRecommendations.get(i)
-            );
+            try {
+                Recommendation averageRecommendation = calculateRecommendation(
+                        collaborativeRecommendations.get(i), contentRecommendations.get(i)
+                );
 
-            if (averageRecommendation.getWeight() >= passingScore) {
-                results.add(averageRecommendation);
+                if (averageRecommendation.getWeight() >= passingScore) {
+                    results.add(averageRecommendation);
+                }
+            } catch (Exception e) {
+
             }
         }
 
